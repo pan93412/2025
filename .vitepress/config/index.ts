@@ -44,7 +44,7 @@ export default defineConfig({
   title: conference.title,
   description: conference.description,
   srcDir: 'content',
-  base: '/coscup.org',
+  base: `/${conference.year}`,
   cleanUrls: true,
   rewrites: {
     'zh_tw/:rest*': ':rest*',
