@@ -11,30 +11,32 @@ import { conference } from '#data/conference.js'
     <section class="contact">
       <div>
         <p>Attendee Service</p>
-        <p>attendee@coscup.org</p>
+        <a href="mailto:attendee@coscup.org">attendee@coscup.org</a>
       </div>
       <div>
         <p>Sponsorship</p>
-        <p>sponsorship@coscup.org</p>
+        <a href="mailto:sponsorship@coscup.org">sponsorship@coscup.org</a>
       </div>
       <div>
         <p>Program</p>
-        <p>program@coscup.org</p>
+        <a href="mailto:program@coscup.org">program@coscup.org</a>
       </div>
       <div>
         <p>Attendee Service</p>
-        <p>marketing@coscup.org</p>
+        <a href="mailto:marketing@coscup.org">marketing@coscup.org</a>
       </div>
     </section>
     <section class="history">
       <h1>Websites</h1>
       <p>
-        <span
+        <a
           v-for="year in Array.from({ length: conference.year - 2006 }, (_, k) => k + 2006)"
           :key="year"
+          :href="`https://coscup.org/${year}`"
+          target="_blank"
         >
           {{ year }}
-        </span>
+        </a>
       </p>
     </section>
     <section class="social">
@@ -101,7 +103,7 @@ import { conference } from '#data/conference.js'
   row-gap: 25px;
 }
 
-#footer :where(.history, .social) p {
+#footer :where(.history, .social) :is(p, a) {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
