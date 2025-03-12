@@ -17,7 +17,7 @@ hero:
       text: Request Sponsorship Information
       link: mailto:sponsorship@coscup.org
     - theme: alt
-      text: 8/9 ~ 8/10
+      text: Aug 9 ~ Aug 10
       link: /en/event
 features:
   - title: Early Guide to Joining
