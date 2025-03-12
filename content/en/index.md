@@ -16,6 +16,9 @@ hero:
     - theme: brand
       text: Request Sponsorship Information
       link: mailto:sponsorship@coscup.org
+    - teme: brand
+      text: Volunteer Recruitment
+      link: https://volunteer.coscup.org/
     - theme: alt
       text: Aug 9 ~ Aug 10
       link: /en/event

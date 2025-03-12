@@ -16,6 +16,9 @@ hero:
     - theme: brand
       text: 索取贊助資訊
       link: mailto:sponsorship@coscup.org
+    - teme: brand
+      text: 志工召募
+      link: https://volunteer.coscup.org/
     - theme: alt
       text: 8/9 ~ 8/10
       link: /event
