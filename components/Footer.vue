@@ -22,7 +22,7 @@ import { conference } from '#data/conference.js'
         <a href="mailto:program@coscup.org">program@coscup.org</a>
       </div>
       <div>
-        <p>Attendee Service</p>
+        <p>Marketing</p>
         <a href="mailto:marketing@coscup.org">marketing@coscup.org</a>
       </div>
     </section>
