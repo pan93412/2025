@@ -1,8 +1,11 @@
+import { resolve } from 'node:path'
 import { defineConfig } from 'vitepress'
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import { FileSystemIconLoader } from 'unplugin-icons/loaders'
+// @ts-expect-error - No type definitions available
+import markdownItContainer from 'markdown-it-container'
 
 // Subpath imports (e.g. '#data') for TypeScript files are not supported
 // See https://github.com/vuejs/vitepress/issues/4173
@@ -13,7 +16,28 @@ import { zh_tw } from './zh_tw'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  markdown: {
+    config: (md) => {
+      md.use(markdownItContainer, 'div', {
+        render(tokens: Array<{ info: string }>, idx: number) {
+          const token = tokens[idx] as { info: string, nesting: number }
+          const klass = token.info.trim().slice(3).trim()
+          if (token.nesting === 1) {
+            return `<div class="${klass}">\n`
+          } else {
+            // 结束标签
+            return '</div>\n'
+          }
+        },
+      })
+    },
+  },
   vite: {
+    resolve: {
+      alias: {
+        '/@': resolve(__dirname, '../..'),
+      },
+    },
     plugins: [
       Components({
         // Auto import components and icons in Vue and Markdown files
@@ -44,6 +68,7 @@ export default defineConfig({
   title: conference.title,
   description: conference.description,
   srcDir: 'content',
+  srcExclude: ['**/parts/**'],
   base: `/${conference.year}`,
   cleanUrls: true,
   rewrites: {
