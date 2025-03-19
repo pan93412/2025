@@ -68,6 +68,7 @@ export default defineConfig({
   title: conference.title,
   description: conference.description,
   srcDir: 'content',
+  srcExclude: ['**/parts/**'],
   base: `/${conference.year}`,
   cleanUrls: true,
   rewrites: {
