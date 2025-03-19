@@ -37,8 +37,6 @@ table {
 
   tr {
     td {
-      vertical-align: top;
-
       :deep(p) {
         margin: 6px 0;
       }
