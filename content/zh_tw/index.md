@@ -26,7 +26,7 @@ features:
   - title: 贊助方案
     icon: 🤝
     details: COSCUP 過去三年平均約有超過 3,000 人次的會眾和超過 20 個開源技術或議題社群一同參與，同時也有與超過 7 個國際的開源社群或組織連結合作。
-    link: /zh_tw/sponsorship
+    link: /sponsorship
     linkText: 更多資訊
   - title: 早鳥加入指南
     icon: 📣
