@@ -78,7 +78,7 @@ async function addToCalendar(type: CalendarType) {
       <p class="custom-block-title">
         <IconPhMapPin /> Location
       </p>
-      <h2>NTUST</h2>
+      <h2>National Taiwan University of Science and Technology</h2>
       <p>{{ venueAddress }}<CopyButton :source="venueAddress" /></p>
       <LeafletMap class="map" />
       <div class="actions">
