@@ -67,6 +67,12 @@ export default defineConfig({
   },
   title: conference.title,
   description: conference.description,
+  head: [
+    ['meta', { property: 'og:description', content: conference.description }],
+    ['meta', { property: 'og:url', content: conference.url }],
+    ['meta', { property: 'og:type', content: conference.type }],
+    ['meta', { property: 'og:og:site_name', content: conference.site_name }],
+  ],
   srcDir: 'content',
   srcExclude: ['**/parts/**'],
   base: `/${conference.year}`,
