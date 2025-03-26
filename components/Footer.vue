@@ -6,7 +6,7 @@ import { conference } from '#data/conference.js'
   <footer id="footer">
     <section class="title">
       <h1>COSCUP</h1>
-      <h2>Conference for Open Source Coders, User, and Promoters</h2>
+      <h2>Conference for Open Source Coders, Users, and Promoters</h2>
     </section>
     <section class="contact">
       <div>
