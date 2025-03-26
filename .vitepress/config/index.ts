@@ -72,6 +72,7 @@ export default defineConfig({
     ['meta', { property: 'og:url', content: conference.url }],
     ['meta', { property: 'og:type', content: conference.type }],
     ['meta', { property: 'og:og:site_name', content: conference.site_name }],
+    ['meta', { property: 'og:image', content: conference.og_image }],
   ],
   srcDir: 'content',
   srcExclude: ['**/parts/**'],

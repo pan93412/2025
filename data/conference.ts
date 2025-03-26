@@ -22,4 +22,5 @@ export const conference = {
   type: 'website',
   url: 'https://coscup.org//2025/',
   site_name: 'COSCUP 2025',
+  og_image: '/2025/og-image.png',
 }
