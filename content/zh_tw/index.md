@@ -20,7 +20,7 @@ hero:
       text: 志工召募
       link: https://volunteer.coscup.org/
     - theme: alt
-      text: 8/9 ~ 8/10
+      text: 8/9 – 8/10
       link: /event
 features:
   - title: 贊助方案

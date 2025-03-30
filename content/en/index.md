@@ -20,7 +20,7 @@ hero:
       text: Volunteer Recruitment
       link: https://volunteer.coscup.org/
     - theme: alt
-      text: Aug 9 ~ Aug 10
+      text: Aug 9 – Aug 10
       link: /en/event
 features:
   - title: Sponsorship Program
