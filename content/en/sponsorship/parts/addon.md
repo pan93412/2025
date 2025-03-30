@@ -13,7 +13,7 @@ import AddonAdsPart from './addon-ads.md'
 | **Promotion at the Snack Area (2 days)**                        | **Included**                                                     | **Included**                                                   | **1,180**                                                | **1,180**                                                    | **1,180**                                                    | **1,180**                                                    |
 | <AddonAdsPart />                                                | **470/Ads**                                                      | **470/Ads**                                                    | **470/Ads**                                              | **470/Ads**                                                  | **470/Ads**                                                  | **470/Ads**                                                  |
 
-<style lang="css" scoped>
+<style scoped>
 table {
   tr {
     th {

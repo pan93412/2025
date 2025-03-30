@@ -48,7 +48,7 @@ Keynote 演講廳 垂吊布條
 網站議程頁面廣告
 :::
 
-<style lang="css" scoped>
+<style scoped>
 .addon-example {
   display: inline-block;
   width: 50%;
@@ -111,7 +111,7 @@ COSCUP (Conference for Open Source Coders, Users and Promoters ; 開源人年會
 96.2% 與會者願意推薦其他人參加往後的 COSCUP
 :::
 
-<style lang="css" scoped>
+<style scoped>
 .attendee {
   text-align: center;
 }

@@ -23,7 +23,7 @@ import OverseaPart from './oversea.md'
 | **贊助方式** | **以好朋友或以上方案（含加購項目）贊助**                                  |
 | **贊助福利** | <OverseaPart />                                                           |
 
-<style scoped lang="css">
+<style scoped>
 table {
   th {
     text-align: center;
