@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { data } from '#loaders/overpass.data'
 import { onMounted, ref } from 'vue'
 import 'leaflet/dist/leaflet.css'
-import { data } from '#loaders/overpass.data'
 
 const { venueGeometry, buildingGeometries } = data
 
