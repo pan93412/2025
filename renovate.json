@@ -6,6 +6,9 @@
   "rangeStrategy": "bump",
   "timezone": "Asia/Taipei",
   "schedule": "every weekend",
+  "ignoreDeps": [
+    "vue-tsc"
+  ],
   "packageRules": [
     {
       "matchPackageNames": ["eslint", "@antfu/eslint-config", "eslint-plugin-format"],
