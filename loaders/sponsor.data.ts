@@ -36,6 +36,22 @@ export const sponsorLevels = [
   'special-thanks',
 ]
 
+// 轉換 Google Drive 圖片 URL
+async function getDriveImageBase64(shareUrl: string): Promise<string> {
+  const fileIdMatch = shareUrl.match(/(?:\/d\/|id=)([^/?]+)/)
+  const fileId = fileIdMatch ? fileIdMatch[1] : null
+  const directUrl = `https://drive.google.com/uc?export=view&id=${fileId}`
+  const response = await fetch(directUrl)
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch image from Google Drive: ${response.statusText}`)
+  }
+
+  const arrayBuffer = await response.arrayBuffer()
+  const buffer = Buffer.from(arrayBuffer)
+  return `data:${response.headers.get('content-type') || 'image/jpeg'};base64,${buffer.toString('base64')}`
+}
+
 // 取得 Google Sheets 資料
 async function fetchSponsors(): Promise<Sponsor[]> {
   try {
@@ -75,24 +91,6 @@ function groupSponsorsByLevel(sponsors: Sponsor[]): GroupedSponsors {
     acc[level].push(sponsor)
     return acc
   }, {} as GroupedSponsors)
-}
-
-// 轉換 Google Drive 圖片 URL
-async function getDriveImageBase64(shareUrl: string): Promise<string> {
-  const fileIdMatch = shareUrl.match(/(?:\/d\/|id=)([^/?]+)/)
-  const fileId = fileIdMatch ? fileIdMatch[1] : null
-  const directUrl = `https://drive.google.com/uc?export=view&id=${fileId}`
-  const response = await fetch(directUrl)
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch image from Google Drive: ${response.statusText}`)
-  }
-
-  const arrayBuffer = await response.arrayBuffer()
-  const buffer = Buffer.from(arrayBuffer)
-  const base64data = `data:${response.headers.get('content-type') || 'image/jpeg'};base64,${buffer.toString('base64')}`
-
-  return base64data
 }
 
 export default defineLoader({
