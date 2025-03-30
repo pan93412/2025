@@ -16,11 +16,11 @@ hero:
     - theme: brand
       text: Request Sponsorship Information
       link: mailto:sponsorship@coscup.org
-    - teme: brand
+    - theme: brand
       text: Volunteer Recruitment
       link: https://volunteer.coscup.org/
     - theme: alt
-      text: Aug 9 ~ Aug 10
+      text: Aug 9 – Aug 10
       link: /en/event
 features:
   - title: Sponsorship Program
@@ -31,6 +31,6 @@ features:
   - title: Early Guide to Joining
     icon: 📣
     details: Many people in the community are excited to find out how to participate in COSCUP 2025. We’ll share more updates soon, but here’s what we can share so far! You can join as a speaker, host a booth, organize a track, or become a sponsor...
-    link: https://blog.coscup.org/2025/01/early-guide-to-joining-coscup-2025.html?m=1
+    link: https://blog.coscup.org/2025/01/early-guide-to-joining-coscup-2025.html
     linkText: More
 ---

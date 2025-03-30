@@ -87,21 +87,21 @@ async function addToCalendar(type: CalendarType) {
           target="_blank"
           theme="alt"
         >
-          <IconPhMagnifyingGlass /> Open Street Map
+          <IconPhMagnifyingGlass /> OpenStreetMap
         </VPButton>
         <VPButton
           href="https://www.google.com/maps/search/?api=1&query=國立臺灣科技大學&query_place_id=ChIJrcDEdiGqQjQRVfQp7kRe25A"
           target="_blank"
           theme="alt"
         >
-          <IconPhGoogleLogo /> Google Map
+          <IconPhGoogleLogo /> Google Maps
         </VPButton>
         <VPButton
           href="https://maps.apple.com/place?auid=1091116063745527859"
           target="_blank"
           theme="alt"
         >
-          <IconPhAppleLogo /> Apple Map
+          <IconPhAppleLogo /> Apple Maps
         </VPButton>
       </div>
     </div>

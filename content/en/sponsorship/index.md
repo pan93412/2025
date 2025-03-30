@@ -48,7 +48,7 @@ Lanyards (Exclusive Sponsorship)
 Agenda Page Ads
 :::
 
-<style lang="css" scoped>
+<style scoped>
 .addon-example {
   display: inline-block;
   width: 50%;
@@ -111,7 +111,7 @@ To see our past conference photos, please visit : [COSCUP flickr album](https://
 96.2% of attendees would recommend others to join COSCUP
 :::
 
-<style lang="css" scoped>
+<style scoped>
 .attendee {
   text-align: center;
 }

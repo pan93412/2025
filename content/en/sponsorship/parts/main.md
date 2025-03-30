@@ -23,7 +23,7 @@ import OverseaPart from './oversea.md'
 | **Methods**  | **The 'Friend' package or higher (including add-on options)**                                   |
 | **Benefits** | <OverseaPart />                                                                                 |
 
-<style scoped lang="css">
+<style scoped>
 table {
   th {
     text-align: center;
