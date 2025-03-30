@@ -16,4 +16,6 @@ title: 贊助
 
 <Sponsor2 />
 
-<!-- <SponsorFooter /> -->
+## Footer
+
+<SponsorFooter />
