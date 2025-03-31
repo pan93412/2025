@@ -1,15 +1,17 @@
-<script setup>
+<script setup lang="ts">
+import type { Sponsor } from '#loaders/sponsor.data'
 import { marked } from 'marked'
 import { ref } from 'vue'
 
-defineProps(['sponsor'])
+defineProps<{ sponsor: Sponsor }>()
+
 const expanded = ref(false)
 
 function toggleExpand() {
   expanded.value = !expanded.value
 }
 
-const parseMarkdown = (text) => marked(text || '')
+const parseMarkdown = (text: string) => marked(text || '')
 </script>
 
 <template>
@@ -18,7 +20,7 @@ const parseMarkdown = (text) => marked(text || '')
     @click="toggleExpand"
   >
     <img
-      :alt="sponsor.name"
+      :alt="sponsor['name:zh-TW']"
       class="sponsor-image"
       :src="sponsor.image"
     >
