@@ -10,7 +10,7 @@ interface SpreadsheetData {
   values: string[][]
 }
 
-interface Sponsor {
+export interface Sponsor {
   'id': string
   'image': string
   'name:zh-TW': string
