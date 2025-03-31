@@ -93,14 +93,23 @@ function groupSponsorsByLevel(sponsors: Sponsor[]): GroupedSponsors {
   }, {} as GroupedSponsors)
 }
 
+interface SponsorData {
+  sponsors: Sponsor[]
+  sponsorLevels: string[]
+  groupedSponsors: GroupedSponsors
+}
+
+export declare const data: SponsorData
+
 export default defineLoader({
-  async load() {
+  async load(): Promise<SponsorData> {
     const sponsors = await fetchSponsors()
+    const groupedSponsors = groupSponsorsByLevel(sponsors)
+
     return {
       sponsors,
       sponsorLevels,
-      groupedSponsors: groupSponsorsByLevel(sponsors),
-      convertDriveLinkToImageUrl: getDriveImageBase64,
+      groupedSponsors,
     }
   },
 })
