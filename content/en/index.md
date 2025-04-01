@@ -14,8 +14,8 @@ hero:
       text: Call for Booth and Devroom
       link: https://s.coscup.org/25devroom
     - theme: brand
-      text: Request Sponsorship Information
-      link: mailto:sponsorship@coscup.org
+      text: Sponsorship Program
+      link: /en/sponsorship
     - theme: brand
       text: Volunteer Recruitment
       link: https://volunteer.coscup.org/

@@ -14,8 +14,8 @@ hero:
       text: 徵募社群
       link: https://s.coscup.org/25devroom
     - theme: brand
-      text: 索取贊助資訊
-      link: mailto:sponsorship@coscup.org
+      text: 贊助方案
+      link: /sponsorship
     - teme: brand
       text: 志工召募
       link: https://volunteer.coscup.org/
