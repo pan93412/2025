@@ -2,37 +2,30 @@
 import { data } from '#loaders/sponsor.data'
 import SponsorCard1 from './SponsorCard1.vue'
 
-const { groupedSponsors, sponsorLevels } = data
+const { groupedSponsors, sponsorLevels, sponsorLevels_mapping } = data
 
 const formatLevel = (level: string): string => level.charAt(0).toUpperCase() + level.slice(1)
 </script>
 
 <template>
-  <div class="sponsors-container">
-    <h1>贊助商</h1>
-    <div
-      v-for="level in sponsorLevels"
-      :key="level"
-    >
-      <h2>{{ formatLevel(level) }} Sponsors</h2>
-      <div v-if="groupedSponsors[level]">
-        <SponsorCard1
-          v-for="sponsor in groupedSponsors[level]"
-          :key="sponsor.id"
-          :sponsor="sponsor"
-        />
-      </div>
+  <div
+    v-for="level in sponsorLevels"
+    :key="level"
+  >
+    <h2>
+      {{ formatLevel(sponsorLevels_mapping[level]) }}
+    </h2>
+    <div v-if="groupedSponsors[level]">
+      <SponsorCard1
+        v-for="sponsor in groupedSponsors[level]"
+        :key="sponsor.id"
+        :sponsor="sponsor"
+      />
     </div>
   </div>
 </template>
 
 <style scoped>
-.sponsors-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
 .sponsor-card {
   text-align: center;
   padding: 15px;

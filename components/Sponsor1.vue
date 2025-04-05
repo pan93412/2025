@@ -3,7 +3,7 @@ import { data } from '#loaders/sponsor.data'
 import { ref } from 'vue'
 
 // 狀態管理
-const { groupedSponsors, sponsorLevels } = data
+const { groupedSponsors, sponsorLevels, sponsorLevels_mapping } = data
 const expandedSponsor = ref<string | null>(null)
 
 // 切換展開的贊助商
@@ -19,47 +19,44 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
 </script>
 
 <template>
-  <div class="sponsors-container">
-    <div
-      v-for="level in sponsorLevels"
-      :key="level"
-      class="sponsor-group"
-    >
-      <div v-if="groupedSponsors[level] && groupedSponsors[level].length">
-        <h2 class="level-title">
-          {{ level }} Sponsors
-        </h2>
-        <div class="sponsor-list">
-          <div
-            v-for="sponsor in groupedSponsors[level]"
-            :key="sponsor.id"
-            class="sponsor-card"
-            @click="toggleExpand(sponsor.id)"
+  <div
+    v-for="level in sponsorLevels"
+    :key="level"
+  >
+    <div v-if="groupedSponsors[level] && groupedSponsors[level].length">
+      <h2 class="level-title">
+        {{ sponsorLevels_mapping[level] }}
+      </h2>
+      <div class="sponsor-list">
+        <div
+          v-for="sponsor in groupedSponsors[level]"
+          :key="sponsor.id"
+          class="sponsor-card"
+          @click="toggleExpand(sponsor.id)"
+        >
+          <img
+            :alt="sponsor['name:zh-TW']"
+            class="sponsor-image"
+            :src="convertDriveLinkToImageUrl(sponsor.image)"
           >
-            <img
-              :alt="sponsor['name:zh-TW']"
-              class="sponsor-image"
-              :src="convertDriveLinkToImageUrl(sponsor.image)"
-            >
-            <h3 class="sponsor-name">
-              {{ sponsor['name:zh-TW'] }}
-            </h3>
+          <h3 class="sponsor-name">
+            {{ sponsor['name:zh-TW'] }}
+          </h3>
 
-            <!-- Expandable Section -->
-            <transition name="fade">
-              <div
-                v-if="expandedSponsor === sponsor.id"
-                class="sponsor-info"
-              >
-                <p v-html="sponsor['intro:zh-TW']" />
-                <a
-                  class="sponsor-link"
-                  :href="sponsor.link"
-                  target="_blank"
-                >Visit Website</a>
-              </div>
-            </transition>
-          </div>
+          <!-- Expandable Section -->
+          <transition name="fade">
+            <div
+              v-if="expandedSponsor === sponsor.id"
+              class="sponsor-info"
+            >
+              <p v-html="sponsor['intro:zh-TW']" />
+              <a
+                class="sponsor-link"
+                :href="sponsor.link"
+                target="_blank"
+              >Visit Website</a>
+            </div>
+          </transition>
         </div>
       </div>
     </div>
@@ -67,14 +64,6 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
 </template>
 
 <style scoped>
-/* Container Styling */
-.sponsors-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
 /* Sponsor Level Styling */
 .level-title {
   font-size: 1.5rem;
