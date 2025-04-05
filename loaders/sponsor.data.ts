@@ -36,6 +36,18 @@ export const sponsorLevels = [
   'special-thanks',
 ]
 
+export const sponsorLevels_mapping: Record<string, string> = {
+  'gold': '黃金級贊助',
+  'silver': '白銀級贊助',
+  'bronze': '青銅級贊助',
+  'friend': '好朋友級贊助',
+  'over-seas': '海外講者旅遊補助',
+  'co-promotion-partner': '共同推廣夥伴',
+  'co-host': '共同主辦單位',
+  'co-organizer': '協辦單位',
+  'special-thanks': '特別感謝',
+}
+
 // 轉換 Google Drive 圖片 URL
 async function getDriveImageBase64(shareUrl: string): Promise<string> {
   const fileIdMatch = shareUrl.match(/(?:\/d\/|id=)([^/?]+)/)
@@ -96,6 +108,7 @@ function groupSponsorsByLevel(sponsors: Sponsor[]): GroupedSponsors {
 interface SponsorData {
   sponsors: Sponsor[]
   sponsorLevels: string[]
+  sponsorLevels_mapping: Record<string, string>
   groupedSponsors: GroupedSponsors
 }
 
@@ -109,6 +122,7 @@ export default defineLoader({
     return {
       sponsors,
       sponsorLevels,
+      sponsorLevels_mapping,
       groupedSponsors,
     }
   },
