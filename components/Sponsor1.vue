@@ -39,6 +39,15 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
             class="sponsor-image"
             :src="convertDriveLinkToImageUrl(sponsor.image)"
           >
+          <!-- 右上角連結 -->
+          <a
+            class="sponsor-link"
+            :href="sponsor.link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            🔗
+          </a>
           <h3 class="sponsor-name">
             {{ sponsor['name:zh-TW'] }}
           </h3>
@@ -50,11 +59,6 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
               class="sponsor-info"
             >
               <p v-html="sponsor['intro:zh-TW']" />
-              <a
-                class="sponsor-link"
-                :href="sponsor.link"
-                target="_blank"
-              >Visit Website</a>
             </div>
           </transition>
         </div>
@@ -73,6 +77,10 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
   padding-bottom: 5px;
 }
 
+.dark .level-title {
+  color: #eee;
+}
+
 /* Sponsor List (Grid) */
 .sponsor-list {
   display: grid;
@@ -81,9 +89,9 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
   margin-top: 15px;
 }
 
-/* Center the image inside the card */
+/* Sponsor Card */
 .sponsor-card {
-  display: flex;
+  display: relative;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -96,6 +104,11 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
   cursor: pointer;
 }
 
+.sponsor-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Sponsor Image */
 .sponsor-image {
   width: 100px;
   height: 100px;
@@ -104,11 +117,7 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
   display: block;
 }
 
-.sponsor-card:hover {
-  transform: translateY(-5px);
-}
-
-/* Sponsor Name (Clickable) */
+/* Sponsor Name */
 .sponsor-name {
   font-size: 1.2rem;
   color: #333;
@@ -136,7 +145,7 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
   margin-bottom: 10px;
 }
 
-/* Visit Link */
+/* Visit Link (Right Top Corner) */
 .sponsor-link {
   display: inline-block;
   text-decoration: none;
@@ -148,6 +157,9 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
   transition:
     background 0.2s,
     color 0.2s;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .sponsor-link:hover {
@@ -160,6 +172,7 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
 .fade-leave-active {
   transition: opacity 0.3s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
