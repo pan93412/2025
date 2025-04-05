@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { data } from '#loaders/sponsor.data'
 
-const { groupedSponsors, sponsorLevels } = data
+const { groupedSponsors, sponsorLevels, sponsorLevels_mapping } = data
 
 // 轉換 Google Drive 圖片 URL
 function convertDriveLinkToImageUrl(driveLink: string): string {
@@ -11,35 +11,33 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
 </script>
 
 <template>
-  <div class="sponsor-footer">
-    <div class="sponsor-footer-content">
-      <div
-        v-for="level in sponsorLevels"
-        :key="level"
-        class="sponsor-group"
-      >
-        <div v-if="groupedSponsors[level] && groupedSponsors[level].length">
-          <h3 class="level-title">
-            {{ level }} Sponsors
-          </h3>
-          <div class="sponsor-list">
-            <a
-              v-for="sponsor in groupedSponsors[level]"
-              :key="sponsor.id"
-              class="sponsor"
-              :href="sponsor.link"
-              rel="noopener"
-              target="_blank"
-            >
-              <div class="sponsor-item">
-                <img
-                  :alt="sponsor['name:zh-TW']"
-                  :src="convertDriveLinkToImageUrl(sponsor.image)"
-                >
-                <p class="name">{{ sponsor['name:zh-TW'] }}</p>
-              </div>
-            </a>
-          </div>
+  <div class="sponsor-footer-content">
+    <div
+      v-for="level in sponsorLevels"
+      :key="level"
+      class="sponsor-group"
+    >
+      <div v-if="groupedSponsors[level]?.length">
+        <h3 class="level-title">
+          {{ sponsorLevels_mapping[level] }}
+        </h3>
+        <div class="sponsor-list">
+          <a
+            v-for="sponsor in groupedSponsors[level]"
+            :key="sponsor.id"
+            class="sponsor"
+            :href="sponsor.link"
+            rel="noopener"
+            target="_blank"
+          >
+            <div class="sponsor-item">
+              <img
+                :alt="sponsor['name:zh-TW']"
+                :src="convertDriveLinkToImageUrl(sponsor.image)"
+              >
+              <p class="name">{{ sponsor['name:zh-TW'] }}</p>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -47,11 +45,6 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
 </template>
 
 <style scoped>
-.sponsor-footer {
-  padding: 40px 20px;
-  margin-top: 40px;
-}
-
 .sponsor-footer-content {
   max-width: 1200px;
   margin: 0 auto;
@@ -66,6 +59,10 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
   color: #555;
   margin-bottom: 15px;
   text-transform: capitalize;
+}
+
+.dark .level-title {
+  color: #eee;
 }
 
 .sponsor-list {
@@ -95,6 +92,7 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
   padding: 5px;
   width: 100%;
   min-width: 150px;
+  min-height: 170px;
 }
 
 .sponsor:hover {
