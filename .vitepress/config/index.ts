@@ -68,6 +68,7 @@ export default defineConfig({
   title: conference.title,
   description: conference.description,
   head: [
+    ['link', { href: conference.favicon, rel: 'icon' }],
     ['meta', { property: 'og:description', content: conference.description }],
     ['meta', { property: 'og:url', content: conference.url }],
     ['meta', { property: 'og:type', content: conference.type }],
