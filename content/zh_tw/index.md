@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: COSCUP 2025
+  name: COSCUP x RubyConf Taiwan 2025
   text: 社群大拜拜
   tagline: Conference for Open Source Coders, Users & Promoters
   actions:
@@ -30,7 +30,7 @@ features:
     linkText: 更多資訊
   - title: 早鳥加入指南
     icon: 📣
-    details: 社群中的許多人都對如何參與 COSCUP 2025 感到興奮！我們將很快分享更多更新，但目前可以透露一些資訊！您可以作為講者參與、設立攤位、組織議程，或成為贊助商。...
+    details: 社群中的許多人都對如何參與 COSCUP x RubyConf Taiwan 2025 感到興奮！我們將很快分享更多更新，但目前可以透露一些資訊！您可以作為講者參與、設立攤位、組織議程，或成為贊助商。...
     link: https://blog.coscup.org/2025/01/early-guide-to-joining-coscup-2025.html?m=1
     linkText: 更多資訊
 ---
