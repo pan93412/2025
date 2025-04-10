@@ -5,7 +5,7 @@ import { conference } from '#data/conference.js'
 <template>
   <footer id="footer">
     <section class="title">
-      <h1>COSCUP</h1>
+      <h1>COSCUP x RubyConf Taiwan 2025</h1>
       <h2>Conference for Open Source Coders, Users, and Promoters</h2>
     </section>
     <section class="contact">

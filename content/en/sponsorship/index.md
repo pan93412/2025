@@ -7,7 +7,7 @@ import SponsorTable from './parts/main.md'
 import AddonTable from './parts/addon.md'
 </script>
 
-# COSCUP Taiwan 2025 Sponsorship Program {style="text-align:center"}
+# COSCUP x RubyConf Taiwan 2025 Sponsorship Program {style="text-align:center"}
 
 ## Overview
 
@@ -117,7 +117,7 @@ To see our past conference photos, please visit : [COSCUP flickr album](https://
 }
 </style>
 
-## We wish all the sponsors in COSCUP Taiwan 2025 would
+## We wish all the sponsors in COSCUP x RubyConf Taiwan 2025 Taiwan 2025 would
 
 - Be inspired by new ideas and creativity.
 - Start new collaborative projects.

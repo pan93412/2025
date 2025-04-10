@@ -117,7 +117,7 @@ COSCUP (Conference for Open Source Coders, Users and Promoters ; 開源人年會
 }
 </style>
 
-## 我們期待所有的贊助單位在 COSCUP Taiwan 2025 都可以...
+## 我們期待所有的贊助單位在 COSCUP x RubyConf Taiwan 2025 都可以...
 
 - 激發新的想法、創意。
 - 獲得意想不到的合作計畫。
