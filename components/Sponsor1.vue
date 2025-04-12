@@ -157,7 +157,7 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
   transition:
     background 0.2s,
     color 0.2s;
-  position: absolute;
+  position: fixed;
   top: 10px;
   right: 10px;
 }
