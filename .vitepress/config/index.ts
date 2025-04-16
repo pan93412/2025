@@ -74,6 +74,18 @@ export default defineConfig({
     ['meta', { property: 'og:type', content: conference.type }],
     ['meta', { property: 'og:site_name', content: conference.site_name }],
     ['meta', { property: 'og:image', content: conference.og_image }],
+    ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-C9EMTMDSS1' }],
+    [
+      'script',
+      {},
+      `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-C9EMTMDSS1');
+      `,
+    ],
   ],
   srcDir: 'content',
   srcExclude: ['**/parts/**'],
