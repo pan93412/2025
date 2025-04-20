@@ -93,6 +93,7 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
   width: 100%;
   min-width: 150px;
   min-height: 170px;
+  border-radius: 5px;
 }
 
 .sponsor:hover {
