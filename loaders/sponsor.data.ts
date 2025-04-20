@@ -3,7 +3,7 @@ import { defineLoader, loadEnv } from 'vitepress'
 // API 設定
 const env = loadEnv('', process.cwd())
 const SHEET_ID = env.VITE_SHEET_ID
-const SHEET_NAME = env.VITE_SHEET_NAME
+const SPONSOR_SHEET_NAME = env.VITE_SPONSOR_SHEET_NAME
 const API_KEY = env.VITE_API_KEY
 
 interface SpreadsheetData {
@@ -67,7 +67,7 @@ async function getDriveImageBase64(shareUrl: string): Promise<string> {
 // 取得 Google Sheets 資料
 async function fetchSponsors(): Promise<Sponsor[]> {
   try {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SPONSOR_SHEET_NAME}?key=${API_KEY}`
     const response = await fetch(url)
     const data: SpreadsheetData = await response.json()
 
