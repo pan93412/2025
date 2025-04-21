@@ -43,6 +43,11 @@
   "imports": {
     "#*": "./*"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
   "lint-staged": {
     "*": "eslint --no-warn-ignored --fix"
   }
