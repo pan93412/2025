@@ -27,13 +27,13 @@ const parseMarkdown = (text: string) => marked(text || '')
     >
       🔗 Visit Website
     </a>
-    <img
-      :alt="sponsor['name:zh-TW']"
-      class="sponsor-image"
-      height="100"
-      :src="sponsor.image"
-      width="100"
-    >
+    <div class="sponsor-image-wrapper">
+      <img
+        :alt="sponsor['name:zh-TW']"
+        class="sponsor-image"
+        :src="sponsor.image"
+      >
+    </div>
     <h3 class="sponsor-name">
       {{ sponsor['name:zh-TW'] }}
     </h3>
@@ -88,5 +88,21 @@ const parseMarkdown = (text: string) => marked(text || '')
 .dark .sponsor-link:hover {
   background: #4ea1ff;
   color: #000;
+}
+
+.sponsor-image-wrapper {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 3 / 2;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.sponsor-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 </style>

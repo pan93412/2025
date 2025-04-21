@@ -35,7 +35,6 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
                 :alt="sponsor['name:zh-TW']"
                 :src="convertDriveLinkToImageUrl(sponsor.image)"
               >
-              <p class="name">{{ sponsor['name:zh-TW'] }}</p>
             </div>
           </a>
         </div>
@@ -67,8 +66,8 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
 
 .sponsor-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
 }
 
 .sponsor {
@@ -84,27 +83,28 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
 }
 
 .sponsor-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
+  padding: 8px;
+  min-width: 120px;
+  min-height: 120px;
   background-color: #f8f9fa;
-  padding: 5px;
-  width: 100%;
-  min-width: 150px;
-  min-height: 170px;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
 }
 
-.sponsor:hover {
-  transform: translateY(-2px);
+.sponsor:hover img {
+  transform: scale(1.5); /* 圖片 hover 放大 */
 }
 
 .sponsor img {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
-  margin-bottom: 8px;
+  display: block;
+  margin: 0 auto;
+  transition: transform 0.3s ease;
 }
 
 .sponsor .name {

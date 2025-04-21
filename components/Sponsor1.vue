@@ -34,11 +34,13 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
           class="sponsor-card"
           @click="toggleExpand(sponsor.id)"
         >
-          <img
-            :alt="sponsor['name:zh-TW']"
-            class="sponsor-image"
-            :src="convertDriveLinkToImageUrl(sponsor.image)"
-          >
+          <div class="sponsor-image-wrapper">
+            <img
+              :alt="sponsor['name:zh-TW']"
+              class="sponsor-image"
+              :src="convertDriveLinkToImageUrl(sponsor.image)"
+            >
+          </div>
           <!-- 右上角連結 -->
           <a
             class="sponsor-link"
@@ -108,12 +110,24 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
   transform: translateY(-5px);
 }
 
+/* 圖片容器，用來維持 3:2 比例並置中 */
+.sponsor-image-wrapper {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  max-width: 400px;
+  margin: 0 auto 10px;
+  overflow: hidden;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Sponsor Image */
 .sponsor-image {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
-  margin-bottom: 10px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 
