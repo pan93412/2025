@@ -54,6 +54,9 @@ import { conference } from '#data/conference.js'
         <a href="https://twitter.com/coscup">
           <IconFaBrandsTwitterSquare />
         </a>
+        <a href="https://floss.social/@COSCUP">
+          <IconFaBrandsMastodon />
+        </a>
         <a href="https://www.youtube.com/user/thecoscup">
           <IconFaBrandsYoutubeSquare />
         </a>
