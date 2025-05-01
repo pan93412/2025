@@ -55,13 +55,8 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
 
 .level-title {
   font-size: 1.2rem;
-  color: #555;
   margin-bottom: 15px;
   text-transform: capitalize;
-}
-
-.dark .level-title {
-  color: #eee;
 }
 
 .sponsor-list {
@@ -75,7 +70,6 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  color: inherit;
   padding: 10px;
   border-radius: 8px;
   transition: transform 0.2s;
@@ -86,7 +80,6 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
   padding: 8px;
   min-width: 120px;
   min-height: 120px;
-  background-color: #f8f9fa;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -105,14 +98,5 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
   display: block;
   margin: 0 auto;
   transition: transform 0.3s ease;
-}
-
-.sponsor .name {
-  font-size: 0.9rem;
-  color: #666;
-  margin: 0;
-  text-align: center;
-  width: 100%;
-  word-wrap: break-word;
 }
 </style>

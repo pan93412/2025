@@ -73,14 +73,10 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
 /* Sponsor Level Styling */
 .level-title {
   font-size: 1.5rem;
-  color: #555;
+  color: var(--vp-color-sponsor-text);
   margin-top: 30px;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid var(--vp-color-sponsor-border);
   padding-bottom: 5px;
-}
-
-.dark .level-title {
-  color: #eee;
 }
 
 /* Sponsor List (Grid) */
@@ -97,7 +93,7 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #fff;
+  background: var(--vp-color-sponsor-bg);
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -134,19 +130,19 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
 /* Sponsor Name */
 .sponsor-name {
   font-size: 1.2rem;
-  color: #333;
+  color: var(--vp-color-sponsor-text);
   margin: 10px 0;
   cursor: pointer;
   transition: color 0.2s;
 }
 
 .sponsor-name:hover {
-  color: #007bff;
+  color: var(--vp-color-sponsor-primary);
 }
 
 /* Sponsor Information (Expandable Section) */
 .sponsor-info {
-  background: #f8f9fa;
+  background: var(--vp-color-sponsor-surface);
   padding: 10px;
   border-radius: 5px;
   text-align: left;
@@ -155,7 +151,7 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
 
 .sponsor-info p {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--vp-color-sponsor-muted);
   margin-bottom: 10px;
 }
 
@@ -163,10 +159,10 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
 .sponsor-link {
   display: inline-block;
   text-decoration: none;
-  color: #007bff;
+  color: var(--vp-color-sponsor-primary);
+  border: 1px solid var(--vp-color-sponsor-primary);
   font-weight: bold;
   padding: 5px 10px;
-  border: 1px solid #007bff;
   border-radius: 5px;
   transition:
     background 0.2s,
@@ -177,7 +173,7 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
 }
 
 .sponsor-link:hover {
-  background: #007bff;
+  background: var(--vp-color-sponsor-primary);
   color: white;
 }
 

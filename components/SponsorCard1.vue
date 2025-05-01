@@ -34,15 +34,15 @@ const parseMarkdown = (text: string) => marked(text || '')
         :src="sponsor.image"
       >
     </div>
-    <h3 class="sponsor-name">
-      {{ sponsor['name:zh-TW'] }}
-    </h3>
 
     <transition name="fade">
       <div
         v-if="expanded"
         class="sponsor-info"
       >
+        <h3 class="sponsor-name">
+          {{ sponsor['name:zh-TW'] }}
+        </h3>
         <p v-html="parseMarkdown(sponsor['intro:zh-TW'])" />
       </div>
     </transition>
@@ -55,8 +55,15 @@ const parseMarkdown = (text: string) => marked(text || '')
   text-align: center;
   padding: 15px;
   border-radius: 8px;
+  background: var(--vp-color-sponsor-card-bg);
+  border: 1px solid var(--vp-color-sponsor-card-border);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.sponsor-card:hover {
+  transform: translateY(-4px);
 }
 
 /* Right-top link button */
@@ -66,11 +73,11 @@ const parseMarkdown = (text: string) => marked(text || '')
   right: 10px;
   font-size: 0.85rem;
   text-decoration: none;
-  background: #fff;
-  color: #007bff;
+  background: var(--vp-color-sponsor-bg, #fff);
+  color: var(--vp-color-sponsor-link);
   padding: 4px 8px;
   border-radius: 4px;
-  border: 1px solid #007bff;
+  border: 1px solid var(--vp-color-sponsor-link);
   display: flex;
   align-items: center;
   gap: 4px;
@@ -78,16 +85,9 @@ const parseMarkdown = (text: string) => marked(text || '')
   z-index: 1;
 }
 
-/* Icon-style link for dark mode */
-.dark .sponsor-link {
-  background: #f0f4ff;
-  color: #4ea1ff;
-  border-color: #4ea1ff;
-}
-
-.dark .sponsor-link:hover {
-  background: #4ea1ff;
-  color: #000;
+.sponsor-link:hover {
+  background: var(--vp-color-sponsor-link);
+  color: white;
 }
 
 .sponsor-image-wrapper {
@@ -104,5 +104,30 @@ const parseMarkdown = (text: string) => marked(text || '')
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.sponsor-name {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  color: var(--vp-color-sponsor-text);
+  font-weight: bold;
+}
+
+.sponsor-info {
+  text-align: left;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: var(--vp-color-sponsor-text);
+}
+
+/* Transition */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

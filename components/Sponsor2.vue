@@ -35,17 +35,13 @@ const formatLevel = (level: string): string => level.charAt(0).toUpperCase() + l
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  background: var(--vp-color-sponsor-bg);
+  color: var(--vp-color-sponsor-muted);
+  transition: transform 0.2s;
 }
 
-.dark .sponsor-card {
-  background: linear-gradient(135deg, #dcdcdc 0%, #f5f5f5 100%);
-  color: #222;
-  margin-bottom: 10px;
-  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition:
-    transform 0.2s,
-    box-shadow 0.3s;
+.sponsor-card:hover {
+  transform: translateY(-4px);
 }
 
 .sponsor-image {
@@ -59,23 +55,18 @@ const formatLevel = (level: string): string => level.charAt(0).toUpperCase() + l
 .sponsor-link {
   display: inline-block;
   text-decoration: none;
-  color: #007bff;
+  color: var(--vp-color-sponsor-primary);
   font-weight: bold;
   padding: 5px 10px;
-  border: 1px solid #007bff;
+  border: 1px solid var(--vp-color-sponsor-border);
   border-radius: 5px;
   transition:
     background 0.2s,
     color 0.2s;
 }
 
-.dark .sponsor-link {
-  color: #4ea1ff;
-  border-color: #4ea1ff;
-}
-
-.dark .sponsor-link:hover {
-  background: #4ea1ff;
-  color: #000;
+.sponsor-link:hover {
+  background: var(--vp-color-sponsor-primary);
+  color: white;
 }
 </style>
