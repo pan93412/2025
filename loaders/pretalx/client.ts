@@ -1,6 +1,5 @@
 import type { z } from 'zod'
 import type { MultiLingualString, OptionalMultiLingualString, Room, SessionType, Speaker } from './types'
-import { conference } from '#data/conference.ts'
 import { BadServerSideDataException } from './exception'
 import { coscupSpeakerQuestionIdMap, createResponseSchema, PretalxRoomSchema, PretalxSpeakerSchema, PretalxTalkSchema } from './pretalx-types'
 import { formatMultiLingualString, generateGravatarUrl, getAnswer } from './utils'
@@ -25,7 +24,7 @@ export class PretalxApiClient {
       headers: {
         ...authHeader,
         'Accept': 'application/json',
-        'User-Agent': `coscup-website-client/${conference.year}`,
+        'User-Agent': `coscup-website-client/${this.year}`,
       },
     })
     let data = responseSchema.parse(await response.json())
@@ -54,7 +53,7 @@ export class PretalxApiClient {
       }
 
       return {
-        id: room.id,
+        id: room.id.toString(),
         name,
       } satisfies Room
     })
@@ -70,24 +69,22 @@ export class PretalxApiClient {
       const englishBio = getAnswer(speaker.answers, coscupSpeakerQuestionIdMap.EnBio)
       const generalBio = speaker.biography
 
-      if (!speaker.avatar || !speaker.email) {
-        throw new BadServerSideDataException(`Speaker ${speaker.code} has no avatar or email.`)
-      }
-
-      if (!chineseName && !englishName) {
-        throw new BadServerSideDataException(`Speaker ${speaker.code} has no valid Chinese and English name.`)
+      if (!speaker.avatar && !speaker.email) {
+        console.warn(`[BadServerSideDataWarning] Speaker ${speaker.code} has no avatar and email. We use placeholder instead.`)
       }
 
       return {
         id: speaker.code,
-        avatar: speaker.avatar ?? generateGravatarUrl(speaker.email),
+        avatar: speaker.avatar ??
+          (speaker.email ? generateGravatarUrl(speaker.email) : undefined) ??
+          `https://avatar.iran.liara.run/username?username=${speaker.code}`,
         name: {
-          'zh-tw': (chineseName ?? englishName)!,
-          'en': (englishName ?? chineseName)!,
+          'zh-tw': chineseName ?? englishName ?? speaker.name,
+          'en': englishName ?? chineseName ?? speaker.name,
         } satisfies MultiLingualString,
         bio: {
-          'zh-tw': chineseBio ?? englishBio ?? generalBio,
-          'en': englishBio ?? chineseBio ?? generalBio,
+          'zh-tw': chineseBio ?? englishBio ?? generalBio ?? undefined,
+          'en': englishBio ?? chineseBio ?? generalBio ?? undefined,
         } satisfies OptionalMultiLingualString,
       } satisfies Speaker
     })
@@ -111,8 +108,11 @@ export class PretalxApiClient {
       }
 
       sessionType.set(trackChineseName, {
-        'zh-tw': trackChineseName,
-        'en': trackEnglishName,
+        id: trackEnglishName,
+        name: {
+          'zh-tw': trackChineseName,
+          'en': trackEnglishName,
+        } satisfies MultiLingualString,
       } satisfies SessionType)
     }
 

@@ -6,7 +6,7 @@ export interface MultiLingualString {
 export type OptionalMultiLingualString = Partial<MultiLingualString>
 
 export interface Room {
-  id: number
+  id: string
   name: MultiLingualString
 }
 
@@ -17,4 +17,7 @@ export interface Speaker {
   avatar: string
 }
 
-export type SessionType = MultiLingualString
+export interface SessionType {
+  id: string
+  name: MultiLingualString
+}
