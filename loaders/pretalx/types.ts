@@ -10,6 +10,11 @@ export interface Room {
   name: MultiLingualString
 }
 
+export interface LocalizedRoom {
+  id: string
+  name: string
+}
+
 export interface Speaker {
   id: string
   name: MultiLingualString
@@ -17,7 +22,19 @@ export interface Speaker {
   avatar: string
 }
 
+export interface LocalizedSpeaker {
+  id: string
+  name: string
+  bio?: string
+  avatar: string
+}
+
 export interface SessionType {
   id: string
   name: MultiLingualString
+}
+
+export interface LocalizedSessionType {
+  id: string
+  name: string
 }
