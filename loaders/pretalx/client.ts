@@ -4,6 +4,15 @@ import { BadServerSideDataException } from './exception'
 import { coscupSpeakerQuestionIdMap, createResponseSchema, PretalxRoomSchema, PretalxSpeakerSchema, PretalxTalkSchema } from './pretalx-types'
 import { formatMultiLingualString, generateGravatarUrl, getAnswer } from './utils'
 
+const resources = {
+  talks: PretalxTalkSchema,
+  rooms: PretalxRoomSchema,
+  speakers: PretalxSpeakerSchema,
+} as const
+
+export type Resource = keyof typeof resources
+export type ResourceType<R extends Resource> = z.infer<(typeof resources)[R]>
+
 export class PretalxApiClient {
   #endpoint: string
   #token: string | undefined
@@ -16,8 +25,8 @@ export class PretalxApiClient {
     this.#token = token
   }
 
-  async getResources<T>(resource: 'talks' | 'rooms' | 'speakers', schema: z.ZodSchema<T>): Promise<T[]> {
-    const responseSchema = createResponseSchema(schema)
+  async getResources<R extends Resource>(resource: R): Promise<ResourceType<R>[]> {
+    const responseSchema = createResponseSchema(resources[resource] as z.ZodType<ResourceType<R>>)
 
     const authHeader = this.#token ? { Authorization: `Token ${this.#token}` } : undefined
     const response = await fetch(`${this.#endpoint}/${resource}`, {
@@ -29,7 +38,7 @@ export class PretalxApiClient {
     })
     let data = responseSchema.parse(await response.json())
 
-    const results: T[] = []
+    const results: ResourceType<R>[] = []
 
     do {
       results.push(...data.results)
@@ -44,7 +53,7 @@ export class PretalxApiClient {
   }
 
   async getRooms(): Promise<Room[]> {
-    const pretalxRooms = await this.getResources('rooms', PretalxRoomSchema)
+    const pretalxRooms = await this.getResources('rooms')
 
     return pretalxRooms.map((room) => {
       const name = formatMultiLingualString(room.name)
@@ -60,7 +69,7 @@ export class PretalxApiClient {
   }
 
   async getSpeakers(): Promise<Speaker[]> {
-    const pretalxSpeakers = await this.getResources('speakers', PretalxSpeakerSchema)
+    const pretalxSpeakers = await this.getResources('speakers')
 
     return pretalxSpeakers.map((speaker) => {
       const chineseName = getAnswer(speaker.answers, coscupSpeakerQuestionIdMap.ZhName)
@@ -92,7 +101,7 @@ export class PretalxApiClient {
 
   async getSessionTypes(): Promise<Set<SessionType>> {
     const sessionType = new Map<string, SessionType>()
-    const pretalxTalks = await this.getResources('talks', PretalxTalkSchema)
+    const pretalxTalks = await this.getResources('talks')
 
     for (const talk of pretalxTalks) {
       const track = talk.track
