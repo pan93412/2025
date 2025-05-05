@@ -6,8 +6,8 @@ const props = defineProps<{
 }>()
 
 const dataSource = {
-  'en': () => import('#loaders/speakers.en.data.ts'),
-  'zh-tw': () => import('#loaders/speakers.zh-tw.data.ts'),
+  'en': () => import('#loaders/speakersBrief.en.data.ts'),
+  'zh-tw': () => import('#loaders/speakersBrief.zh-tw.data.ts'),
 }
 
 const { data: speakers } = await dataSource[props.lang]()
