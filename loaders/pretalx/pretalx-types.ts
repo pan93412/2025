@@ -49,7 +49,7 @@ export type PretalxSlot = z.infer<typeof PretalxSlotSchema>
 export const PretalxSpeakerReferenceSchema = z.object({
   name: z.string(),
   code: z.string(),
-  biography: z.string(),
+  biography: z.string().nullable(),
   email: z.string().optional(),
 })
 
@@ -81,9 +81,6 @@ export type PretalxTalk = z.infer<typeof PretalxTalkSchema>
 export const PretalxRoomSchema = z.object({
   id: z.number(),
   name: PretalxMultiLingualStringSchema,
-  description: PretalxMultiLingualStringSchema,
-  capacity: z.number(),
-  position: z.number(),
 })
 
 export type PretalxRoom = z.infer<typeof PretalxRoomSchema>
@@ -91,7 +88,7 @@ export type PretalxRoom = z.infer<typeof PretalxRoomSchema>
 export const PretalxSpeakerSchema = z.object({
   code: z.string(),
   name: z.string(),
-  biography: z.string(),
+  biography: z.string().nullable(),
   submissions: z.string().array(),
   avatar: z.string(),
   email: z.string().optional(),

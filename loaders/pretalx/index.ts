@@ -1,4 +1,3 @@
-import { conference } from '#data/conference.ts'
 import { PretalxApiClient } from './client'
 
 export * from './client'
@@ -8,6 +7,6 @@ export * from './types'
 export * from './utils'
 
 export const pretalxClient = new PretalxApiClient(
-  conference.year,
+  2024,
   process.env.PRETALX_TOKEN,
 )
