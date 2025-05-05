@@ -29,6 +29,12 @@ export interface LocalizedSpeaker {
   avatar: string
 }
 
+export interface LocalizedBriefSpeaker {
+  id: string
+  name: string
+  avatar: string
+}
+
 export interface SessionType {
   id: string
   name: MultiLingualString
