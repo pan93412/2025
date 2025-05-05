@@ -30,7 +30,8 @@
     "unplugin-icons": "22.1.0",
     "unplugin-vue-components": "28.8.0",
     "vitepress": "2.0.0-alpha.7",
-    "vue": "3.5.17"
+    "vue": "3.5.17",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@antfu/eslint-config": "4.16.1",
