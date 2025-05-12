@@ -29,4 +29,11 @@ import banner from '#assets/images/banner.png'
     display: none;
   }
 }
+
+@media screen and (min-width: 1920px) {
+  .banner {
+    width: 1920px;
+    margin: 0 auto;
+  }
+}
 </style>
