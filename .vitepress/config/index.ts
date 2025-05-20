@@ -98,4 +98,7 @@ export default defineConfig({
     root: { label: '繁體中文', ...zh_tw },
     en: { label: 'English', ...en },
   },
+  appearance: {
+    initialValue: 'light',
+  },
 })
