@@ -24,6 +24,11 @@ export async function getGoogleSheet<SheetRow extends Record<string, string>>({
 }): Promise<SheetRow[]> {
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`
   const response = await fetch(url)
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch Google Sheet: ${response.status} ${response.statusText}`)
+  }
+
   const data: GoogleSheetResponse = await response.json()
 
   if (!data.values) throw new Error(`No data found in the ${sheetName} sheet`)
