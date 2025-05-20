@@ -99,6 +99,7 @@ export default defineConfig({
     en: { label: 'English', ...en },
   },
   appearance: {
+    // @ts-expect-error: This will initialize the theme to light mode.
     initialValue: 'light',
   },
 })
