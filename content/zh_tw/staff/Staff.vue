@@ -50,6 +50,7 @@ onMounted(async () => {
 .page {
   max-width: 1200px;
   margin: 0 auto;
+  align-items: center;
 }
 .group {
   margin-bottom: 2rem;
@@ -68,11 +69,12 @@ onMounted(async () => {
 
 .member-card {
   text-align: center;
+  width: 130px;
+  margin-right: 5px;
 }
 
 .avatar {
-  width: 120%;
-  /* height: 80%; */
+  width: 90%;
   border-radius: 50%;
   display: block;
   margin: 0 auto;
