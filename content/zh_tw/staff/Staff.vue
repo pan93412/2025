@@ -77,8 +77,7 @@ onMounted(async () => {
   display: block;
   margin: 0 auto;
   background-color: white;
-  padding: 3px; /* 內邊距形成白框厚度 */
-  /* object-fit: cover; */
+  padding: 3px;
 }
 
 .name {
