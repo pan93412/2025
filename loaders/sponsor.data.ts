@@ -81,12 +81,13 @@ async function fetchSponsors(): Promise<Sponsor[]> {
     const [headers, ...values] = data.values
 
     // Map the data to the Sponsor interface
-    const sponsors = values.map((row) =>
-      headers.reduce((obj, key, i) => ({
-        ...obj,
-        [key]: row[i] || '',
-      }), {} as Sponsor),
-    )
+    const sponsors = values
+      .map((row) =>
+        headers.reduce((obj, key, i) => ({
+          ...obj,
+          [key]: row[i] || '',
+        }), {} as Sponsor))
+      .filter((sponsor) => sponsor.id)
 
     // Replace image URLs with actual image content
     return Promise.all(sponsors.map(async (sponsor) => ({
