@@ -50,6 +50,10 @@ export const sponsorLevels_mapping: Record<string, string> = {
 
 // 轉換 Google Drive 圖片 URL
 async function getDriveImageBase64(shareUrl: string): Promise<string> {
+  if (!shareUrl) {
+    return ''
+  }
+
   const fileIdMatch = shareUrl.match(/(?:\/d\/|id=)([^/?]+)/)
   const fileId = fileIdMatch ? fileIdMatch[1] : null
   const directUrl = `https://drive.google.com/uc?export=view&id=${fileId}`
