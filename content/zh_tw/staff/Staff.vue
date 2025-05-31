@@ -1,16 +1,7 @@
-<script setup>
-import axios from 'axios'
-import { onMounted, ref } from 'vue'
+<script setup lang="ts">
+import { data } from '#loaders/staff.data'
 
-const staffData = ref([])
-
-onMounted(async () => {
-  const response = await axios.get('https://coscup.org/2024/json/staff.json')
-  staffData.value = response.data.map((staff) => ({
-    ...staff,
-    group: staff.name.replace(/[\s\-－].*$/, ''),
-  }))
-})
+const { staffData } = data
 </script>
 
 <template>
