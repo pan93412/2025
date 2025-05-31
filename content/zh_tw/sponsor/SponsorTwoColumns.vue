@@ -2,8 +2,10 @@
 import { data } from '#loaders/sponsor.data'
 import { ref } from 'vue'
 
+defineProps<{ sponsorLevels: string[] }>()
+
 // 狀態管理
-const { groupedSponsors, sponsorLevels, sponsorLevels_mapping } = data
+const { groupedSponsors, sponsorLevels_mapping } = data
 const expandedSponsor = ref<string | null>(null)
 
 // 切換展開的贊助商

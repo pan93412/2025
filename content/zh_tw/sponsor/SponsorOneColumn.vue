@@ -2,7 +2,8 @@
 import { data } from '#loaders/sponsor.data'
 import SponsorCard from './SponsorCard.vue'
 
-const { groupedSponsors, sponsorLevels, sponsorLevels_mapping } = data
+defineProps<{ sponsorLevels: string[] }>()
+const { groupedSponsors, sponsorLevels_mapping } = data
 
 const formatLevel = (level: string): string => level.charAt(0).toUpperCase() + level.slice(1)
 </script>
