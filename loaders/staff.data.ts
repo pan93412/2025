@@ -35,13 +35,3 @@ export default defineLoader({
     return { staffData }
   },
 })
-
-// const staffData = ref([])
-
-// onMounted(async () => {
-//   const response = await axios.get('https://coscup.org/2024/json/staff.json')
-//   staffData.value = response.data.map((staff) => ({
-//     ...staff,
-//     group: staff.name.replace(/[\s\-－].*$/, ''),
-//   }))
-// })
