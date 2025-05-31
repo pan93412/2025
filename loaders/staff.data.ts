@@ -21,7 +21,7 @@ async function fetchStaffData(): Promise<StaffGroup[]> {
   const response = await fetch('https://coscup.org/2024/json/staff.json')
   const json = await response.json()
 
-  return json.data.map((staff: any) => ({
+  return json.map((staff: any) => ({
     ...staff,
     group: staff.name.replace(/-.*$/, ''),
   }))
