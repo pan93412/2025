@@ -10,12 +10,6 @@ const expandedSponsor = ref<string | null>(null)
 function toggleExpand(sponsorId: string) {
   expandedSponsor.value = expandedSponsor.value === sponsorId ? null : sponsorId
 }
-
-// 轉換 Google Drive 圖片 URL
-function convertDriveLinkToImageUrl(driveLink: string): string {
-  const match = driveLink.match(/(?:\/d\/|id=)([^/?]+)/)
-  return match ? `https://drive.google.com/uc?export=view&id=${match[1]}` : driveLink
-}
 </script>
 
 <template>
@@ -38,7 +32,7 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
             <img
               :alt="sponsor['name:zh-TW']"
               class="sponsor-image"
-              :src="convertDriveLinkToImageUrl(sponsor.image)"
+              :src="sponsor.image ?? '#'"
             >
           </div>
           <!-- 右上角連結 -->
