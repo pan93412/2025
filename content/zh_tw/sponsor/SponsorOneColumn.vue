@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { data } from '#loaders/sponsor.data'
-import SponsorCard1 from './SponsorCard1.vue'
+import SponsorCard from './SponsorCard.vue'
 
 const { groupedSponsors, sponsorLevels, sponsorLevels_mapping } = data
 
@@ -19,7 +19,7 @@ const formatLevel = (level: string): string => level.charAt(0).toUpperCase() + l
 
     <!-- 顯示贊助商卡片 -->
     <div v-if="groupedSponsors[level]">
-      <SponsorCard1
+      <SponsorCard
         v-for="sponsor in groupedSponsors[level]"
         :key="sponsor.id"
         :sponsor="sponsor"
