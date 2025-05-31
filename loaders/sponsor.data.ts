@@ -25,6 +25,7 @@ type GroupedSponsors = Record<string, Sponsor[]>
 
 // 定義贊助商等級
 export const sponsorLevels = [
+  'titanium',
   'gold',
   'silver',
   'bronze',
@@ -37,6 +38,7 @@ export const sponsorLevels = [
 ]
 
 export const sponsorLevels_mapping: Record<string, string> = {
+  'titanium': '鈦金級贊助',
   'gold': '黃金級贊助',
   'silver': '白銀級贊助',
   'bronze': '青銅級贊助',
