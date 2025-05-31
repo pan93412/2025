@@ -2,12 +2,6 @@
 import { data } from '#loaders/sponsor.data'
 
 const { groupedSponsors, sponsorLevels, sponsorLevels_mapping } = data
-
-// 轉換 Google Drive 圖片 URL
-function convertDriveLinkToImageUrl(driveLink: string): string {
-  const match = driveLink.match(/(?:\/d\/|id=)([^/?]+)/)
-  return match ? `https://drive.google.com/uc?export=view&id=${match[1]}` : driveLink
-}
 </script>
 
 <template>
@@ -33,7 +27,7 @@ function convertDriveLinkToImageUrl(driveLink: string): string {
             <div class="sponsor-item">
               <img
                 :alt="sponsor['name:zh-TW']"
-                :src="convertDriveLinkToImageUrl(sponsor.image)"
+                :src="sponsor.image ?? '#'"
               >
             </div>
           </a>
