@@ -98,8 +98,5 @@ export default defineConfig({
     root: { label: '繁體中文', ...zh_tw },
     en: { label: 'English', ...en },
   },
-  appearance: {
-    // @ts-expect-error: This will initialize the theme to light mode.
-    initialValue: 'light',
-  },
+  appearance: false,
 })
