@@ -1,5 +1,5 @@
-import { conference } from '#data/conference'
 import { defineLoader } from 'vitepress'
+import { conference } from '../data/conference'
 
 interface StaffMember {
   name: string
