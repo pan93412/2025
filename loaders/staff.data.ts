@@ -1,3 +1,4 @@
+import { conference } from '#data/conference'
 import { defineLoader } from 'vitepress'
 
 interface StaffMember {
@@ -18,10 +19,10 @@ interface StaffData {
 }
 
 async function fetchStaffData(): Promise<StaffGroup[]> {
-  const response = await fetch('https://coscup.org/2024/json/staff.json')
+  const response = await fetch(`https://volunteer.coscup.org/api/members?pid=${conference.year}`)
   const json = await response.json()
 
-  return json.map((staff: any) => ({
+  return json.data.map((staff: any) => ({
     ...staff,
     group: staff.name.replace(/-.*$/, ''),
   }))
