@@ -5,16 +5,14 @@ const { staffData } = data
 </script>
 
 <template>
-  <main
-    id="staff"
-    class="page"
-  >
+  <main id="staff">
     <div
-      v-for="staff in staffData"
+      v-for="(staff, index) in staffData"
       :key="staff.tid"
-      class="group"
+      class="group-section"
+      :class="`group-section-${index % 2}`"
     >
-      <section>
+      <section class="group-content">
         <h2 class="group-name">
           {{ staff.group }}
         </h2>
@@ -38,38 +36,45 @@ const { staffData } = data
 </template>
 
 <style scoped>
-.page {
-  max-width: 1200px;
-  margin: 0 auto;
-  align-items: center;
+.group-section {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: 3rem 1rem;
+  box-sizing: border-box;
 }
-.group {
-  margin-bottom: 2rem;
+
+.group-content {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 5rem;
 }
 
 .group-name {
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
+  margin-top: 0;
+  border-top: none;
+  padding-top: 0;
 }
 
 .member-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
 .member-card {
   text-align: center;
-  width: 130px;
-  margin-right: 5px;
+  width: 120px;
 }
 
 .avatar {
-  width: 90%;
+  width: 100%;
   border-radius: 50%;
   display: block;
   margin: 0 auto;
-  background-color: white;
+  border: 2px solid #eee;
+  background-color: #eee;
   padding: 3px;
 }
 
