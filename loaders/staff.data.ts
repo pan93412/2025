@@ -22,10 +22,25 @@ async function fetchStaffData(): Promise<StaffGroup[]> {
   const response = await fetch(`https://volunteer.coscup.org/api/members?pid=${conference.year}`)
   const json = await response.json()
 
-  return json.data.map((staff: any) => ({
-    ...staff,
-    group: staff.name.replace(/-.*$/, ''),
-  }))
+  return json.data.map((group: any) => {
+    const chiefs: StaffMember[] = group.chiefs
+    const members: StaffMember[] = group.members
+
+    const chiefEmails = new Set(chiefs.map((c) => c.email_hash))
+    const emailToMember = new Map(members.map((m) => [m.email_hash, m]))
+
+    const sortedChiefsInMembers = chiefs
+      .map((c) => emailToMember.get(c.email_hash))
+      .filter((m): m is StaffMember => !!m)
+
+    const remainingMembers = members.filter((m) => !chiefEmails.has(m.email_hash))
+
+    return {
+      ...group,
+      group: group.name.replace(/-.*$/, ''),
+      members: [...sortedChiefsInMembers, ...remainingMembers],
+    }
+  })
 }
 
 export declare const data: StaffData
