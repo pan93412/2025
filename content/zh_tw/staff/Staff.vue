@@ -43,6 +43,12 @@ const { staffData } = data
   box-sizing: border-box;
 }
 
+.group-section-1 {
+  color: var(--vp-c-text-2);
+  background-color: #ffd3ef33;
+  /* background-color: var(--vp-c-bg-soft); */
+}
+
 .group-content {
   max-width: 1200px;
   margin: auto;
