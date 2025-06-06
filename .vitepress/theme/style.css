@@ -114,6 +114,9 @@
   :root {
     --vp-home-hero-image-filter: blur(68px);
   }
+  .content {
+    padding: 0 !important;
+  }
 }
 
 /**

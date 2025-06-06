@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { data } from '#loaders/staff.data'
 
-const { staffData } = data
+const { staffData, joinus } = data
 </script>
 
 <template>
@@ -30,6 +30,17 @@ const { staffData } = data
             <span class="name">{{ member.name }}</span>
           </div>
         </div>
+      </section>
+    </div>
+    <div class="group-section group-section-0">
+      <section class="group-content">
+        <h2 class="group-name">
+          {{ joinus.title }}
+        </h2>
+        <article
+          class="markdown"
+          v-html="joinus.description"
+        />
       </section>
     </div>
   </main>
@@ -88,5 +99,9 @@ const { staffData } = data
   display: block;
   margin-top: 0.5rem;
   font-size: 1rem;
+}
+
+.markdown a {
+  color: var(--vp-c-brand-3);
 }
 </style>
