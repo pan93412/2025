@@ -1,13 +1,13 @@
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
-  active?: boolean
+  selected?: boolean
 }>(), {
-  active: false,
+  selected: false,
 })
 </script>
 
 <template>
-  <div :class="[$style.dateTab, { [$style.active]: props.active }]">
+  <div :class="[$style.dateTab, { [$style.selected]: props.selected }]">
     <slot />
   </div>
 </template>
@@ -31,7 +31,7 @@ const props = withDefaults(defineProps<{
   text-align: center;
 }
 
-.active {
+.selected {
   background-color: #7f73fe;
 }
 </style>
