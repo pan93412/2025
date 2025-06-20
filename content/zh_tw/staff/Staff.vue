@@ -111,4 +111,34 @@ const { staffData } = data
 .markdown a {
   color: var(--vp-c-brand-3);
 }
+
+@media (max-width: 768px) {
+  .member-card {
+    width: 100px;
+  }
+
+  .group-content {
+    padding: 0 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .member-card {
+    width: 80px;
+  }
+
+  .group-content {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .member-card {
+    width: 60px;
+  }
+
+  .group-content {
+    padding: 0 0.5em;
+  }
+}
 </style>
