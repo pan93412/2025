@@ -99,6 +99,7 @@ const { staffData } = data
   border: 2px solid #eee;
   background-color: #eee;
   padding: 3px;
+  aspect-ratio: 1;
 }
 
 .name {
