@@ -14,14 +14,8 @@ interface StaffGroup {
   group: string
 }
 
-interface JoinUs {
-  title: string
-  description: string
-}
-
 interface StaffData {
   staffData: StaffGroup[]
-  joinus: JoinUs
 }
 
 async function fetchStaffData(): Promise<StaffGroup[]> {
@@ -54,12 +48,7 @@ export declare const data: StaffData
 export default defineLoader({
   async load(): Promise<StaffData> {
     const staffData = await fetchStaffData()
-    const joinus: JoinUs = {
-      title: '歡迎加入志工團隊',
-      description: `
-        <p>每一次的活動都需要志工夥伴貢獻專長來讓活動順利進行，如果對 COSCUP 有服務的熱誠，歡迎來<a href="https://volunteer.coscup.org" target="_blank">報名加入志工</a></p>
-      `,
-    }
-    return { staffData, joinus }
+
+    return { staffData }
   },
 })

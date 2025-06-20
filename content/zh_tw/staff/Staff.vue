@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { data } from '#loaders/staff.data'
 
-const { staffData, joinus } = data
+const { staffData } = data
 </script>
 
 <template>
@@ -35,12 +35,19 @@ const { staffData, joinus } = data
     <div class="group-section group-section-0">
       <section class="group-content">
         <h2 class="group-name">
-          {{ joinus.title }}
+          歡迎加入志工團隊
         </h2>
-        <article
-          class="markdown"
-          v-html="joinus.description"
-        />
+        <article class="markdown">
+          <p>
+            每一次的活動都需要志工夥伴貢獻專長來讓活動順利進行，如果對 COSCUP 有服務的熱誠，歡迎來
+            <a
+              href="https://volunteer.coscup.org"
+              target="_blank"
+            >
+              報名加入志工
+            </a>
+          </p>
+        </article>
       </section>
     </div>
   </main>
