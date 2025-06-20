@@ -11,7 +11,10 @@ interface StaffGroup {
   tid: string
   chiefs: StaffMember[]
   members: StaffMember[]
-  group: string
+  group: {
+    zh_tw: string
+    en: string
+  }
 }
 
 interface StaffData {
@@ -34,10 +37,14 @@ async function fetchStaffData(): Promise<StaffGroup[]> {
       .filter((m): m is StaffMember => !!m)
 
     const remainingMembers = members.filter((m) => !chiefEmails.has(m.email_hash))
+    const [zhTwGroup, enGroup] = group.name.split(' - ')
 
     return {
       ...group,
-      group: group.name.replace(/-.*$/, ''),
+      group: {
+        zh_tw: zhTwGroup,
+        en: enGroup,
+      },
       members: [...sortedChiefsInMembers, ...remainingMembers],
     }
   })

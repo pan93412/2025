@@ -14,7 +14,7 @@ const { staffData } = data
     >
       <section class="group-content">
         <h2 class="group-name">
-          {{ staff.group.zh_tw }}
+          {{ staff.group.en }}
         </h2>
         <div class="member-grid">
           <div
@@ -35,16 +35,16 @@ const { staffData } = data
     <div class="group-section group-section-0">
       <section class="group-content">
         <h2 class="group-name">
-          歡迎加入志工團隊
+          Welcome to the Volunteer Team
         </h2>
         <article class="markdown">
           <p>
-            每一次的活動都需要志工夥伴貢獻專長來讓活動順利進行，如果對 COSCUP 有服務的熱誠，歡迎來
+            Every event requires volunteers to contribute their expertise to ensure smooth execution. If you are passionate about serving COSCUP, you're warmly welcome to join us.
             <a
               href="https://volunteer.coscup.org"
               target="_blank"
             >
-              報名加入志工
+              Join us as a volunteer
             </a>
           </p>
         </article>
