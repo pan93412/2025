@@ -8,7 +8,7 @@ interface Props {
   speaker: string
   bookmarked?: boolean
   tagText?: string
-  status?: 'default' | 'actived'
+  status?: 'default' | 'actived' | 'disabled'
 }
 
 withDefaults(defineProps<Props>(), {
@@ -21,11 +21,11 @@ const tagColor = '#ccc7ff'
 </script>
 
 <template>
-  <div :class="[$style.card, status === 'actived' ? $style.cardActived : $style.cardDefault]">
+  <div :class="[$style.card, $style[`card${status.charAt(0).toUpperCase() + status.slice(1)}`]]">
     <!-- Header with title, time and bookmark -->
     <div :class="$style.header">
       <div :class="$style.topContent">
-        <div :class="$style.title">
+        <div :class="[$style.title, status === 'disabled' ? $style.titleDisabled : '']">
           {{ title }}
         </div>
         <div :class="$style.time">
@@ -59,6 +59,11 @@ const tagColor = '#ccc7ff'
   flex-direction: column;
   gap: 2px;
   padding: 8px 6px 8px 8px;
+}
+
+.cardDisabled {
+  background-color: rgba(229, 227, 255, 0.8);
+  border: 1px dashed #998ffe;
 }
 
 .cardDefault {
@@ -127,5 +132,9 @@ const tagColor = '#ccc7ff'
 
 .tagContainer {
   padding: 2px 0;
+}
+
+.titleDisabled {
+  opacity: 0.6;
 }
 </style>
