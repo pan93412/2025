@@ -171,8 +171,8 @@ const tagTextColor = computed(() => props.bookmarked ? '#c6005c' : '#4c4598')
 }
 
 .cardBookmarked.cardDisabled {
-  background-color: rgba(252, 231, 243, 0.8);
-  border-color: #fccee8;
+  background-color: #fdf2f8;
+  border-color: #fda5d5;
 }
 
 .titleBookmarked {
