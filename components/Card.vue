@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import Bookmark from './Icons/Bookmark.vue'
+
 import Tag from './Tag.vue'
 
 interface Props {
@@ -11,41 +13,57 @@ interface Props {
   status?: 'default' | 'actived' | 'disabled'
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   bookmarked: false,
   tagText: '主議程軌',
   status: 'default',
 })
 
-const tagColor = '#ccc7ff'
+const tagColor = computed(() => props.bookmarked ? '#fccee8' : '#ccc7ff')
+const tagTextColor = computed(() => props.bookmarked ? '#c6005c' : '#4c4598')
 </script>
 
 <template>
-  <div :class="[$style.card, $style[`card${status.charAt(0).toUpperCase() + status.slice(1)}`]]">
+  <div
+    :class="[
+      $style.card,
+      $style[`card${props.status.charAt(0).toUpperCase() + props.status.slice(1)}`],
+      props.bookmarked ? $style.cardBookmarked : '',
+    ]"
+  >
     <!-- Header with title, time and bookmark -->
     <div :class="$style.header">
       <div :class="$style.topContent">
-        <div :class="[$style.title, status === 'disabled' ? $style.titleDisabled : '']">
-          {{ title }}
+        <div
+          :class="[
+            $style.title,
+            props.status === 'disabled' ? $style.titleDisabled : '',
+            props.bookmarked ? $style.titleBookmarked : '',
+          ]"
+        >
+          {{ props.title }}
         </div>
-        <div :class="$style.time">
-          {{ time }}
+        <div :class="[$style.time, props.bookmarked ? $style.timeBookmarked : '']">
+          {{ props.time }}
         </div>
       </div>
       <div :class="$style.bookmarkContainer">
-        <Bookmark :bookmarked="bookmarked" />
+        <Bookmark :bookmarked="props.bookmarked" />
       </div>
     </div>
 
     <!-- Speaker -->
-    <div :class="$style.speaker">
-      {{ speaker }}
+    <div :class="[$style.speaker, props.bookmarked ? $style.speakerBookmarked : '']">
+      {{ props.speaker }}
     </div>
 
     <!-- Tag -->
     <div :class="$style.tagContainer">
-      <Tag :color="tagColor">
-        {{ tagText }}
+      <Tag
+        :color="tagColor"
+        :text-color="tagTextColor"
+      >
+        {{ props.tagText }}
       </Tag>
     </div>
   </div>
@@ -136,5 +154,36 @@ const tagColor = '#ccc7ff'
 
 .titleDisabled {
   opacity: 0.6;
+}
+
+/* Bookmarked theme styles */
+.cardBookmarked {
+  background-color: #fce7f3;
+}
+
+.cardBookmarked.cardDefault {
+  border-color: #fccee8;
+}
+
+.cardBookmarked.cardActived {
+  background-color: #fdf2f8;
+  border-color: #fb64b6;
+}
+
+.cardBookmarked.cardDisabled {
+  background-color: rgba(252, 231, 243, 0.8);
+  border-color: #fccee8;
+}
+
+.titleBookmarked {
+  color: #e60076;
+}
+
+.timeBookmarked {
+  color: #e60076;
+}
+
+.speakerBookmarked {
+  color: #e60076;
 }
 </style>
