@@ -11,16 +11,21 @@ interface Props {
   bookmarked?: boolean
   tagText?: string
   status?: 'default' | 'actived' | 'disabled'
+  heightFactor?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
   bookmarked: false,
   tagText: '主議程軌',
   status: 'default',
+  heightFactor: 1,
 })
 
 const tagColor = computed(() => props.bookmarked ? '#fccee8' : '#ccc7ff')
 const tagTextColor = computed(() => props.bookmarked ? '#c6005c' : '#4c4598')
+const cardStyle = computed(() => ({
+  height: `${150 * props.heightFactor}px`,
+}))
 </script>
 
 <template>
@@ -30,6 +35,7 @@ const tagTextColor = computed(() => props.bookmarked ? '#c6005c' : '#4c4598')
       $style[`card${props.status.charAt(0).toUpperCase() + props.status.slice(1)}`],
       props.bookmarked ? $style.cardBookmarked : '',
     ]"
+    :style="cardStyle"
   >
     <!-- Header with title, time and bookmark -->
     <div :class="$style.header">
@@ -75,8 +81,10 @@ const tagTextColor = computed(() => props.bookmarked ? '#c6005c' : '#4c4598')
   border-radius: 8px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 2px;
   padding: 8px 6px 8px 8px;
+  min-height: 120px;
 }
 
 .cardDisabled {
@@ -150,6 +158,7 @@ const tagTextColor = computed(() => props.bookmarked ? '#c6005c' : '#4c4598')
 
 .tagContainer {
   padding: 2px 0;
+  margin-top: auto;
 }
 
 .titleDisabled {
