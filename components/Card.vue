@@ -8,18 +8,20 @@ interface Props {
   speaker: string
   bookmarked?: boolean
   tagText?: string
-  tagColor?: string
+  status?: 'default' | 'actived'
 }
 
 withDefaults(defineProps<Props>(), {
   bookmarked: false,
   tagText: '主議程軌',
-  tagColor: '#ccc7ff',
+  status: 'default',
 })
+
+const tagColor = '#ccc7ff'
 </script>
 
 <template>
-  <div :class="$style.card">
+  <div :class="[$style.card, status === 'actived' ? $style.cardActived : $style.cardDefault]">
     <!-- Header with title, time and bookmark -->
     <div :class="$style.header">
       <div :class="$style.topContent">
@@ -52,14 +54,22 @@ withDefaults(defineProps<Props>(), {
 <style module>
 .card {
   background-color: #e5e3ff;
-  border: 1px solid #ccc7ff;
   border-radius: 8px;
-
   display: flex;
   flex-direction: column;
   gap: 2px;
-
   padding: 8px 6px 8px 8px;
+}
+
+.cardDefault {
+  border: 1px solid #ccc7ff;
+}
+
+.cardActived {
+  border: 2px solid #7f73fe;
+  box-shadow:
+    0px 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0px 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .header {
