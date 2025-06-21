@@ -2,6 +2,7 @@
 import MenuBarDemo from './MenuBarDemo.vue';
 import SessionDateDemo from './SessionDateDemo.vue';
 import ButtonPrimaryDemo from './ButtonPrimaryDemo.vue';
+import BookmarkedDemo from './BookmarkedDemo.vue';
 </script>
 
 # Component Library
@@ -19,3 +20,7 @@ import ButtonPrimaryDemo from './ButtonPrimaryDemo.vue';
 ### Primary
 
 <ButtonPrimaryDemo />
+
+## Icon / Bookmarked
+
+<BookmarkedDemo />
