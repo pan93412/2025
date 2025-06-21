@@ -56,7 +56,7 @@ defineProps<{
 }
 
 .bookmark-icon:not(.bookmarked) path:not(.bookmark-hover-fill) {
-  fill: #888;
+  fill: #7f73fe;
 }
 
 .bookmark-icon:not(.bookmarked):hover path:not(.bookmark-hover-fill) {
