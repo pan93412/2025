@@ -29,6 +29,7 @@ const props = withDefaults(defineProps<{
   font-family: Inter;
   line-height: 1.2;
   text-align: center;
+  user-select: none;
 }
 
 .selected {
