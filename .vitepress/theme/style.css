@@ -114,9 +114,6 @@
   :root {
     --vp-home-hero-image-filter: blur(68px);
   }
-  .content {
-    padding: 0 !important;
-  }
 }
 
 /**
@@ -203,7 +200,5 @@ body {
  * -------------------------------------------------------------------------- */
 
 .VPDoc {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
   background: transparent !important;
 }
