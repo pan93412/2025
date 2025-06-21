@@ -3,6 +3,8 @@ import MenuBarDemo from './MenuBarDemo.vue';
 import SessionDateDemo from './SessionDateDemo.vue';
 import ButtonPrimaryDemo from './ButtonPrimaryDemo.vue';
 import BookmarkedDemo from './BookmarkedDemo.vue';
+import Tag from '#/components/Tag.vue';
+import Card from '#/components/Card.vue';
 </script>
 
 # Component Library
@@ -24,3 +26,64 @@ import BookmarkedDemo from './BookmarkedDemo.vue';
 ## Icon / Bookmarked
 
 <BookmarkedDemo />
+
+## Tag
+
+<Tag color="#e0e0e0">Tag</Tag>
+<Tag color="#ff0000">Tag</Tag>
+<Tag color="#00ff00">Tag</Tag>
+
+## Card
+
+<div style="display: grid; gap: 1em; grid-template-columns: repeat(3, 1fr)">
+<Card
+    title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
+    time="10:00 ~ 10:30"
+    speaker="zoe steinamp"
+    tag="主議程軌"
+/>
+
+<Card
+    title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
+    time="10:00 ~ 10:30"
+    speaker="zoe steinamp"
+    tag="主議程軌"
+    status="actived"
+/>
+
+<Card
+    title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
+    time="10:00 ~ 10:30"
+    speaker="zoe steinamp"
+    tag="主議程軌"
+    status="disabled"
+/>
+
+<Card
+    title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
+    time="10:00 ~ 10:30"
+    speaker="zoe steinamp"
+    tag="主議程軌"
+    status="default"
+    bookmarked
+/>
+
+<Card
+    title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
+    time="10:00 ~ 10:30"
+    speaker="zoe steinamp"
+    tag="主議程軌"
+    status="actived"
+    bookmarked
+/>
+
+<Card
+    title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
+    time="10:00 ~ 10:30"
+    speaker="zoe steinamp"
+    tag="主議程軌"
+    status="disabled"
+    bookmarked
+/>
+
+</div>
