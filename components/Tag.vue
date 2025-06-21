@@ -4,13 +4,17 @@ defineProps({
     type: String,
     default: '#e0e0e0',
   },
+  textColor: {
+    type: String,
+    default: '#4c4598',
+  },
 })
 </script>
 
 <template>
   <span
     :class="$style.tag"
-    :style="{ backgroundColor: color }"
+    :style="{ backgroundColor: color, color: textColor }"
   >
     <slot />
   </span>
@@ -22,7 +26,6 @@ defineProps({
   border-radius: 1em;
   font-size: 0.85em;
   font-weight: 500;
-  color: rgba(0, 0, 0, 0.7);
   transition: background-color 0.2s;
 }
 </style>
