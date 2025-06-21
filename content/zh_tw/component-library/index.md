@@ -87,3 +87,33 @@ import Card from '#/components/Card.vue';
 />
 
 </div>
+
+## Card with yScale
+
+<div style="display: grid; gap: 1em; grid-template-columns: repeat(3, 1fr)">
+
+<Card
+    title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
+    time="10:00 ~ 10:30"
+    speaker="zoe steinamp"
+    tag="主議程軌"
+    :heightFactor="1"
+/>
+
+<Card
+    title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
+    time="10:00 ~ 11:00"
+    speaker="zoe steinamp"
+    tag="主議程軌"
+    :heightFactor="2"
+/>
+
+<Card
+    title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
+    time="10:00 ~ 11:30"
+    speaker="zoe steinamp"
+    tag="主議程軌"
+    :heightFactor="3"
+/>
+
+</div>
