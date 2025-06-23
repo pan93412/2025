@@ -71,7 +71,6 @@ function toggleExpand(sponsorId: string) {
   font-size: 1.5rem;
   color: var(--vp-color-sponsor-text);
   margin-top: 30px;
-  border-bottom: 2px solid var(--vp-color-sponsor-border);
   padding-bottom: 5px;
 }
 
