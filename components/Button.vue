@@ -95,12 +95,13 @@ const buttonClasses = computed(() => {
 
 /* Secondary variant */
 .button-secondary {
-  background-color: #f3f4f6;
-  color: #374151;
+  background-color: #ffffff;
+  color: #7f73fe;
+  border: 1px solid #7f73fe;
 }
 
 .button-secondary:hover:not(.button-disabled) {
-  background-color: #e5e7eb;
+  background-color: #ccc7ff;
 }
 
 .button-secondary:active:not(.button-disabled) {
