@@ -2,6 +2,7 @@
 import MenuBarDemo from './MenuBarDemo.vue';
 import SessionDateDemo from './SessionDateDemo.vue';
 import ButtonPrimaryDemo from './ButtonPrimaryDemo.vue';
+import ButtonSecondaryDemo from './ButtonSecondaryDemo.vue';
 import BookmarkedDemo from './BookmarkedDemo.vue';
 import Tag from '#/components/Tag.vue';
 import Card from '#/components/Card.vue';
@@ -22,6 +23,10 @@ import Card from '#/components/Card.vue';
 ### Primary
 
 <ButtonPrimaryDemo />
+
+### Secondary
+
+<ButtonSecondaryDemo />
 
 ## Icon / Bookmarked
 
