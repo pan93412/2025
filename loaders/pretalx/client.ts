@@ -1,17 +1,17 @@
-import type { z } from 'zod'
+import type { PretalxAnswer, PretalxRoom, PretalxSpeaker, PretalxTrack } from './pretalx-types'
 import type { MultiLingualString, OptionalMultiLingualString, Room, SessionType, Speaker } from './types'
 import { BadServerSideDataException } from './exception'
-import { coscupSpeakerQuestionIdMap, createResponseSchema, PretalxRoomSchema, PretalxSpeakerSchema, PretalxTalkSchema } from './pretalx-types'
-import { formatMultiLingualString, generateGravatarUrl, getAnswer } from './utils'
+import { coscupSpeakerQuestionIdMap } from './pretalx-types'
+import { formatMultiLingualString, getAnswer } from './utils'
 
-const resources = {
-  talks: PretalxTalkSchema,
-  rooms: PretalxRoomSchema,
-  speakers: PretalxSpeakerSchema,
-} as const
+interface PaginatedResponse<T> {
+  count: number
+  next: string | null
+  previous: string | null
+  results: T[]
+}
 
-export type Resource = keyof typeof resources
-export type ResourceType<R extends Resource> = z.infer<(typeof resources)[R]>
+type SpeakerWithAnswers = Omit<PretalxSpeaker, 'answers'> & { answers: PretalxAnswer[] }
 
 export class PretalxApiClient {
   #endpoint: string
@@ -25,35 +25,37 @@ export class PretalxApiClient {
     this.#token = token
   }
 
-  async getResources<R extends Resource>(resource: R): Promise<ResourceType<R>[]> {
-    const responseSchema = createResponseSchema(resources[resource] as z.ZodType<ResourceType<R>>)
-
+  async #getResources<T>(resource: string, expand?: string[]): Promise<T[]> {
     const authHeader = this.#token ? { Authorization: `Token ${this.#token}` } : undefined
-    const response = await fetch(`${this.#endpoint}/${resource}`, {
-      headers: {
-        ...authHeader,
-        'Accept': 'application/json',
-        'User-Agent': `coscup-website-client/${this.year}`,
-      },
-    })
-    let data = responseSchema.parse(await response.json())
 
-    const results: ResourceType<R>[] = []
+    const url = new URL(`${this.#endpoint}/${resource}/`)
+    if (expand) {
+      for (const field of expand) {
+        url.searchParams.append('expand', field)
+      }
+    }
+
+    let next: string | null = url.toString()
+    const results: T[] = []
 
     do {
+      const response = await fetch(next, {
+        headers: {
+          ...authHeader,
+          'Accept': 'application/json',
+          'User-Agent': `coscup-website-client/${this.year}`,
+        },
+      })
+      const data = await response.json() as PaginatedResponse<T>
       results.push(...data.results)
-
-      if (data.next) {
-        const response = await fetch(data.next)
-        data = responseSchema.parse(await response.json())
-      }
-    } while (data.next)
+      next = data.next
+    } while (next)
 
     return results
   }
 
   async getRooms(): Promise<Room[]> {
-    const pretalxRooms = await this.getResources('rooms')
+    const pretalxRooms = await this.#getResources<PretalxRoom>('rooms')
 
     return pretalxRooms.map((room) => {
       const name = formatMultiLingualString(room.name)
@@ -69,7 +71,7 @@ export class PretalxApiClient {
   }
 
   async getSpeakers(): Promise<Speaker[]> {
-    const pretalxSpeakers = await this.getResources('speakers')
+    const pretalxSpeakers = await this.#getResources<SpeakerWithAnswers>('speakers', ['answers'])
 
     return pretalxSpeakers.map((speaker) => {
       const chineseName = getAnswer(speaker.answers, coscupSpeakerQuestionIdMap.ZhName)
@@ -78,14 +80,13 @@ export class PretalxApiClient {
       const englishBio = getAnswer(speaker.answers, coscupSpeakerQuestionIdMap.EnBio)
       const generalBio = speaker.biography
 
-      if (!speaker.avatar && !speaker.email) {
-        console.warn(`[BadServerSideDataWarning] Speaker ${speaker.code} has no avatar and email. We use placeholder instead.`)
+      if (!speaker.avatar_url) {
+        console.warn(`[BadServerSideDataWarning] Speaker ${speaker.code} has no avatar. We use placeholder instead.`)
       }
 
       return {
         id: speaker.code,
-        avatar: speaker.avatar ??
-          (speaker.email ? generateGravatarUrl(speaker.email) : undefined) ??
+        avatar: speaker.avatar_url ??
           `https://avatar.iran.liara.run/username?username=${speaker.code}`,
         name: {
           'zh-tw': chineseName ?? englishName ?? speaker.name,
@@ -100,28 +101,18 @@ export class PretalxApiClient {
   }
 
   async getSessionTypes(): Promise<Set<SessionType>> {
+    const pretalxTracks = await this.#getResources<PretalxTrack>('tracks')
     const sessionType = new Map<string, SessionType>()
-    const pretalxTalks = await this.getResources('talks')
 
-    for (const talk of pretalxTalks) {
-      const track = talk.track
-      if (!track) {
-        continue
+    for (const track of pretalxTracks) {
+      const name = formatMultiLingualString(track.name)
+      if (!name) {
+        throw new BadServerSideDataException(`Track ${track.id} has no valid name.`)
       }
 
-      const trackChineseName = track['zh-tw'] ?? track.en
-      const trackEnglishName = track.en ?? track['zh-tw']
-
-      if (!trackChineseName || !trackEnglishName) {
-        throw new BadServerSideDataException(`The talk ${talk.code} ("${talk.title}") has an track name that does not have any valid name.`)
-      }
-
-      sessionType.set(trackChineseName, {
-        id: trackEnglishName,
-        name: {
-          'zh-tw': trackChineseName,
-          'en': trackEnglishName,
-        } satisfies MultiLingualString,
+      sessionType.set(name['zh-tw'], {
+        id: name.en,
+        name,
       } satisfies SessionType)
     }
 
