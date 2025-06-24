@@ -19,6 +19,7 @@ export interface Sponsor {
   'intro:en': string
   'link': string
   'level': string
+  'canPublish': 'Y' | 'N'
 }
 
 type GroupedSponsors = Record<string, Sponsor[]>
@@ -89,7 +90,7 @@ async function fetchSponsors(): Promise<Sponsor[]> {
           ...obj,
           [key]: row[i] || '',
         }), {} as Sponsor))
-      .filter((sponsor) => sponsor.id)
+      .filter((sponsor) => sponsor.id && sponsor.canPublish === 'Y')
 
     // Replace image URLs with actual image content
     return Promise.all(sponsors.map(async (sponsor) => ({
