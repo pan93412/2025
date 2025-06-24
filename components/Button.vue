@@ -11,10 +11,6 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
 })
 
-defineEmits<{
-  click: [event: Event]
-}>()
-
 const buttonClasses = computed(() => {
   const baseClasses = 'button-base'
   const variantClass = `button-${props.variant}`
@@ -28,7 +24,6 @@ const buttonClasses = computed(() => {
   <button
     :class="buttonClasses"
     :disabled="disabled"
-    @click="$emit('click', $event)"
   >
     <div class="button-content">
       <slot name="icon" />
