@@ -1,20 +1,30 @@
-import type { PretalxAnswer, PretalxMultiLingualString } from './pretalx-types'
+import type { components } from './schema'
 import type { MultiLingualString } from './types'
 import { createHash } from 'node:crypto'
 
+type PretalxMultiLingualString = components['schemas']['Question']['question']
+
 export function formatMultiLingualString(input: PretalxMultiLingualString): MultiLingualString | undefined {
-  if (input.en === undefined && input['zh-tw'] === undefined) {
+  if (!input) {
+    return undefined
+  }
+  const en = input.en
+  const zhTw = input['zh-tw']
+
+  if (en === undefined && zhTw === undefined) {
     return undefined
   }
 
   return {
-    'en': (input.en ?? input['zh-tw'])!,
-    'zh-tw': (input['zh-tw'] ?? input.en)!,
+    'en': (en ?? zhTw)!,
+    'zh-tw': (zhTw ?? en)!,
   }
 }
 
+type PretalxAnswer = components['schemas']['Answer']
+
 export function getAnswer(answers: PretalxAnswer[], questionId: number): string | undefined {
-  const answer = answers.find((answer) => answer.question.id === questionId)?.answer
+  const answer = answers.find((answer) => answer.question === questionId)?.answer
   if (!answer || answer === '-') {
     return undefined
   }
