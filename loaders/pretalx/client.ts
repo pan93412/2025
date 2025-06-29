@@ -1,4 +1,4 @@
-import type { RoomReadable, RoomsListData, SpeakersListData, SubmissionsListData, TracksListData } from './oapi'
+import type { RoomReadable, RoomsListData, SpeakersListData, SubmissionsListData, SubmissionTypeReadable, SubmissionTypesListData, TracksListData } from './oapi'
 import type { PretalxAnswer, PretalxSpeaker, PretalxTalk, PretalxTrack } from './pretalx-types'
 import type { MultiLingualString, OptionalMultiLingualString, Room, SessionType, Speaker, Submission } from './types'
 import { BadServerSideDataException } from './exception'
@@ -99,7 +99,7 @@ export class PretalxApiClient {
       },
       query: {
         expand: ['answers'],
-        page_size: 100,
+        page_size: 25,
         page: 1,
       },
     })
@@ -124,7 +124,7 @@ export class PretalxApiClient {
         event: this.event,
       },
       query: {
-        page_size: 100,
+        page_size: 25,
         page: 1,
       },
     })
@@ -147,16 +147,40 @@ export class PretalxApiClient {
     return new Set(sessionType.values())
   }
 
-  async getSubmissions(): Promise<Submission[]> {
+  async getSubmissionsType(): Promise<Set<number>> {
+    const url = this.#client.buildUrl<SubmissionTypesListData>({
+      url: '/api/events/{event}/submission-types/',
+      path: {
+        event: this.event,
+      },
+      query: {
+        page_size: 25,
+        page: 1,
+      },
+    })
+
+    const submissionsTypes = await this.#getPaginatedResources<SubmissionTypeReadable>(url)
+    const submissionTypes = new Set<number>()
+
+    for (const submissionType of submissionsTypes) {
+      submissionTypes.add(submissionType.id)
+    }
+
+    return submissionTypes
+  }
+
+  async getSubmissionsOf(type: number): Promise<Submission[]> {
     const url = this.#client.buildUrl<SubmissionsListData>({
       url: '/api/events/{event}/submissions/',
       path: {
         event: this.event,
       },
       query: {
+        state: ['accepted', 'confirmed'],
         expand: ['answers'],
-        page_size: 100,
+        page_size: 25,
         page: 1,
+        submission_type: type,
       },
     })
     const submissions = await this.#getPaginatedResources<SubmissionWithAnswers>(url)
@@ -177,5 +201,14 @@ export class PretalxApiClient {
         } satisfies OptionalMultiLingualString,
       } satisfies Submission
     })
+  }
+
+  async getAllSubmissions(): Promise<Submission[]> {
+    const submissionTypes = await this.getSubmissionsType()
+    const submissions = await Promise.all(
+      [...submissionTypes].map((type) => this.getSubmissionsOf(type)),
+    )
+
+    return submissions.flat()
   }
 }
