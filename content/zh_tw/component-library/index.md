@@ -5,6 +5,7 @@ import ButtonPrimaryDemo from './ButtonPrimaryDemo.vue';
 import ButtonSecondaryDemo from './ButtonSecondaryDemo.vue';
 import IconButtonPrimaryDemo from './IconButtonPrimaryDemo.vue';
 import IconButtonBasicDemo from './IconButtonBasicDemo.vue';
+import CheckboxDemo from './CheckboxDemo.vue';
 import BookmarkedDemo from './BookmarkedDemo.vue';
 import Tag from '#/components/Tag.vue';
 import Card from '#/components/Card.vue';
@@ -37,6 +38,10 @@ import Card from '#/components/Card.vue';
 ### Icon Button / Basic
 
 <IconButtonBasicDemo />
+
+## Checkbox
+
+<CheckboxDemo />
 
 ## Icon / Bookmarked
 
