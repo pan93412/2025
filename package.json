@@ -15,7 +15,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type-check": "vue-tsc",
-    "gen:pretalx-types": "npx openapi-typescript loaders/pretalx/schema.yml --output loaders/pretalx/schema.ts"
+    "gen:pretalx-types": "npx openapi-typescript https://docs.pretalx.org/schema.yml --output loaders/pretalx/schema.ts"
   },
   "dependencies": {
     "@iconify-json/fa-brands": "1.2.1",

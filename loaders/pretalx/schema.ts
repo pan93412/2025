@@ -1219,14 +1219,14 @@ export interface components {
      *     `es` - Spanish
      *     `fr` - French
      *     `it` - Italian
-     *     `ja-jp` - Japanese
-     *     `nl` - Dutch
-     *     `pl` - Polish
-     *     `pt-br` - Brasilian Portuguese
-     *     `pt-pt` - Portuguese
-     *     `vi` - Vietnamese
-     *     `zh-hant` - Traditional Chinese (Taiwan)
-     *     `zh-hans` - Simplified Chinese
+     *     * `ja-jp` - Japanese
+     *     * `nl` - Dutch
+     *     * `pl` - Polish
+     *     * `pt-br` - Brasilian Portuguese
+     *     * `pt-pt` - Portuguese
+     *     * `vi` - Vietnamese
+     *     * `zh-hant` - Traditional Chinese (Taiwan)
+     *     * `zh-hans` - Simplified Chinese
      * @enum {string}
      */
     'LocaleEnum': 'en' | 'de' | 'de-formal' | 'ar' | 'cs' | 'el' | 'es' | 'fr' | 'it' | 'ja-jp' | 'nl' | 'pl' | 'pt-br' | 'pt-pt' | 'vi' | 'zh-hant' | 'zh-hans'
@@ -2593,7 +2593,7 @@ export interface components {
      *     `boolean` - Yes/No
      *     `file` - File upload
      *     `choices` - Choose one from a list
-     *     `multiple_choice` - Choose multiple from a list
+     *     * `multiple_choice` - Choose multiple from a list
      * @enum {string}
      */
     'VariantEnum': 'number' | 'string' | 'text' | 'url' | 'date' | 'datetime' | 'boolean' | 'file' | 'choices' | 'multiple_choice'
@@ -3319,9 +3319,9 @@ export interface operations {
          *     `date` - Date
          *     `datetime` - Date and time
          *     `boolean` - Yes/No
-         *     `file` - File upload
-         *     `choices` - Choose one from a list
-         *     `multiple_choice` - Choose multiple from a list
+         *     * `file` - File upload
+         *     * `choices` - Choose one from a list
+         *     * `multiple_choice` - Choose multiple from a list
          */
         variant?: 'boolean' | 'choices' | 'date' | 'datetime' | 'file' | 'multiple_choice' | 'number' | 'string' | 'text' | 'url'
       }
@@ -4515,7 +4515,7 @@ export interface operations {
          *     `canceled` - canceled
          *     `withdrawn` - withdrawn
          *     `deleted` - deleted
-         *     `draft` - draft
+         *     * `draft` - draft
          */
         pending_state?: ('accepted' | 'canceled' | 'confirmed' | 'deleted' | 'draft' | 'rejected' | 'submitted' | 'withdrawn' | null)[]
         /** @description A search term, searching in `"title"`,`"speaker.name"`. */
@@ -4528,7 +4528,7 @@ export interface operations {
          *     `canceled` - canceled
          *     `withdrawn` - withdrawn
          *     `deleted` - deleted
-         *     `draft` - draft
+         *     * `draft` - draft
          */
         state?: ('accepted' | 'canceled' | 'confirmed' | 'deleted' | 'draft' | 'rejected' | 'submitted' | 'withdrawn')[]
         submission_type?: number
