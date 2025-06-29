@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import Bookmark from './Icons/Bookmark.vue'
+import CTag from './CTag.vue'
 
-import Tag from './Tag.vue'
+import Bookmark from './Icons/Bookmark.vue'
 
 interface Props {
   title: string
@@ -65,12 +65,12 @@ const cardStyle = computed(() => ({
 
     <!-- Tag -->
     <div :class="$style.tagContainer">
-      <Tag
+      <CTag
         :color="tagColor"
         :text-color="tagTextColor"
       >
         {{ props.tagText }}
-      </Tag>
+      </CTag>
     </div>
   </div>
 </template>

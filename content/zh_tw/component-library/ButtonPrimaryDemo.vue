@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import Button from '#components/Button.vue'
+import CButton from '#components/CButton.vue'
 </script>
 
 <template>
   <div :class="$style.container">
-    <Button variant="primary">
+    <CButton variant="primary">
       Plain Primary Button
-    </Button>
+    </CButton>
 
-    <Button variant="primary">
+    <CButton variant="primary">
       <template #icon>
         <IconPhCalendarPlus />
       </template>
 
       Primary Button with Icon
-    </Button>
+    </CButton>
 
-    <Button
+    <CButton
       disabled
       variant="primary"
     >
       Disabled Primary Button
-    </Button>
+    </CButton>
   </div>
 </template>
 

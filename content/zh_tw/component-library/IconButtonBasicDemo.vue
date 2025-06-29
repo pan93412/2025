@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import IconButton from '#components/IconButton.vue'
+import CIconButton from '#components/CIconButton.vue'
 </script>
 
 <template>
   <div :class="$style.container">
-    <IconButton variant="basic">
+    <CIconButton variant="basic">
       <IconPhCalendarPlus />
-    </IconButton>
+    </CIconButton>
 
-    <IconButton variant="basic">
+    <CIconButton variant="basic">
       <IconPhHeart />
-    </IconButton>
+    </CIconButton>
 
-    <IconButton
+    <CIconButton
       disabled
       variant="basic"
     >
       <IconPhCalendarPlus />
-    </IconButton>
+    </CIconButton>
   </div>
 </template>
 

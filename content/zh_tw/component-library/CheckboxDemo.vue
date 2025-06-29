@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import Checkbox from '#components/Checkbox.vue'
+import CCheckbox from '#components/CCheckbox.vue'
 </script>
 
 <template>
   <div :class="$style.container">
-    <Checkbox name="checkbox1">
+    <CCheckbox name="checkbox1">
       Unchecked
-    </Checkbox>
+    </CCheckbox>
 
-    <Checkbox
+    <CCheckbox
       checked
       name="checkbox2"
     >
       Checked
-    </Checkbox>
+    </CCheckbox>
   </div>
 </template>
 

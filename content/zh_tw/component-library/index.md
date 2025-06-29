@@ -7,8 +7,8 @@ import IconButtonPrimaryDemo from './IconButtonPrimaryDemo.vue';
 import IconButtonBasicDemo from './IconButtonBasicDemo.vue';
 import CheckboxDemo from './CheckboxDemo.vue';
 import BookmarkedDemo from './BookmarkedDemo.vue';
-import Tag from '#/components/Tag.vue';
-import Card from '#/components/Card.vue';
+import CTag from '#/components/CTag.vue';
+import CCard from '#/components/CCard.vue';
 </script>
 
 # Component Library
@@ -49,21 +49,21 @@ import Card from '#/components/Card.vue';
 
 ## Tag
 
-<Tag color="#e0e0e0">Tag</Tag>
-<Tag color="#ff0000">Tag</Tag>
-<Tag color="#00ff00">Tag</Tag>
+<CTag color="#e0e0e0">Tag</CTag>
+<CTag color="#ff0000">Tag</CTag>
+<CTag color="#00ff00">Tag</CTag>
 
 ## Card
 
 <div style="display: grid; gap: 1em; grid-template-columns: repeat(3, 1fr)">
-<Card
+<CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
     time="10:00 ~ 10:30"
     speaker="zoe steinamp"
     tag="主議程軌"
 />
 
-<Card
+<CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
     time="10:00 ~ 10:30"
     speaker="zoe steinamp"
@@ -71,7 +71,7 @@ import Card from '#/components/Card.vue';
     status="actived"
 />
 
-<Card
+<CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
     time="10:00 ~ 10:30"
     speaker="zoe steinamp"
@@ -79,7 +79,7 @@ import Card from '#/components/Card.vue';
     status="disabled"
 />
 
-<Card
+<CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
     time="10:00 ~ 10:30"
     speaker="zoe steinamp"
@@ -88,7 +88,7 @@ import Card from '#/components/Card.vue';
     bookmarked
 />
 
-<Card
+<CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
     time="10:00 ~ 10:30"
     speaker="zoe steinamp"
@@ -97,7 +97,7 @@ import Card from '#/components/Card.vue';
     bookmarked
 />
 
-<Card
+<CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
     time="10:00 ~ 10:30"
     speaker="zoe steinamp"
@@ -112,7 +112,7 @@ import Card from '#/components/Card.vue';
 
 <div style="display: grid; gap: 1em; grid-template-columns: repeat(3, 1fr)">
 
-<Card
+<CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
     time="10:00 ~ 10:30"
     speaker="zoe steinamp"
@@ -120,7 +120,7 @@ import Card from '#/components/Card.vue';
     :heightFactor="1"
 />
 
-<Card
+<CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
     time="10:00 ~ 11:00"
     speaker="zoe steinamp"
@@ -128,7 +128,7 @@ import Card from '#/components/Card.vue';
     :heightFactor="2"
 />
 
-<Card
+<CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
     time="10:00 ~ 11:30"
     speaker="zoe steinamp"
