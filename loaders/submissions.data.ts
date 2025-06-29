@@ -6,6 +6,6 @@ export declare const data: Submission[]
 
 export default defineLoader({
   async load(): Promise<typeof data> {
-    return pretalxClient.getSubmissions()
+    return pretalxClient.getAllSubmissions()
   },
 })
