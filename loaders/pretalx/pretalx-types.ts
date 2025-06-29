@@ -12,12 +12,13 @@ export type PretalxTalk = components['schemas']['Submission']
 export type PretalxSpeaker = components['schemas']['Speaker']
 export type PretalxRoom = components['schemas']['Room']
 export type PretalxTrack = components['schemas']['Track']
+export type PretalxSubmission = components['schemas']['Submission']
 
 export const coscupSessionQuestionIdMap = {
   Language: 216,
   ZhDesc: 0,
-  EnTitle: 173,
-  EnDesc: 175,
+  EnTitle: 257, // 翻譯成英文的標題
+  EnDesc: 259, // 翻譯成英文的摘要
   Tags: 220,
   Qa: 0,
   Slide: 0,

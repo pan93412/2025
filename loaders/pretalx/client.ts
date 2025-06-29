@@ -1,7 +1,7 @@
-import type { PretalxAnswer, PretalxRoom, PretalxSpeaker, PretalxTrack } from './pretalx-types'
-import type { MultiLingualString, OptionalMultiLingualString, Room, SessionType, Speaker } from './types'
+import type { PretalxAnswer, PretalxRoom, PretalxSpeaker, PretalxSubmission, PretalxTrack } from './pretalx-types'
+import type { MultiLingualString, OptionalMultiLingualString, Room, SessionType, Speaker, Submission } from './types'
 import { BadServerSideDataException } from './exception'
-import { coscupSpeakerQuestionIdMap } from './pretalx-types'
+import { coscupSessionQuestionIdMap, coscupSpeakerQuestionIdMap } from './pretalx-types'
 import { formatMultiLingualString, getAnswer } from './utils'
 
 interface PaginatedResponse<T> {
@@ -12,6 +12,7 @@ interface PaginatedResponse<T> {
 }
 
 type SpeakerWithAnswers = Omit<PretalxSpeaker, 'answers'> & { answers: PretalxAnswer[] }
+type SubmissionWithAnswers = Omit<PretalxSubmission, 'answers'> & { answers: PretalxAnswer[] }
 
 export class PretalxApiClient {
   #endpoint: string
@@ -117,5 +118,26 @@ export class PretalxApiClient {
     }
 
     return new Set(sessionType.values())
+  }
+
+  async getSubmissions(): Promise<Submission[]> {
+    const submissions = await this.#getResources<SubmissionWithAnswers>('submissions', ['answers'])
+
+    return submissions.map((submission) => {
+      const enTitle = getAnswer(submission.answers, coscupSessionQuestionIdMap.EnTitle)
+      const enDesc = getAnswer(submission.answers, coscupSessionQuestionIdMap.EnDesc)
+
+      return {
+        id: submission.code,
+        title: {
+          'zh-tw': submission.title,
+          'en': enTitle ?? submission.title,
+        } satisfies MultiLingualString,
+        description: {
+          'zh-tw': submission.description ?? undefined,
+          'en': enDesc ?? submission.description ?? undefined,
+        } satisfies OptionalMultiLingualString,
+      } satisfies Submission
+    })
   }
 }

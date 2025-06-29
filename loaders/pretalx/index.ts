@@ -7,6 +7,6 @@ export * from './types'
 export * from './utils'
 
 export const pretalxClient = new PretalxApiClient(
-  2024,
+  2025,
   process.env.PRETALX_TOKEN,
 )

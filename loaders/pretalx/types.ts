@@ -44,3 +44,9 @@ export interface LocalizedSessionType {
   id: string
   name: string
 }
+
+export interface Submission {
+  id: string
+  title: MultiLingualString
+  description: OptionalMultiLingualString
+}
