@@ -9,8 +9,8 @@ export default defineLoader({
     const speakers = await pretalxClient.getSpeakers()
     return speakers.map((speaker) => ({
       ...speaker,
-      name: speaker.name['zh-tw'],
-      bio: speaker.bio['zh-tw'],
+      name: speaker.name,
+      bio: speaker.bio,
     }))
   },
 })
