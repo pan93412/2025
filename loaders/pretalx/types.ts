@@ -17,8 +17,8 @@ export interface LocalizedRoom {
 
 export interface Speaker {
   id: string
-  name: MultiLingualString
-  bio: OptionalMultiLingualString
+  name: string
+  bio?: string
   avatar: string
 }
 
