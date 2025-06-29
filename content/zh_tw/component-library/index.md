@@ -3,6 +3,8 @@ import MenuBarDemo from './MenuBarDemo.vue';
 import SessionDateDemo from './SessionDateDemo.vue';
 import ButtonPrimaryDemo from './ButtonPrimaryDemo.vue';
 import ButtonSecondaryDemo from './ButtonSecondaryDemo.vue';
+import IconButtonPrimaryDemo from './IconButtonPrimaryDemo.vue';
+import IconButtonBasicDemo from './IconButtonBasicDemo.vue';
 import BookmarkedDemo from './BookmarkedDemo.vue';
 import Tag from '#/components/Tag.vue';
 import Card from '#/components/Card.vue';
@@ -27,6 +29,14 @@ import Card from '#/components/Card.vue';
 ### Secondary
 
 <ButtonSecondaryDemo />
+
+### Icon Button / Primary
+
+<IconButtonPrimaryDemo />
+
+### Icon Button / Basic
+
+<IconButtonBasicDemo />
 
 ## Icon / Bookmarked
 
