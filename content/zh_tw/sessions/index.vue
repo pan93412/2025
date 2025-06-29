@@ -4,6 +4,7 @@ import { defineAsyncComponent } from 'vue'
 const SessionRooms = defineAsyncComponent(() => import('#components/Session/Rooms.vue'))
 const SessionTypes = defineAsyncComponent(() => import('#components/Session/SessionTypes.vue'))
 const SessionSpeakers = defineAsyncComponent(() => import('#components/Session/Speakers.vue'))
+const SessionSubmissions = defineAsyncComponent(() => import('#components/Session/Submissions.vue'))
 </script>
 
 <template>
@@ -36,6 +37,16 @@ const SessionSpeakers = defineAsyncComponent(() => import('#components/Session/S
         <SessionSpeakers lang="zh-tw" />
         <template #fallback>
           <div>正在載入講者⋯⋯</div>
+        </template>
+      </Suspense>
+    </div>
+
+    <div class="flex-1">
+      <h1>議程</h1>
+      <Suspense>
+        <SessionSubmissions lang="zh-tw" />
+        <template #fallback>
+          <div>正在載入議程⋯⋯</div>
         </template>
       </Suspense>
     </div>
