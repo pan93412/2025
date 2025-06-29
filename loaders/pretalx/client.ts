@@ -29,8 +29,9 @@ export class PretalxApiClient {
     this.#client = createClient({
       baseUrl: `https://pretalx.coscup.org`,
       headers: {
-        ...(this.#token ? { Authorization: `Token ${token}` } : undefined),
+        ...(token ? { Authorization: `Token ${token}` } : undefined),
         'User-Agent': `coscup-website-client/${this.year}`,
+        'Pretalx-Version': 'v1',
       },
     })
   }
@@ -98,7 +99,6 @@ export class PretalxApiClient {
         event: this.event,
       },
       query: {
-        expand: ['answers'],
         page_size: 25,
         page: 1,
       },
