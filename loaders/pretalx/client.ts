@@ -41,23 +41,24 @@ export class PretalxApiClient {
 
   async #getPaginatedResources<T>(url: string): Promise<T[]> {
     const resources: T[] = []
+    const baseUrl = this.#client.getConfig().baseUrl ?? ''
     let next = url
 
     while (true) {
-      const { data } = await this.#client.get<PaginatedResponse<T>>({
+      const response = await this.#client.get<PaginatedResponse<T>>({
         url: next,
       })
-      if (!data) {
-        throw new BadServerSideDataException('No rooms found')
+      if (!response.data) {
+        throw new BadServerSideDataException(`No data found for this URL: ${next}`)
       }
 
-      resources.push(...data.results)
+      resources.push(...response.data.results)
 
-      if (!data.next) {
+      if (!response.data.next) {
         break
       }
 
-      next = data.next
+      next = response.data.next.replace(baseUrl, '')
     }
 
     return resources
@@ -99,7 +100,7 @@ export class PretalxApiClient {
       query: {
         expand: ['answers'],
         page_size: 100,
-        page: 0,
+        page: 1,
       },
     })
 
@@ -124,7 +125,7 @@ export class PretalxApiClient {
       },
       query: {
         page_size: 100,
-        page: 0,
+        page: 1,
       },
     })
 
@@ -155,7 +156,7 @@ export class PretalxApiClient {
       query: {
         expand: ['answers'],
         page_size: 100,
-        page: 0,
+        page: 1,
       },
     })
     const submissions = await this.#getPaginatedResources<SubmissionWithAnswers>(url)

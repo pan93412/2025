@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
-
 const props = defineProps<{
   lang: 'en' | 'zh-tw'
 }>()
@@ -24,7 +22,7 @@ const { data: speakers } = await dataSource[props.lang]()
         :src="speaker.avatar"
         width="30"
       >
-      {{ speaker.name }}
+      Name = {{ speaker.name }}
     </li>
   </ul>
 </template>
