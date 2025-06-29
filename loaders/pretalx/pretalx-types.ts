@@ -1,4 +1,4 @@
-import type { components } from './schema'
+import type { AnswerReadable, RoomReadable, SpeakerReadable, SubmissionReadable, TrackReadable } from './oapi'
 
 export const coscupSpeakerQuestionIdMap = {
   ZhName: 45,
@@ -7,12 +7,11 @@ export const coscupSpeakerQuestionIdMap = {
   EnBio: 48,
 } as const
 
-export type PretalxAnswer = components['schemas']['Answer']
-export type PretalxTalk = components['schemas']['Submission']
-export type PretalxSpeaker = components['schemas']['Speaker']
-export type PretalxRoom = components['schemas']['Room']
-export type PretalxTrack = components['schemas']['Track']
-export type PretalxSubmission = components['schemas']['Submission']
+export type PretalxAnswer = AnswerReadable
+export type PretalxTalk = SubmissionReadable
+export type PretalxSpeaker = SpeakerReadable
+export type PretalxRoom = RoomReadable
+export type PretalxTrack = TrackReadable
 
 export const coscupSessionQuestionIdMap = {
   Language: 216,

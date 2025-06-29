@@ -1,7 +1,9 @@
-import type { PretalxAnswer, PretalxRoom, PretalxSpeaker, PretalxSubmission, PretalxTrack } from './pretalx-types'
+import type { RoomReadable, RoomsListData, SpeakersListData, SubmissionsListData, TracksListData } from './oapi'
+import type { PretalxAnswer, PretalxSpeaker, PretalxTalk, PretalxTrack } from './pretalx-types'
 import type { MultiLingualString, OptionalMultiLingualString, Room, SessionType, Speaker, Submission } from './types'
 import { BadServerSideDataException } from './exception'
-import { coscupSessionQuestionIdMap, coscupSpeakerQuestionIdMap } from './pretalx-types'
+import { createClient } from './oapi/client'
+import { coscupSessionQuestionIdMap } from './pretalx-types'
 import { formatMultiLingualString, getAnswer } from './utils'
 
 interface PaginatedResponse<T> {
@@ -12,53 +14,70 @@ interface PaginatedResponse<T> {
 }
 
 type SpeakerWithAnswers = Omit<PretalxSpeaker, 'answers'> & { answers: PretalxAnswer[] }
-type SubmissionWithAnswers = Omit<PretalxSubmission, 'answers'> & { answers: PretalxAnswer[] }
+type SubmissionWithAnswers = Omit<PretalxTalk, 'answers'> & { answers: PretalxAnswer[] }
 
 export class PretalxApiClient {
-  #endpoint: string
+  #client: ReturnType<typeof createClient>
+  #year: number
   #token: string | undefined
 
   constructor(
     public readonly year: number,
     token: string | undefined = undefined,
   ) {
-    this.#endpoint = `https://pretalx.coscup.org/api/events/coscup-${year}`
-    this.#token = token
+    this.#year = year
+    this.#client = createClient({
+      baseUrl: `https://pretalx.coscup.org`,
+      headers: {
+        ...(this.#token ? { Authorization: `Token ${token}` } : undefined),
+        'User-Agent': `coscup-website-client/${this.year}`,
+      },
+    })
   }
 
-  async #getResources<T>(resource: string, expand?: string[]): Promise<T[]> {
-    const authHeader = this.#token ? { Authorization: `Token ${this.#token}` } : undefined
+  get event() {
+    return `coscup-${this.#year}`
+  }
 
-    const url = new URL(`${this.#endpoint}/${resource}/`)
-    if (expand) {
-      for (const field of expand) {
-        url.searchParams.append('expand', field)
+  async #getPaginatedResources<T>(url: string): Promise<T[]> {
+    const resources: T[] = []
+    let next = url
+
+    while (true) {
+      const { data } = await this.#client.get<PaginatedResponse<T>>({
+        url: next,
+      })
+      if (!data) {
+        throw new BadServerSideDataException('No rooms found')
       }
+
+      resources.push(...data.results)
+
+      if (!data.next) {
+        break
+      }
+
+      next = data.next
     }
 
-    let next: string | null = url.toString()
-    const results: T[] = []
-
-    do {
-      const response = await fetch(next, {
-        headers: {
-          ...authHeader,
-          'Accept': 'application/json',
-          'User-Agent': `coscup-website-client/${this.year}`,
-        },
-      })
-      const data = await response.json() as PaginatedResponse<T>
-      results.push(...data.results)
-      next = data.next
-    } while (next)
-
-    return results
+    return resources
   }
 
   async getRooms(): Promise<Room[]> {
-    const pretalxRooms = await this.#getResources<PretalxRoom>('rooms')
+    const url = this.#client.buildUrl<RoomsListData>({
+      url: '/api/events/{event}/rooms/',
+      path: {
+        event: this.event,
+      },
+      query: {
+        limit: 100,
+        offset: 0,
+      },
+    })
 
-    return pretalxRooms.map((room) => {
+    const rooms = await this.#getPaginatedResources<RoomReadable>(url)
+
+    return rooms.map((room) => {
       const name = formatMultiLingualString(room.name)
       if (!name) {
         throw new BadServerSideDataException(`Room ${room.id} has empty name.`)
@@ -72,37 +91,44 @@ export class PretalxApiClient {
   }
 
   async getSpeakers(): Promise<Speaker[]> {
-    const pretalxSpeakers = await this.#getResources<SpeakerWithAnswers>('speakers', ['answers'])
+    const url = this.#client.buildUrl<SpeakersListData>({
+      url: '/api/events/{event}/speakers/',
+      path: {
+        event: this.event,
+      },
+      query: {
+        expand: ['answers'],
+        page_size: 100,
+        page: 0,
+      },
+    })
 
-    return pretalxSpeakers.map((speaker) => {
-      const chineseName = getAnswer(speaker.answers, coscupSpeakerQuestionIdMap.ZhName)
-      const chineseBio = getAnswer(speaker.answers, coscupSpeakerQuestionIdMap.ZhBio)
-      const englishName = getAnswer(speaker.answers, coscupSpeakerQuestionIdMap.EnName)
-      const englishBio = getAnswer(speaker.answers, coscupSpeakerQuestionIdMap.EnBio)
-      const generalBio = speaker.biography
+    const speakers = await this.#getPaginatedResources<SpeakerWithAnswers>(url)
 
-      if (!speaker.avatar_url) {
-        console.warn(`[BadServerSideDataWarning] Speaker ${speaker.code} has no avatar. We use placeholder instead.`)
-      }
-
+    return speakers.map((speaker) => {
       return {
         id: speaker.code,
         avatar: speaker.avatar_url ??
           `https://avatar.iran.liara.run/username?username=${speaker.code}`,
-        name: {
-          'zh-tw': chineseName ?? englishName ?? speaker.name,
-          'en': englishName ?? chineseName ?? speaker.name,
-        } satisfies MultiLingualString,
-        bio: {
-          'zh-tw': chineseBio ?? englishBio ?? generalBio ?? undefined,
-          'en': englishBio ?? chineseBio ?? generalBio ?? undefined,
-        } satisfies OptionalMultiLingualString,
+        name: speaker.name,
+        bio: speaker.biography ?? undefined,
       } satisfies Speaker
     })
   }
 
   async getSessionTypes(): Promise<Set<SessionType>> {
-    const pretalxTracks = await this.#getResources<PretalxTrack>('tracks')
+    const url = this.#client.buildUrl<TracksListData>({
+      url: '/api/events/{event}/tracks/',
+      path: {
+        event: this.event,
+      },
+      query: {
+        page_size: 100,
+        page: 0,
+      },
+    })
+
+    const pretalxTracks = await this.#getPaginatedResources<PretalxTrack>(url)
     const sessionType = new Map<string, SessionType>()
 
     for (const track of pretalxTracks) {
@@ -121,7 +147,18 @@ export class PretalxApiClient {
   }
 
   async getSubmissions(): Promise<Submission[]> {
-    const submissions = await this.#getResources<SubmissionWithAnswers>('submissions', ['answers'])
+    const url = this.#client.buildUrl<SubmissionsListData>({
+      url: '/api/events/{event}/submissions/',
+      path: {
+        event: this.event,
+      },
+      query: {
+        expand: ['answers'],
+        page_size: 100,
+        page: 0,
+      },
+    })
+    const submissions = await this.#getPaginatedResources<SubmissionWithAnswers>(url)
 
     return submissions.map((submission) => {
       const enTitle = getAnswer(submission.answers, coscupSessionQuestionIdMap.EnTitle)
