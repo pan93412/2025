@@ -1,6 +1,9 @@
 {
   "type": "module",
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.12.4",
+  "imports": {
+    "#*": "./*"
+  },
   "engines": {
     "node": ">=22.14.0"
   },
@@ -16,36 +19,34 @@
   "dependencies": {
     "@iconify-json/fa-brands": "1.2.1",
     "@iconify-json/ph": "1.2.2",
-    "@vueuse/core": "13.1.0",
-    "calendar-link": "2.8.0",
+    "@vueuse/core": "13.4.0",
+    "calendar-link": "2.11.0",
     "leaflet": "1.9.4",
     "markdown-it": "14.1.0",
     "markdown-it-container": "4.0.0",
     "osmtogeojson": "3.0.0-beta.5",
-    "swiper": "11.2.6",
+    "swiper": "11.2.10",
     "unplugin-icons": "22.1.0",
-    "unplugin-vue-components": "28.5.0",
-    "vitepress": "1.6.3",
-    "vue": "3.5.13"
+    "unplugin-vue-components": "28.8.0",
+    "vitepress": "2.0.0-alpha.7",
+    "vue": "3.5.17"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "4.12.0",
-    "@types/leaflet": "1.9.17",
-    "@types/node": "22.15.3",
-    "eslint": "9.26.0",
+    "@antfu/eslint-config": "4.16.1",
+    "@types/leaflet": "1.9.19",
+    "@types/node": "22.15.34",
+    "eslint": "9.30.0",
     "eslint-plugin-format": "1.0.1",
     "husky": "9.1.7",
-    "lint-staged": "15.5.1",
+    "lint-staged": "16.1.2",
     "typescript": "5.8.3",
-    "vite": "5.4.19",
-    "vue-tsc": "2.1.4"
-  },
-  "imports": {
-    "#*": "./*"
+    "vite": "7.0.0",
+    "vue-tsc": "2.2.10"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "esbuild"
+      "esbuild",
+      "unrs-resolver"
     ]
   },
   "lint-staged": {

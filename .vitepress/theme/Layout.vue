@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Banner from '#components/Banner.vue'
 import { inBrowser, useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import { watchEffect } from 'vue'
@@ -13,7 +14,9 @@ watchEffect(() => {
 
 <template>
   <DefaultTheme.Layout>
-    <Content />
+    <template #home-hero-before>
+      <Banner />
+    </template>
   </DefaultTheme.Layout>
   <Footer />
 </template>
