@@ -6,47 +6,71 @@ export interface MultiLingualString {
 export type OptionalMultiLingualString = Partial<MultiLingualString>
 
 export interface Room {
-  id: string
+  id: number
   name: MultiLingualString
 }
 
 export interface LocalizedRoom {
-  id: string
+  id: number
   name: string
 }
 
 export interface Speaker {
-  id: string
+  code: string
   name: string
   bio?: string
   avatar: string
 }
 
 export interface LocalizedSpeaker {
-  id: string
+  code: string
   name: string
   bio?: string
   avatar: string
 }
 
 export interface LocalizedBriefSpeaker {
-  id: string
+  id: number
   name: string
   avatar: string
 }
 
 export interface SessionType {
-  id: string
+  id: number
   name: MultiLingualString
 }
 
 export interface LocalizedSessionType {
-  id: string
+  id: number
   name: string
 }
 
 export interface Submission {
-  id: string
+  code: string
   title: MultiLingualString
   description: OptionalMultiLingualString
+  speakers: string[]
+  track?: number
+  room?: number
+}
+
+export interface LocalizedSubmission {
+  code: string
+  title: string
+  description?: string
+  speakers: string[]
+  track?: number
+  room?: number
+}
+
+export interface Track {
+  id: number
+  name?: MultiLingualString
+  description?: OptionalMultiLingualString
+}
+
+export interface LocalizedTrack {
+  id: number
+  name?: string
+  description?: string
 }

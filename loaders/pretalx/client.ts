@@ -1,6 +1,5 @@
-import type { RoomReadable, RoomsListData, SpeakersListData, SubmissionsListData, SubmissionTypeReadable, SubmissionTypesListData, TracksListData } from './oapi'
-import type { PretalxAnswer, PretalxSpeaker, PretalxTalk, PretalxTrack } from './pretalx-types'
-import type { MultiLingualString, OptionalMultiLingualString, Room, SessionType, Speaker, Submission } from './types'
+import type { AnswerReadable, RoomReadable, RoomsListData, SpeakerReadable, SpeakersListData, SubmissionReadable, SubmissionsListData, SubmissionTypeReadable, SubmissionTypesListData, TalkSlotReadable, TrackReadable, TracksListData } from './oapi'
+import type { MultiLingualString, OptionalMultiLingualString, Room, Speaker, Submission, Track } from './types'
 import { BadServerSideDataException } from './exception'
 import { createClient } from './oapi/client'
 import { coscupSessionQuestionIdMap } from './pretalx-types'
@@ -13,13 +12,9 @@ interface PaginatedResponse<T> {
   results: T[]
 }
 
-type SpeakerWithAnswers = Omit<PretalxSpeaker, 'answers'> & { answers: PretalxAnswer[] }
-type SubmissionWithAnswers = Omit<PretalxTalk, 'answers'> & { answers: PretalxAnswer[] }
-
 export class PretalxApiClient {
   #client: ReturnType<typeof createClient>
   #year: number
-  #token: string | undefined
 
   constructor(
     public readonly year: number,
@@ -86,7 +81,7 @@ export class PretalxApiClient {
       }
 
       return {
-        id: room.id.toString(),
+        id: room.id,
         name,
       } satisfies Room
     })
@@ -104,11 +99,11 @@ export class PretalxApiClient {
       },
     })
 
-    const speakers = await this.#getPaginatedResources<SpeakerWithAnswers>(url)
+    const speakers = await this.#getPaginatedResources<SpeakerReadable>(url)
 
     return speakers.map((speaker) => {
       return {
-        id: speaker.code,
+        code: speaker.code,
         avatar: speaker.avatar_url ??
           `https://avatar.iran.liara.run/username?username=${speaker.code}`,
         name: speaker.name,
@@ -117,7 +112,7 @@ export class PretalxApiClient {
     })
   }
 
-  async getSessionTypes(): Promise<Set<SessionType>> {
+  async getTracks(): Promise<Track[]> {
     const url = this.#client.buildUrl<TracksListData>({
       url: '/api/events/{event}/tracks/',
       path: {
@@ -129,22 +124,13 @@ export class PretalxApiClient {
       },
     })
 
-    const pretalxTracks = await this.#getPaginatedResources<PretalxTrack>(url)
-    const sessionType = new Map<string, SessionType>()
+    const pretalxTracks = await this.#getPaginatedResources<TrackReadable>(url)
 
-    for (const track of pretalxTracks) {
-      const name = formatMultiLingualString(track.name)
-      if (!name) {
-        throw new BadServerSideDataException(`Track ${track.id} has no valid name.`)
-      }
-
-      sessionType.set(name['zh-tw'], {
-        id: name.en,
-        name,
-      } satisfies SessionType)
-    }
-
-    return new Set(sessionType.values())
+    return pretalxTracks.map((track) => ({
+      id: track.id,
+      name: formatMultiLingualString(track.name),
+      description: track.description ? formatMultiLingualString(track.description) : undefined,
+    } satisfies Track))
   }
 
   async getSubmissionsType(): Promise<Set<number>> {
@@ -177,20 +163,25 @@ export class PretalxApiClient {
       },
       query: {
         state: ['accepted', 'confirmed'],
-        expand: ['answers'],
+        expand: ['answers', 'slots'],
         page_size: 25,
         page: 1,
         submission_type: type,
       },
     })
-    const submissions = await this.#getPaginatedResources<SubmissionWithAnswers>(url)
+
+    type ApiSubmissionResponse = Omit<SubmissionReadable, 'answers' | 'slots'> & {
+      answers: AnswerReadable[]
+      slots: TalkSlotReadable[]
+    }
+    const submissions = await this.#getPaginatedResources<ApiSubmissionResponse>(url)
 
     return submissions.map((submission) => {
       const enTitle = getAnswer(submission.answers, coscupSessionQuestionIdMap.EnTitle)
       const enDesc = getAnswer(submission.answers, coscupSessionQuestionIdMap.EnDesc)
 
       return {
-        id: submission.code,
+        code: submission.code,
         title: {
           'zh-tw': submission.title,
           'en': enTitle ?? submission.title,
@@ -199,6 +190,9 @@ export class PretalxApiClient {
           'zh-tw': submission.description ?? undefined,
           'en': enDesc ?? submission.description ?? undefined,
         } satisfies OptionalMultiLingualString,
+        speakers: submission.speakers,
+        track: submission.track ?? undefined,
+        room: submission.slots[0]?.room ?? undefined,
       } satisfies Submission
     })
   }
