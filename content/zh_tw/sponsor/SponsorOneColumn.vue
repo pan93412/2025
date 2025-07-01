@@ -14,7 +14,7 @@ const formatLevel = (level: string): string => level.charAt(0).toUpperCase() + l
     :key="level"
   >
     <!-- 顯示贊助層級名稱 -->
-    <h2>
+    <h2 v-if="groupedSponsors[level] && groupedSponsors[level].length">
       {{ formatLevel(sponsorLevels_mapping[level]) }}
     </h2>
 
