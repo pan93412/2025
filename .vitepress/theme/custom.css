@@ -1,0 +1,41 @@
+/* custom.css - Theme Variables */
+
+:root {
+  --vp-color-sponsor-bg: #ffffff;
+  --vp-color-sponsor-surface: #f8f9fa;
+  --vp-color-sponsor-text: #333;
+  --vp-color-sponsor-primary: #007bff;
+  --vp-color-sponsor-border: #ddd;
+  --vp-color-sponsor-card-bg: #ffffff;
+  --vp-color-sponsor-card-border: #ddd;
+  --vp-color-sponsor-link: #007bff;
+  --vp-color-sponsor-title: #555;
+  --vp-color-sponsor-img-border: #ddd;
+}
+
+:root.dark {
+  --vp-color-sponsor-bg: #f8f9fa;
+  --vp-color-sponsor-surface: #2a2a2a;
+  --vp-color-sponsor-text: #333;
+  --vp-color-sponsor-primary: #66b2ff;
+  --vp-color-sponsor-border: #444;
+  --vp-color-sponsor-card-bg: #2a2a2a;
+  --vp-color-sponsor-card-border: #444;
+  --vp-color-sponsor-link: #4ea1ff;
+  --vp-color-sponsor-title: #eee;
+  --vp-color-sponsor-img-border: #444;
+}
+
+/* 統一贊助區塊背景與文字色 */
+.level-title {
+  color: var(--vp-color-sponsor-title);
+}
+
+.sponsor-item {
+  background-color: var(--vp-color-sponsor-bg);
+  border: 1px solid var(--vp-color-sponsor-img-border);
+}
+
+.sponsor .name {
+  color: var(--vp-c-text-2); /* 使用 VitePress 原生文字色 */
+}
