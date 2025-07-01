@@ -30,8 +30,13 @@ const formatLevel = (level: string): string => level.charAt(0).toUpperCase() + l
 </template>
 
 <style scoped>
+h2 {
+  border: none;
+}
+
 .sponsor-card {
   text-align: center;
+  margin-top: 20px;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
