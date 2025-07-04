@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Page from './index.vue'
+import Page from './SponsorPageEn.vue'
 </script>
 
 <Page />
