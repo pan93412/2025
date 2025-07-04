@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Page from './event-page-en.vue'
+import Page from './EventPageEn.vue'
 </script>
 
 <Page />
