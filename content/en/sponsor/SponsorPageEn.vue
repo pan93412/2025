@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SponsorOneColumn from './SponsorOneColumn.vue'
+import SponsorOneColumn from './SponsorOneColumnEn.vue'
 </script>
 
 <template>
