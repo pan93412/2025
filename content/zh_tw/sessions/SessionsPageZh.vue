@@ -3,11 +3,11 @@ import { data as submissions } from '#loaders/allSubmissions.zh-tw.data.ts'
 </script>
 
 <template>
-  <ol
-    v-for="submission in submissions"
-    :key="submission.code"
-  >
-    <li>
+  <ol>
+    <li
+      v-for="submission in submissions"
+      :key="submission.code"
+    >
       <ul>
         <li>
           標題：<a :href="`/sessions/${submission.code}`">
