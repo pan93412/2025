@@ -8,14 +8,14 @@
     "node": ">=22.14.0"
   },
   "scripts": {
+    "postinstall": "openapi-ts",
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview",
     "prepare": "husky",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "type-check": "vue-tsc",
-    "openapi-ts": "openapi-ts"
+    "type-check": "vue-tsc"
   },
   "dependencies": {
     "@iconify-json/fa-brands": "1.2.1",
