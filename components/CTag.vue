@@ -27,5 +27,11 @@ defineProps({
   font-size: 0.85em;
   font-weight: 500;
   transition: background-color 0.2s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: min-content;
+  max-width: 100%;
+  display: block;
 }
 </style>

@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<{
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 6em;
   padding: 10px;
   border-radius: 36em;
   border: 3px solid #364153;

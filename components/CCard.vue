@@ -159,6 +159,7 @@ const cardStyle = computed(() => ({
 .tagContainer {
   padding: 2px 0;
   margin-top: auto;
+  width: 100%;
 }
 
 .titleDisabled {
