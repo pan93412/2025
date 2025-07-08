@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { SubmissionResponse } from '#loaders/types.ts'
 import CButton from '#/components/CButton.vue'
 import CCard from '#/components/CCard.vue'
 import CIconButton from '#/components/CIconButton.vue'
@@ -190,7 +191,7 @@ function getSessionsForRoom(roomId: number | string) {
   )
 }
 
-const openedSession = ref<any | null>(null)
+const openedSession = ref<SubmissionResponse | undefined>(undefined)
 </script>
 
 <template>
@@ -341,6 +342,7 @@ const openedSession = ref<any | null>(null)
                   :bookmarked="bookmarkedSessions.has(session.code)"
                   :height-factor="getHeightFactor(session)"
                   :speaker="session.speakers?.map(s => s.name).join(', ') || 'TBD'"
+                  :status="openedSession?.code === session.code ? 'actived' : 'default'"
                   :tag-text="session.track?.name || '主議程軌'"
                   :time="formatSessionTime(session)"
                   :title="session.title"
@@ -355,9 +357,9 @@ const openedSession = ref<any | null>(null)
 
     <Teleport to="#app">
       <SessionModal
-        v-if="openedSession"
-        :session="openedSession"
-        @close="openedSession = null"
+        :opened="!!openedSession"
+        :session="openedSession ?? undefined"
+        @close="openedSession = undefined"
       />
     </Teleport>
   </div>

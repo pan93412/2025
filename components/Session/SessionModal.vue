@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { SubmissionResponse } from '#loaders/types.ts'
 
-const props = defineProps<{
-  session: SubmissionResponse
+defineProps<{
+  opened: boolean
+  session?: SubmissionResponse
 }>()
 
 defineEmits<{
