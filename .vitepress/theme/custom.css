@@ -1,6 +1,16 @@
 /* custom.css - Theme Variables */
 
 :root {
+  --color-primary-50: #e5e3ff;
+  --color-primary-100: #ccc7ff;
+  --color-primary-200: #b2abfe;
+  --color-primary-300: #998ffe;
+  --color-primary-400: #7f73fe;
+  --color-primary-500: #665ccb;
+  --color-primary-600: #4c4598;
+  --color-primary-700: #332e66;
+  --color-primary-800: #191733;
+
   --vp-color-sponsor-bg: #ffffff;
   --vp-color-sponsor-surface: #f8f9fa;
   --vp-color-sponsor-text: #333;
