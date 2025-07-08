@@ -1,5 +1,15 @@
 <script setup lang="ts">
 import type { SubmissionResponse } from '#loaders/types.ts'
+import { XIcon } from 'lucide-vue-next'
+import {
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogOverlay,
+  DialogPortal,
+  DialogRoot,
+  DialogTitle,
+} from 'reka-ui'
 
 defineProps<{
   open: boolean
@@ -12,11 +22,144 @@ defineEmits<{
 </script>
 
 <template>
-  <div>
-    <!--  -->
-  </div>
+  <DialogRoot :open="open">
+    <DialogPortal>
+      <DialogOverlay
+        class="dialog-overlay"
+        @click="$emit('close')"
+      />
+      <DialogContent class="dialog-content">
+        <DialogTitle>
+          {{ session?.title }}
+        </DialogTitle>
+        <DialogDescription>
+          {{ session?.description }}
+        </DialogDescription>
+        <DialogClose
+          class="dialog-close"
+          @click="$emit('close')"
+        >
+          <XIcon class="x-icon" />
+        </DialogClose>
+      </DialogContent>
+    </DialogPortal>
+  </DialogRoot>
 </template>
 
 <style scoped>
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.8);
+}
+[data-state='open'].dialog-overlay {
+  animation: fade-in-0 0.2s forwards;
+}
+[data-state='closed'].dialog-overlay {
+  animation: fade-out-0 0.2s forwards;
+}
 
+@keyframes fade-in-0 {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out-0 {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.dialog-content {
+  position: fixed;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--background, #fff);
+  padding: 1.5rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s ease-in-out;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  height: 100%;
+  width: 75vw;
+  border-left: 1px solid #e5e7eb;
+  /* Animation states */
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+.dialog-content[data-state='open'] {
+  animation-name: slide-in-from-right;
+  animation-duration: 0.5s;
+}
+.dialog-content[data-state='closed'] {
+  animation-name: slide-out-to-right;
+  animation-duration: 0.3s;
+}
+@media (min-width: 640px) {
+  .dialog-content {
+    max-width: 75vw; /* sm:max-w-sm */
+  }
+}
+@keyframes slide-in-from-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-out-to-right {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.dialog-close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  border-radius: 0.25rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  outline: none;
+}
+.dialog-close:hover {
+  opacity: 1;
+}
+.dialog-close:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring-color, #3b82f6);
+}
+.dialog-close:disabled {
+  pointer-events: none;
+}
+.dialog-close[data-state='open'] {
+  background-color: var(--secondary-bg, #f3f4f6);
+}
+
+.x-icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-gray-500);
+}
 </style>
