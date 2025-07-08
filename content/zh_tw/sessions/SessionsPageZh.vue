@@ -344,13 +344,12 @@ const openedSession = ref<SubmissionResponse | null>(null)
       </div>
     </div>
 
-    <Teleport to="#app">
-      <SessionModal
-        :open="!!openedSession"
-        :session="openedSession"
-        @close="openedSession = null"
-      />
-    </Teleport>
+    <SessionModal
+      :open="!!openedSession"
+      :schedule-data="scheduleData"
+      :session="openedSession"
+      @close="openedSession = null"
+    />
   </div>
 </template>
 

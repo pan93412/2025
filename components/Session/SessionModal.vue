@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { SubmissionResponse } from '#loaders/types.ts'
-import { XIcon } from 'lucide-vue-next'
+import { formatSessionTime } from '#/utils/session.ts'
 import {
   DialogClose,
   DialogContent,
@@ -11,14 +11,21 @@ import {
   DialogTitle,
 } from 'reka-ui'
 
-defineProps<{
+const props = defineProps<{
   open: boolean
   session: SubmissionResponse | null
+  scheduleData?: Map<string, any>
 }>()
 
 defineEmits<{
   (e: 'close'): void
 }>()
+
+function getSessionTimeDisplay() {
+  if (!props.session || !props.scheduleData) return '時間待定'
+  const scheduleInfo = props.scheduleData.get(props.session.code)
+  return formatSessionTime(scheduleInfo)
+}
 </script>
 
 <template>
@@ -28,18 +35,57 @@ defineEmits<{
         class="dialog-overlay"
         @click="$emit('close')"
       />
-      <DialogContent class="dialog-content">
-        <DialogTitle>
+      <DialogContent
+        as="article"
+        class="dialog-content"
+      >
+        <DialogTitle as="h1">
           {{ session?.title }}
         </DialogTitle>
-        <DialogDescription>
-          {{ session?.description }}
+
+        <DialogDescription as="section">
+          <section class="session-details">
+            <div class="session-detail-row">
+              <div class="session-detail-label">
+                <IconPhClock />
+                時間
+              </div>
+              {{ getSessionTimeDisplay() }}
+            </div>
+            <div class="session-detail-row">
+              <div class="session-detail-label">
+                <IconPhUser />
+                講者
+              </div>
+            </div>
+            <div class="session-detail-row">
+              <div class="session-detail-label">
+                <IconPhMapPin />
+                位置
+              </div>
+            </div>
+            <div class="session-detail-row">
+              <div class="session-detail-label">
+                <IconPhFileText />
+                共筆
+              </div>
+            </div>
+          </section>
+
+          <!-- Tags -->
+
+          <hr>
+
+          <p>{{ session?.description }}</p>
+
+          <!-- About -->
         </DialogDescription>
+
         <DialogClose
           class="dialog-close"
           @click="$emit('close')"
         >
-          <XIcon class="x-icon" />
+          <IconPhX style="color: var(--color-gray-500);" />
         </DialogClose>
       </DialogContent>
     </DialogPortal>
@@ -157,9 +203,20 @@ defineEmits<{
   background-color: var(--secondary-bg, #f3f4f6);
 }
 
-.x-icon {
-  width: 1rem;
-  height: 1rem;
-  color: var(--color-gray-500);
+.session-details {
+  > .session-detail-row {
+    display: flex;
+    gap: 1rem;
+
+    font-size: var(--text-sm);
+    font-weight: 400;
+
+    > .session-detail-label {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      color: var(--color-gray-400);
+    }
+  }
 }
 </style>
