@@ -2,8 +2,8 @@
 import type { SubmissionResponse } from '#loaders/types.ts'
 
 defineProps<{
-  opened: boolean
-  session?: SubmissionResponse
+  open: boolean
+  session: SubmissionResponse | null
 }>()
 
 defineEmits<{

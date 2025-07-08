@@ -191,7 +191,7 @@ function getSessionsForRoom(roomId: number | string) {
   )
 }
 
-const openedSession = ref<SubmissionResponse | undefined>(undefined)
+const openedSession = ref<SubmissionResponse | null>(null)
 </script>
 
 <template>
@@ -357,9 +357,9 @@ const openedSession = ref<SubmissionResponse | undefined>(undefined)
 
     <Teleport to="#app">
       <SessionModal
-        :opened="!!openedSession"
-        :session="openedSession ?? undefined"
-        @close="openedSession = undefined"
+        :open="!!openedSession"
+        :session="openedSession"
+        @close="openedSession = null"
       />
     </Teleport>
   </div>
