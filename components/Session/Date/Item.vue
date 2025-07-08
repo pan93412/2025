@@ -7,33 +7,28 @@ const props = withDefaults(defineProps<{
 </script>
 
 <template>
-  <div :class="[$style.dateTab, { [$style.selected]: props.selected }]">
+  <button
+    class="session-date-button"
+    :class="{ selected: props.selected }"
+  >
     <slot />
-  </div>
+  </button>
 </template>
 
-<style module>
-.dateTab {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 6em;
-  padding: 10px;
-  border-radius: 36em;
-  border: 3px solid #364153;
-  box-shadow: 0 4px 0 #364153;
-  background-color: #d1d5dc;
-  color: #fff;
-  font-size: 1.75em;
-  font-weight: 700;
+<style scoped>
+.session-date-button {
+  font-size: 28px;
+  font-weight: bold;
   font-style: italic;
-  font-family: Inter;
-  line-height: 1.2;
-  text-align: center;
-  user-select: none;
-}
+  color: var(--color-white);
+  background-color: var(--color-gray-300);
+  padding: 0.5rem 3rem;
+  border: 3px solid var(--color-gray-700);
+  border-radius: 999rem;
+  box-shadow: 0px 4px 0px 0px var(--color-gray-700);
 
-.selected {
-  background-color: #7f73fe;
+  &.selected {
+    background-color: var(--color-primary-400);
+  }
 }
 </style>
