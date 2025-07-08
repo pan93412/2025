@@ -3,7 +3,8 @@ import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import Layout from './Layout.vue'
 import './custom.css'
-import './tailwind-colors.css'
+import './tailwind-color.css'
+import './tailwind-text.css'
 
 export default {
   extends: DefaultTheme,
