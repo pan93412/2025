@@ -1,14 +1,8 @@
-import type { LocalizedRoom, LocalizedSpeaker, LocalizedSubmission, LocalizedTrack } from './pretalx/types'
+import type { SubmissionResponse } from './types'
 import { defineLoader } from 'vitepress'
 import { extractLocalizedStructure, pretalxClient } from './pretalx'
 
 export declare const data: SubmissionResponse[]
-
-export interface SubmissionResponse extends Omit<LocalizedSubmission, 'room' | 'track' | 'speakers'> {
-  room?: LocalizedRoom
-  track?: LocalizedTrack
-  speakers?: LocalizedSpeaker[]
-}
 
 export default defineLoader({
   async load(): Promise<typeof data> {
