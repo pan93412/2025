@@ -4,6 +4,7 @@ import CCard from '#/components/CCard.vue'
 import CIconButton from '#/components/CIconButton.vue'
 import SessionDateItem from '#/components/Session/Date/Item.vue'
 import SessionDateTab from '#/components/Session/Date/Tab.vue'
+import SessionModal from '#/components/Session/SessionModal.vue'
 import { data as submissions } from '#loaders/allSubmissions.zh-tw.data.ts'
 import { computed, ref } from 'vue'
 
@@ -188,6 +189,8 @@ function getSessionsForRoom(roomId: number | string) {
     session.room?.id === roomId,
   )
 }
+
+const openedSession = ref<any | null>(null)
 </script>
 
 <template>
@@ -332,7 +335,7 @@ function getSessionsForRoom(roomId: number | string) {
                 :key="session.code"
                 class="session-card"
                 :style="getSessionStyle(session)"
-                @click="toggleBookmark(session.code)"
+                @click="openedSession = session"
               >
                 <CCard
                   :bookmarked="bookmarkedSessions.has(session.code)"
@@ -341,6 +344,7 @@ function getSessionsForRoom(roomId: number | string) {
                   :tag-text="session.track?.name || '主議程軌'"
                   :time="formatSessionTime(session)"
                   :title="session.title"
+                  @bookmark="toggleBookmark(session.code)"
                 />
               </div>
             </div>
@@ -348,6 +352,14 @@ function getSessionsForRoom(roomId: number | string) {
         </div>
       </div>
     </div>
+
+    <Teleport to="#app">
+      <SessionModal
+        v-if="openedSession"
+        :session="openedSession"
+        @close="openedSession = null"
+      />
+    </Teleport>
   </div>
 </template>
 

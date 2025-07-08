@@ -21,6 +21,10 @@ const props = withDefaults(defineProps<Props>(), {
   heightFactor: 1,
 })
 
+defineEmits<{
+  (e: 'bookmark'): void
+}>()
+
 const tagColor = computed(() => props.bookmarked ? '#fccee8' : '#ccc7ff')
 const tagTextColor = computed(() => props.bookmarked ? '#c6005c' : '#4c4598')
 const cardStyle = computed(() => ({
@@ -53,7 +57,10 @@ const cardStyle = computed(() => ({
           {{ props.time }}
         </div>
       </div>
-      <div :class="$style.bookmarkContainer">
+      <div
+        :class="$style.bookmarkContainer"
+        @click.prevent.stop="$emit('bookmark')"
+      >
         <Bookmark :bookmarked="props.bookmarked" />
       </div>
     </div>
