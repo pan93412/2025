@@ -7,6 +7,7 @@ import SessionDateItem from '#/components/Session/Date/Item.vue'
 import SessionDateTab from '#/components/Session/Date/Tab.vue'
 import SessionModal from '#/components/Session/SessionModal.vue'
 import { data as submissions } from '#loaders/allSubmissions.zh-tw.data.ts'
+import { formatSessionTime } from '#utils/session.ts'
 import { computed, ref } from 'vue'
 
 // Bookmarked sessions state
@@ -139,21 +140,9 @@ const displaySessions = computed(() => {
 })
 
 // Format time display for a session
-function formatSessionTime(session: any) {
+function getSessionTimeDisplay(session: any) {
   const scheduleInfo = scheduleData.get(session.code)
-  if (!scheduleInfo) return '時間待定'
-
-  const startHour = Math.floor(scheduleInfo.startTime)
-  const startMinute = Math.round((scheduleInfo.startTime % 1) * 60)
-  const endTime = scheduleInfo.startTime + scheduleInfo.duration
-  const endHour = Math.floor(endTime)
-  const endMinute = Math.round((endTime % 1) * 60)
-
-  const formatTime = (hour: number, minute: number) => {
-    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
-  }
-
-  return `${formatTime(startHour, startMinute)} ~ ${formatTime(endHour, endMinute)}`
+  return formatSessionTime(scheduleInfo)
 }
 
 // Get session position and height
@@ -344,7 +333,7 @@ const openedSession = ref<SubmissionResponse | null>(null)
                   :speaker="session.speakers?.map(s => s.name).join(', ') || 'TBD'"
                   :status="openedSession?.code === session.code ? 'actived' : 'default'"
                   :tag-text="session.track?.name || '主議程軌'"
-                  :time="formatSessionTime(session)"
+                  :time="getSessionTimeDisplay(session)"
                   :title="session.title"
                   @bookmark="toggleBookmark(session.code)"
                 />
