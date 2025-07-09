@@ -20,10 +20,6 @@ export default defineLoader({
         throw new BadServerSideDataException(`Room ${submission.room} not found`)
       }
 
-      if (speakers.length === 0) {
-        throw new BadServerSideDataException(`${submission.code} has no speakers`)
-      }
-
       if (!track) {
         throw new BadServerSideDataException(`Track ${submission.track} not found`)
       }
