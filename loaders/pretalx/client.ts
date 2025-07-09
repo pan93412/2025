@@ -201,9 +201,9 @@ export class PretalxApiClient {
           'zh-tw': submission.title,
           'en': enTitle ?? submission.title,
         } satisfies MultiLingualString,
-        description: {
-          'zh-tw': submission.description ?? undefined,
-          'en': enDesc ?? submission.description ?? undefined,
+        abstract: {
+          'zh-tw': submission.abstract ?? undefined,
+          'en': enDesc ?? submission.abstract ?? undefined,
         } satisfies OptionalMultiLingualString,
         speakers: submission.speakers,
         track: submission.track,
