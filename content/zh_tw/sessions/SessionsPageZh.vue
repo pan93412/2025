@@ -315,6 +315,14 @@ body {
   padding: 16px 0;
 }
 
+@media (max-width: 500px) {
+  .header-controls {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
 .filter-section {
   display: flex;
   align-items: center;
@@ -495,5 +503,6 @@ a.session-card {
   justify-content: center;
   margin-bottom: 20px;
   padding: 20px 0;
+  width: 100%;
 }
 </style>
