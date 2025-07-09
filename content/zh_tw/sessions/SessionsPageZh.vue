@@ -471,6 +471,10 @@ body {
   transition: transform 0.2s ease;
 }
 
+a.session-card {
+  text-decoration: none;
+}
+
 .session-card:hover {
   transform: translateY(-2px);
   z-index: 4;
