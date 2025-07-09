@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { SubmissionResponse } from '#loaders/types.ts'
+import CTag from '#components/CTag.vue'
 import { formatTimeRange } from '#utils/format-time.ts'
 import {
   DialogClose,
@@ -29,6 +30,12 @@ const sessionTime = computed(() => {
 
   return formatTimeRange(startDateString, endDateString, true)
 })
+
+const collaborationUrl = null
+
+const language = '中文'
+
+const difficulty = '入門'
 </script>
 
 <template>
@@ -37,9 +44,7 @@ const sessionTime = computed(() => {
     @update:open="$emit('close')"
   >
     <DialogPortal>
-      <DialogOverlay
-        class="dialog-overlay"
-      />
+      <DialogOverlay class="dialog-overlay" />
       <DialogContent
         as="article"
         class="dialog-content"
@@ -47,6 +52,7 @@ const sessionTime = computed(() => {
         <DialogTitle
           v-if="session"
           as="h1"
+          class="dialog-title"
         >
           {{ session.title }}
         </DialogTitle>
@@ -54,6 +60,7 @@ const sessionTime = computed(() => {
         <DialogDescription
           v-if="session"
           as="section"
+          class="dialog-description"
         >
           <section class="session-details">
             <div class="session-detail-row">
@@ -77,33 +84,59 @@ const sessionTime = computed(() => {
               </div>
               {{ session.room.name }}
             </div>
-            <div class="session-detail-row">
+            <div
+              v-if="collaborationUrl"
+              class="session-detail-row"
+            >
               <div class="session-detail-label">
                 <IconPhFileText />
                 共筆
               </div>
-              (尚未上架)
+              {{ collaborationUrl }}
             </div>
           </section>
 
-          議程軌：{{ session.track.name }}
-          <!-- Tags -->
+          <section class="session-tags">
+            <CTag variant="secondary">
+              {{ language }}
+            </CTag>
+            <CTag variant="secondary">
+              {{ difficulty }}
+            </CTag>
+          </section>
 
-          <hr>
+          <section class="session-tags">
+            <CTag variant="primary">
+              {{ session.track.name }}
+            </CTag>
+          </section>
 
-          <p>簡介</p>
-          <p>{{ session.abstract }}</p>
+          <hr class="separator">
 
-          <!-- About -->
-          <p>關於講者</p>
-          <img
-            :alt="session.speakers[0].name"
-            height="100"
-            :src="session.speakers[0].avatar"
-            width="100"
-          >
-          <p>{{ session.speakers[0].name }}</p>
-          <p>{{ session.speakers[0].bio }}</p>
+          <section class="session-description">
+            <h2>簡介</h2>
+            <!-- TODO: parse Markdown for abstract -->
+            <p>{{ session.abstract }}</p>
+          </section>
+
+          <!-- TODO: insert AD here -->
+
+          <section class="session-description">
+            <h2>關於講者</h2>
+            <img
+              :alt="session.speakers[0].name"
+              class="speaker-avatar"
+              height="80"
+              :src="session.speakers[0].avatar"
+              width="80"
+            >
+            <p class="speaker-name">
+              {{ session.speakers[0].name }}
+            </p>
+            <p class="speaker-bio">
+              {{ session.speakers[0].bio }}
+            </p>
+          </section>
         </DialogDescription>
 
         <DialogClose
@@ -117,6 +150,7 @@ const sessionTime = computed(() => {
 </template>
 
 <style scoped>
+/* #region component */
 .dialog-overlay {
   position: fixed;
   inset: 0;
@@ -156,6 +190,8 @@ const sessionTime = computed(() => {
   gap: 1rem;
   background: var(--background, #fff);
   padding: 1.5rem;
+  /* FIXME: Remove for actual AD */
+  padding-right: calc(1.5rem + 160px);
   box-shadow:
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -4px rgba(0, 0, 0, 0.1);
@@ -164,11 +200,12 @@ const sessionTime = computed(() => {
   bottom: 0;
   right: 0;
   height: 100%;
-  width: 75vw;
+  width: clamp(500px, 75vw, 800px);
   border-left: 1px solid #e5e7eb;
   /* Animation states */
   animation-duration: 0.5s;
   animation-fill-mode: both;
+  overflow-y: auto;
 }
 .dialog-content[data-state='open'] {
   animation-name: slide-in-from-right;
@@ -226,20 +263,78 @@ const sessionTime = computed(() => {
 .dialog-close[data-state='open'] {
   background-color: var(--secondary-bg, #f3f4f6);
 }
+/* #endregion component */
 
-.session-details {
-  > .session-detail-row {
+.dialog-title {
+  font-size: var(--text-2xl);
+  line-height: 32px;
+  font-weight: 600;
+  color: var(--color-primary-400);
+  margin-bottom: 12px;
+}
+
+.dialog-description {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  > .session-details {
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 12px;
 
-    font-size: var(--text-sm);
-    font-weight: 400;
-
-    > .session-detail-label {
+    > .session-detail-row {
       display: flex;
-      align-items: center;
-      gap: 2px;
-      color: var(--color-gray-400);
+      gap: 12px;
+
+      font-size: var(--text-sm);
+      font-weight: 400;
+
+      > .session-detail-label {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        color: var(--color-gray-400);
+      }
+    }
+  }
+
+  > .session-tags {
+    display: flex;
+    gap: 12px;
+  }
+
+  > .separator {
+    width: 100%;
+    border: none;
+    border-top: 1px solid var(--color-gray-300);
+    margin-block: 16px;
+  }
+
+  > .session-description {
+    font-size: var(--text-sm);
+
+    > h2 {
+      font-weight: 600;
+      color: var(--color-primary-400);
+      margin-bottom: 10px;
+    }
+
+    > p {
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+
+    > .speaker-avatar {
+      margin-block: 6px;
+      border-radius: 50%;
+      height: 80px;
+      width: 80px;
+    }
+
+    > .speaker-name {
+      font-weight: 600;
+      margin-top: 6px;
     }
   }
 }
