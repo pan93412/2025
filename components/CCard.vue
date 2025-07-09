@@ -27,8 +27,7 @@ defineEmits<{
   (e: 'bookmark'): void
 }>()
 
-const tagColor = computed(() => props.bookmarked ? '#fccee8' : '#ccc7ff')
-const tagTextColor = computed(() => props.bookmarked ? '#c6005c' : '#4c4598')
+const tagVariant = computed(() => props.bookmarked ? 'primary' : 'secondary')
 const cardStyle = computed(() => ({
   height: `${150 * props.heightFactor}px`,
 }))
@@ -75,8 +74,7 @@ const cardStyle = computed(() => ({
     <!-- Tag -->
     <div :class="$style.tagContainer">
       <CTag
-        :color="tagColor"
-        :text-color="tagTextColor"
+        :variant="tagVariant"
       >
         {{ props.tagText }}
       </CTag>

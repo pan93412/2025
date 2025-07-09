@@ -49,9 +49,9 @@ import CCard from '#/components/CCard.vue';
 
 ## Tag
 
-<CTag color="#e0e0e0">Tag</CTag>
-<CTag color="#ff0000">Tag</CTag>
-<CTag color="#00ff00">Tag</CTag>
+<CTag variant="secondary">Tag</CTag>
+<CTag variant="primary">Tag</CTag>
+<CTag variant="secondary">Tag</CTag>
 
 ## Card
 

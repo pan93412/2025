@@ -1,20 +1,16 @@
 <script setup lang="ts">
-defineProps({
-  color: {
-    type: String,
-    default: '#e0e0e0',
-  },
-  textColor: {
-    type: String,
-    default: '#4c4598',
-  },
+interface Props {
+  variant?: 'primary' | 'secondary'
+}
+
+withDefaults(defineProps<Props>(), {
+  variant: 'primary',
 })
 </script>
 
 <template>
   <span
-    :class="$style.tag"
-    :style="{ backgroundColor: color, color: textColor }"
+    :class="[$style.tag, $style[variant]]"
   >
     <slot />
   </span>
@@ -22,10 +18,10 @@ defineProps({
 
 <style module>
 .tag {
-  padding: 0.25em 0.75em;
-  border-radius: 1em;
+  padding: 2px calc(6px + 0.5em);
+  border-radius: 999rem;
   font-size: 0.85em;
-  font-weight: 500;
+  font-weight: 400;
   transition: background-color 0.2s;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -33,5 +29,15 @@ defineProps({
   width: min-content;
   max-width: 100%;
   display: block;
+}
+
+.primary {
+  background-color: var(--color-primary-400);
+  color: var(--color-white);
+}
+
+.secondary {
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-600);
 }
 </style>
