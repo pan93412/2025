@@ -32,21 +32,29 @@ const sessionTime = computed(() => {
 </script>
 
 <template>
-  <DialogRoot :open="open">
+  <DialogRoot
+    :open="open"
+    @update:open="$emit('close')"
+  >
     <DialogPortal>
       <DialogOverlay
         class="dialog-overlay"
-        @click="$emit('close')"
       />
       <DialogContent
         as="article"
         class="dialog-content"
       >
-        <DialogTitle as="h1">
-          {{ session?.title }}
+        <DialogTitle
+          v-if="session"
+          as="h1"
+        >
+          {{ session.title }}
         </DialogTitle>
 
-        <DialogDescription as="section">
+        <DialogDescription
+          v-if="session"
+          as="section"
+        >
           <section class="session-details">
             <div class="session-detail-row">
               <div class="session-detail-label">
@@ -60,14 +68,14 @@ const sessionTime = computed(() => {
                 <IconPhUser />
                 講者
               </div>
-              {{ session?.speakers?.map(speaker => speaker.name).join(', ') }}
+              {{ session.speakers.map(speaker => speaker.name).join(', ') }}
             </div>
             <div class="session-detail-row">
               <div class="session-detail-label">
                 <IconPhMapPin />
                 位置
               </div>
-              {{ session?.room?.name }}
+              {{ session.room.name }}
             </div>
             <div class="session-detail-row">
               <div class="session-detail-label">
@@ -78,18 +86,28 @@ const sessionTime = computed(() => {
             </div>
           </section>
 
+          議程軌：{{ session.track.name }}
           <!-- Tags -->
 
           <hr>
 
-          <p>{{ session?.description }}</p>
+          <p>簡介</p>
+          <p>{{ session.description }}</p>
 
           <!-- About -->
+          <p>關於講者</p>
+          <img
+            :alt="session.speakers[0].name"
+            height="100"
+            :src="session.speakers[0].avatar"
+            width="100"
+          >
+          <p>{{ session.speakers[0].name }}</p>
+          <p>{{ session.speakers[0].bio }}</p>
         </DialogDescription>
 
         <DialogClose
           class="dialog-close"
-          @click="$emit('close')"
         >
           <IconPhX style="color: var(--color-gray-500);" />
         </DialogClose>
