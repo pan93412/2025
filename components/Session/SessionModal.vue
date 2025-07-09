@@ -2,6 +2,7 @@
 import type { SubmissionResponse } from '#loaders/types.ts'
 import CTag from '#components/CTag.vue'
 import { formatTimeRange } from '#utils/format-time.ts'
+import { markdownToHtml } from '#utils/markdown.ts'
 import {
   DialogClose,
   DialogContent,
@@ -115,8 +116,11 @@ const difficulty = '入門'
 
           <section class="session-description">
             <h2>簡介</h2>
-            <!-- TODO: parse Markdown for abstract -->
-            <p>{{ session.abstract }}</p>
+            <div
+              v-if="session.abstract"
+              class="content-container"
+              v-html="markdownToHtml(session.abstract, 'zh-tw')"
+            />
           </section>
 
           <!-- TODO: insert AD here -->
@@ -133,9 +137,11 @@ const difficulty = '入門'
             <p class="speaker-name">
               {{ session.speakers[0].name }}
             </p>
-            <p class="speaker-bio">
-              {{ session.speakers[0].bio }}
-            </p>
+            <div
+              v-if="session.speakers[0].bio"
+              class="speaker-bio content-container"
+              v-html="markdownToHtml(session.speakers[0].bio, 'zh-tw')"
+            />
           </section>
         </DialogDescription>
 
@@ -148,6 +154,19 @@ const difficulty = '入門'
     </DialogPortal>
   </DialogRoot>
 </template>
+
+<style>
+.content-container {
+  > p {
+    margin-bottom: 10px;
+  }
+}
+
+.content-container a {
+  color: var(--color-primary-400);
+  text-decoration: underline;
+}
+</style>
 
 <style scoped>
 /* #region component */
@@ -330,6 +349,7 @@ const difficulty = '入門'
       border-radius: 50%;
       height: 80px;
       width: 80px;
+      object-fit: cover;
     }
 
     > .speaker-name {
