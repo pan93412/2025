@@ -383,7 +383,7 @@ body {
 }
 
 .time-slot {
-  height: 300px;
+  height: 400px;
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;

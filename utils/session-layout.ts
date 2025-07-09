@@ -7,7 +7,7 @@ import type { SubmissionResponse } from '#loaders/types.ts'
 /**
  * The time configuration of the schedule.
  */
-export const TIME_SLOT_HEIGHT = 300 // pixels per hour
+export const TIME_SLOT_HEIGHT = 400 // pixels per hour
 /**
  * The start hour of the schedule.
  */
