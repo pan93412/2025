@@ -41,6 +41,7 @@
     "@antfu/eslint-config": "4.16.1",
     "@hey-api/openapi-ts": "^0.77.0",
     "@types/leaflet": "1.9.19",
+    "@types/markdown-it": "^14.1.2",
     "@types/node": "22.15.34",
     "eslint": "9.30.0",
     "eslint-plugin-format": "1.0.1",
