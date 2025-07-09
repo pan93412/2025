@@ -9,4 +9,4 @@ const session = computed(() => {
 })
 </script>
 
-<Page :session="session"/>
+<Page :sessionCode="session"/>

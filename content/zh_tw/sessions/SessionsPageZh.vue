@@ -11,7 +11,7 @@ import { useRouter } from 'vitepress'
 import { computed, ref } from 'vue'
 
 const props = defineProps<{
-  session: string | undefined
+  sessionCode: string | undefined
 }>()
 
 // Bookmarked sessions state
@@ -99,8 +99,8 @@ function handleCloseSession() {
 }
 
 const openedSession = computed(() => {
-  if (props.session) {
-    return submissions.find((session) => session.code === props.session) ?? null
+  if (props.sessionCode) {
+    return submissions.find((session) => session.code === props.sessionCode) ?? null
   }
 
   return null
