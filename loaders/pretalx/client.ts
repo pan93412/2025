@@ -180,6 +180,21 @@ export class PretalxApiClient {
       const enTitle = getAnswer(submission.answers, coscupSessionQuestionIdMap.EnTitle)
       const enDesc = getAnswer(submission.answers, coscupSessionQuestionIdMap.EnDesc)
 
+      const start = submission.slots[0]?.start ? new Date(submission.slots[0].start) : undefined
+      const end = submission.slots[0]?.end ? new Date(submission.slots[0].end) : undefined
+
+      if (!submission.track) {
+        throw new BadServerSideDataException(`Submission ${submission.code} has no track.`)
+      }
+
+      if (!submission.slots[0]?.room) {
+        throw new BadServerSideDataException(`Submission ${submission.code} has no room.`)
+      }
+
+      if (!start || !end) {
+        throw new BadServerSideDataException(`Submission ${submission.code} has no start or end.`)
+      }
+
       return {
         code: submission.code,
         title: {
@@ -191,8 +206,10 @@ export class PretalxApiClient {
           'en': enDesc ?? submission.description ?? undefined,
         } satisfies OptionalMultiLingualString,
         speakers: submission.speakers,
-        track: submission.track ?? undefined,
-        room: submission.slots[0]?.room ?? undefined,
+        track: submission.track,
+        room: submission.slots[0]?.room,
+        start,
+        end,
       } satisfies Submission
     })
   }

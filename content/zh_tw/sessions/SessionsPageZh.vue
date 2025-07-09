@@ -7,7 +7,7 @@ import SessionDateItem from '#/components/Session/Date/Item.vue'
 import SessionDateTab from '#/components/Session/Date/Tab.vue'
 import SessionModal from '#/components/Session/SessionModal.vue'
 import { data as submissions } from '#loaders/allSubmissions.zh-tw.data.ts'
-import { formatSessionTime } from '#utils/session.ts'
+import { END_HOUR, SessionScheduleLayout, START_HOUR, TIME_SLOT_HEIGHT } from '#utils/session-layout.ts'
 import { computed, ref } from 'vue'
 
 // Bookmarked sessions state
@@ -18,11 +18,6 @@ const selectedView = ref<'議程' | '我的收藏'>('議程')
 
 // Date selection state
 const selectedDate = ref<'Aug.9' | 'Aug.10'>('Aug.9')
-
-// Time configuration
-const TIME_SLOT_HEIGHT = 300 // pixels per hour
-const START_HOUR = 8 // 8AM
-const END_HOUR = 18 // 6PM
 
 // Generate time slots from 8AM to 6PM
 const timeSlots = computed(() => {
@@ -35,6 +30,8 @@ const timeSlots = computed(() => {
   }
   return slots
 })
+
+const layout = new SessionScheduleLayout(submissions)
 
 // Extract unique rooms from submissions
 const rooms = computed(() => {
@@ -49,120 +46,27 @@ const rooms = computed(() => {
   return Array.from(roomMap.values())
 })
 
-// Create mock schedule data since the API doesn't seem to have time slots yet
-// In production, this would be replaced with real schedule data
-function createMockSchedule() {
-  const schedule = new Map()
-  const roomSchedules = new Map() // Track occupied time slots per room
-
-  submissions.forEach((submission, globalIndex) => {
-    if (!submission.room) return
-
-    const roomId = submission.room.id
-    if (!roomSchedules.has(roomId)) {
-      roomSchedules.set(roomId, new Set()) // Track occupied time ranges
-    }
-
-    const occupiedSlots = roomSchedules.get(roomId)
-
-    // Available time patterns
-    const timePatterns = [
-      { start: 9, duration: 1 }, // 9:00-10:00
-      { start: 10.5, duration: 0.5 }, // 10:30-11:00
-      { start: 11, duration: 1 }, // 11:00-12:00
-      { start: 13, duration: 1 }, // 1:00-2:00
-      { start: 14, duration: 0.5 }, // 2:00-2:30
-      { start: 15, duration: 1.5 }, // 3:00-4:30
-      { start: 16.5, duration: 1 }, // 4:30-5:30
-      { start: 9.5, duration: 0.5 }, // 9:30-10:00
-    ]
-
-    // Find an available time slot
-    let selectedPattern = null
-    let attemptCount = 0
-
-    // Try each pattern to find one that doesn't conflict
-    while (attemptCount < timePatterns.length && !selectedPattern) {
-      const patternIndex = (globalIndex + attemptCount) % timePatterns.length
-      const pattern = timePatterns[patternIndex]
-      const slotKey = `${pattern.start}-${pattern.start + pattern.duration}`
-
-      if (!occupiedSlots.has(slotKey)) {
-        selectedPattern = pattern
-        occupiedSlots.add(slotKey)
-        break
-      }
-      attemptCount++
-    }
-
-    // If no pattern available, create a new unique slot
-    if (!selectedPattern) {
-      const fallbackStart = 8.5 + (occupiedSlots.size * 0.25) // Stack with small offsets
-      selectedPattern = { start: fallbackStart, duration: 0.5 }
-      occupiedSlots.add(`${selectedPattern.start}-${selectedPattern.start + selectedPattern.duration}`)
-    }
-
-    const startTime = selectedPattern.start
-    const duration = selectedPattern.duration
-
-    schedule.set(submission.code, {
-      startTime,
-      duration,
-      topPosition: (startTime - START_HOUR) * TIME_SLOT_HEIGHT,
-      height: duration * TIME_SLOT_HEIGHT,
-    })
-  })
-
-  return schedule
-}
-
-const scheduleData = createMockSchedule()
-
 // Get sessions for display
 const displaySessions = computed(() => {
-  let filteredSessions = submissions
-
-  // Filter by selected date first
-  // For now, we'll distribute sessions across two days
-  // In production, this would be based on actual session dates
-  if (selectedDate.value === 'Aug.9') {
-    filteredSessions = submissions.filter((_, index) => index % 2 === 0) // Even indices for Aug.9
-  } else {
-    filteredSessions = submissions.filter((_, index) => index % 2 === 1) // Odd indices for Aug.10
-  }
+  const filteredSessions = submissions.filter((session) => {
+    if (!session.start) return false
+    const startDate = new Date(session.start)
+    // Conference dates: 2025-08-09 and 2025-08-10
+    if (selectedDate.value === 'Aug.9') {
+      return startDate.getFullYear() === 2025 && startDate.getMonth() === 7 && startDate.getDate() === 9
+    } else {
+      return startDate.getFullYear() === 2025 && startDate.getMonth() === 7 && startDate.getDate() === 10
+    }
+  })
 
   if (selectedView.value === '我的收藏') {
     return filteredSessions.filter((session) =>
       bookmarkedSessions.value.has(session.code),
     )
   }
+
   return filteredSessions
 })
-
-// Format time display for a session
-function getSessionTimeDisplay(session: any) {
-  const scheduleInfo = scheduleData.get(session.code)
-  return formatSessionTime(scheduleInfo)
-}
-
-// Get session position and height
-function getSessionStyle(session: any) {
-  const scheduleInfo = scheduleData.get(session.code)
-  if (!scheduleInfo) return { top: '0px', height: '120px' }
-
-  return {
-    top: `${scheduleInfo.topPosition}px`,
-    height: `${scheduleInfo.height}px`,
-  }
-}
-
-// Calculate height factor for CCard component
-function getHeightFactor(session: any) {
-  const scheduleInfo = scheduleData.get(session.code)
-  if (!scheduleInfo) return 1
-
-  return Math.max(1, Math.ceil(scheduleInfo.duration * 2)) // 30 min increments
-}
 
 // Toggle bookmark
 function toggleBookmark(sessionCode: string) {
@@ -324,16 +228,17 @@ const openedSession = ref<SubmissionResponse | null>(null)
                 v-for="session in getSessionsForRoom(room.id)"
                 :key="session.code"
                 class="session-card"
-                :style="getSessionStyle(session)"
+                :style="layout.getSessionStyle(session.code)"
                 @click="openedSession = session"
               >
                 <CCard
                   :bookmarked="bookmarkedSessions.has(session.code)"
-                  :height-factor="getHeightFactor(session)"
+                  :end-at="session.end"
+                  :height-factor="layout.getHeightFactor(session.code)"
                   :speaker="session.speakers?.map(s => s.name).join(', ') || 'TBD'"
+                  :start-at="session.start"
                   :status="openedSession?.code === session.code ? 'actived' : 'default'"
                   :tag-text="session.track?.name || '主議程軌'"
-                  :time="getSessionTimeDisplay(session)"
                   :title="session.title"
                   @bookmark="toggleBookmark(session.code)"
                 />
@@ -346,7 +251,6 @@ const openedSession = ref<SubmissionResponse | null>(null)
 
     <SessionModal
       :open="!!openedSession"
-      :schedule-data="scheduleData"
       :session="openedSession"
       @close="openedSession = null"
     />

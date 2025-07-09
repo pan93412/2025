@@ -6,7 +6,8 @@ import Bookmark from './Icons/Bookmark.vue'
 
 interface Props {
   title: string
-  time: string
+  startAt: Date
+  endAt: Date
   speaker: string
   bookmarked?: boolean
   tagText?: string
@@ -30,6 +31,9 @@ const tagTextColor = computed(() => props.bookmarked ? '#c6005c' : '#4c4598')
 const cardStyle = computed(() => ({
   height: `${150 * props.heightFactor}px`,
 }))
+
+const startAt = computed(() => props.startAt.toLocaleTimeString())
+const endAt = computed(() => props.endAt.toLocaleTimeString())
 </script>
 
 <template>
@@ -54,7 +58,7 @@ const cardStyle = computed(() => ({
           {{ props.title }}
         </div>
         <div :class="[$style.time, props.bookmarked ? $style.timeBookmarked : '']">
-          {{ props.time }}
+          {{ startAt }} ~ {{ endAt }}
         </div>
       </div>
       <div

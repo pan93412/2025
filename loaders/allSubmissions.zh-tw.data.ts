@@ -1,6 +1,6 @@
 import type { SubmissionResponse } from './types'
 import { defineLoader } from 'vitepress'
-import { extractLocalizedStructure, pretalxClient } from './pretalx'
+import { BadServerSideDataException, extractLocalizedStructure, pretalxClient } from './pretalx'
 
 export declare const data: SubmissionResponse[]
 
@@ -12,19 +12,33 @@ export default defineLoader({
     const allTracks = toMapById(await pretalxClient.getTracks())
 
     return submissions.map((submission) => {
-      const room = submission.room ? allRooms.get(submission.room) : undefined
+      const room = allRooms.get(submission.room)
       const speakers = submission.speakers.map((speaker) => allSpeakers.get(speaker)).filter((speaker) => speaker !== undefined)
-      const track = submission.track ? allTracks.get(submission.track) : undefined
+      const track = allTracks.get(submission.track)
 
-      const localizedRoom = room ? extractLocalizedStructure(room, 'zh-tw') : undefined
+      if (!room) {
+        throw new BadServerSideDataException(`Room ${submission.room} not found`)
+      }
+
+      if (speakers.length === 0) {
+        throw new BadServerSideDataException(`${submission.code} has no speakers`)
+      }
+
+      if (!track) {
+        throw new BadServerSideDataException(`Track ${submission.track} not found`)
+      }
+
+      const localizedRoom = extractLocalizedStructure(room, 'zh-tw')
       const localizedSpeakers = extractLocalizedStructure(speakers, 'zh-tw')
-      const localizedTrack = track ? extractLocalizedStructure(track, 'zh-tw') : undefined
+      const localizedTrack = extractLocalizedStructure(track, 'zh-tw')
 
       return ({
         ...extractLocalizedStructure(submission, 'zh-tw'),
         room: localizedRoom,
         speakers: localizedSpeakers,
         track: localizedTrack,
+        start: submission.start,
+        end: submission.end,
       } satisfies SubmissionResponse)
     })
   },

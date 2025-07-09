@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { SubmissionResponse } from '#loaders/types.ts'
-import { formatSessionTime } from '#/utils/session.ts'
 import {
   DialogClose,
   DialogContent,
@@ -10,22 +9,24 @@ import {
   DialogRoot,
   DialogTitle,
 } from 'reka-ui'
+import { computed } from 'vue'
 
 const props = defineProps<{
   open: boolean
   session: SubmissionResponse | null
-  scheduleData?: Map<string, any>
 }>()
 
 defineEmits<{
   (e: 'close'): void
 }>()
 
-function getSessionTimeDisplay() {
-  if (!props.session || !props.scheduleData) return '時間待定'
-  const scheduleInfo = props.scheduleData.get(props.session.code)
-  return formatSessionTime(scheduleInfo)
-}
+const sessionTime = computed(() => {
+  const date = props?.session?.start.toLocaleDateString()
+  const start = props?.session?.start.toLocaleTimeString()
+  const end = props?.session?.end.toLocaleTimeString()
+
+  return `${date} ${start} ~ ${end}`
+})
 </script>
 
 <template>
@@ -50,25 +51,28 @@ function getSessionTimeDisplay() {
                 <IconPhClock />
                 時間
               </div>
-              {{ getSessionTimeDisplay() }}
+              {{ sessionTime }}
             </div>
             <div class="session-detail-row">
               <div class="session-detail-label">
                 <IconPhUser />
                 講者
               </div>
+              {{ session?.speakers?.map(speaker => speaker.name).join(', ') }}
             </div>
             <div class="session-detail-row">
               <div class="session-detail-label">
                 <IconPhMapPin />
                 位置
               </div>
+              {{ session?.room?.name }}
             </div>
             <div class="session-detail-row">
               <div class="session-detail-label">
                 <IconPhFileText />
                 共筆
               </div>
+              (尚未上架)
             </div>
           </section>
 

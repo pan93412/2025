@@ -50,8 +50,10 @@ export interface Submission {
   title: MultiLingualString
   description: OptionalMultiLingualString
   speakers: string[]
-  track?: number
-  room?: number
+  track: number
+  room: number
+  start: Date
+  end: Date
 }
 
 export interface LocalizedSubmission {
@@ -59,8 +61,10 @@ export interface LocalizedSubmission {
   title: string
   description?: string
   speakers: string[]
-  track?: number
-  room?: number
+  track: number
+  room: number
+  start: Date
+  end: Date
 }
 
 export interface Track {
