@@ -7,6 +7,7 @@ import SessionDateTab from '#/components/Session/Date/Tab.vue'
 import SessionModal from '#/components/Session/SessionModal.vue'
 import { data as submissions } from '#loaders/allSubmissions.zh-tw.data.ts'
 import { END_HOUR, SessionScheduleLayout, START_HOUR, TIME_SLOT_HEIGHT } from '#utils/session-layout.ts'
+import { useRouter } from 'vitepress'
 import { computed, ref } from 'vue'
 
 const props = defineProps<{
@@ -87,12 +88,14 @@ function getSessionsForRoom(roomId: number | string) {
   )
 }
 
+const router = useRouter()
+
 function handleOpenSession(sessionCode: string) {
-  location.href = `./${sessionCode}`
+  router.go(`2025/zh_tw/sessions/${sessionCode}`)
 }
 
 function handleCloseSession() {
-  location.href = './'
+  router.go('2025/zh_tw/sessions/')
 }
 
 const openedSession = computed(() => {
