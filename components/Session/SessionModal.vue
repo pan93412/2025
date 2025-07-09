@@ -92,7 +92,7 @@ const sessionTime = computed(() => {
           <hr>
 
           <p>簡介</p>
-          <p>{{ session.description }}</p>
+          <p>{{ session.abstract }}</p>
 
           <!-- About -->
           <p>關於講者</p>
