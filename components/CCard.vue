@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { formatTimeRange } from '#utils/format-time.ts'
 import { computed } from 'vue'
 import CTag from './CTag.vue'
 
@@ -6,8 +7,8 @@ import Bookmark from './Icons/Bookmark.vue'
 
 interface Props {
   title: string
-  startAt: Date
-  endAt: Date
+  startAt: string
+  endAt: string
   speaker: string
   bookmarked?: boolean
   tagText?: string
@@ -31,9 +32,6 @@ const tagTextColor = computed(() => props.bookmarked ? '#c6005c' : '#4c4598')
 const cardStyle = computed(() => ({
   height: `${150 * props.heightFactor}px`,
 }))
-
-const startAt = computed(() => props.startAt.toLocaleTimeString())
-const endAt = computed(() => props.endAt.toLocaleTimeString())
 </script>
 
 <template>
@@ -58,7 +56,7 @@ const endAt = computed(() => props.endAt.toLocaleTimeString())
           {{ props.title }}
         </div>
         <div :class="[$style.time, props.bookmarked ? $style.timeBookmarked : '']">
-          {{ startAt }} ~ {{ endAt }}
+          {{ formatTimeRange(startAt, endAt, false) }}
         </div>
       </div>
       <div

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { SubmissionResponse } from '#loaders/types.ts'
+import { formatTimeRange } from '#utils/format-time.ts'
 import {
   DialogClose,
   DialogContent,
@@ -21,11 +22,12 @@ defineEmits<{
 }>()
 
 const sessionTime = computed(() => {
-  const date = props?.session?.start.toLocaleDateString()
-  const start = props?.session?.start.toLocaleTimeString()
-  const end = props?.session?.end.toLocaleTimeString()
+  const startDateString = props?.session?.start
+  const endDateString = props?.session?.end
 
-  return `${date} ${start} ~ ${end}`
+  if (!startDateString || !endDateString) return '（未知）'
+
+  return formatTimeRange(startDateString, endDateString, true)
 })
 </script>
 

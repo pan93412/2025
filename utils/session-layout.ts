@@ -37,9 +37,12 @@ export class SessionScheduleLayout {
     submissions.forEach((submission) => {
       if (!submission.room || !submission.start || !submission.end) return
 
+      const start = new Date(submission.start)
+      const end = new Date(submission.end)
+
       // Calculate startTime as hour + minute/60
-      const startTime = submission.start.getHours() + submission.start.getMinutes() / 60
-      const endTime = submission.end.getHours() + submission.end.getMinutes() / 60
+      const startTime = start.getHours() + start.getMinutes() / 60
+      const endTime = end.getHours() + end.getMinutes() / 60
       const duration = endTime - startTime
 
       schedule.set(submission.code, {
