@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import Page from './SessionsPageZh.vue'
+import Page from './SessionsPageZh.vue'
 </script>
 
-<Page />
+<Page :session="undefined"/>

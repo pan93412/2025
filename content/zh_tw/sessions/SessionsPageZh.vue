@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { SubmissionResponse } from '#loaders/types.ts'
 import CButton from '#/components/CButton.vue'
 import CCard from '#/components/CCard.vue'
 import CIconButton from '#/components/CIconButton.vue'
@@ -9,6 +8,10 @@ import SessionModal from '#/components/Session/SessionModal.vue'
 import { data as submissions } from '#loaders/allSubmissions.zh-tw.data.ts'
 import { END_HOUR, SessionScheduleLayout, START_HOUR, TIME_SLOT_HEIGHT } from '#utils/session-layout.ts'
 import { computed, ref } from 'vue'
+
+const props = defineProps<{
+  session: string | undefined
+}>()
 
 // Bookmarked sessions state
 const bookmarkedSessions = ref(new Set<string>())
@@ -84,7 +87,21 @@ function getSessionsForRoom(roomId: number | string) {
   )
 }
 
-const openedSession = ref<SubmissionResponse | null>(null)
+function handleOpenSession(sessionCode: string) {
+  location.href = `./${sessionCode}`
+}
+
+function handleCloseSession() {
+  location.href = './'
+}
+
+const openedSession = computed(() => {
+  if (props.session) {
+    return submissions.find((session) => session.code === props.session) ?? null
+  }
+
+  return null
+})
 </script>
 
 <template>
@@ -224,12 +241,12 @@ const openedSession = ref<SubmissionResponse | null>(null)
               />
 
               <!-- Session Cards for this room -->
-              <div
+              <a
                 v-for="session in getSessionsForRoom(room.id)"
                 :key="session.code"
                 class="session-card"
                 :style="layout.getSessionStyle(session.code)"
-                @click="openedSession = session"
+                @click="handleOpenSession(session.code)"
               >
                 <CCard
                   :bookmarked="bookmarkedSessions.has(session.code)"
@@ -242,7 +259,7 @@ const openedSession = ref<SubmissionResponse | null>(null)
                   :title="session.title"
                   @bookmark="toggleBookmark(session.code)"
                 />
-              </div>
+              </a>
             </div>
           </div>
         </div>
@@ -252,7 +269,7 @@ const openedSession = ref<SubmissionResponse | null>(null)
     <SessionModal
       :open="!!openedSession"
       :session="openedSession"
-      @close="openedSession = null"
+      @close="handleCloseSession"
     />
   </div>
 </template>
