@@ -20,6 +20,8 @@ export interface Sponsor {
   'link': string
   'level': string
   'canPublish': 'Y' | 'N'
+  'type': string
+  'times': string
 }
 
 type GroupedSponsors = Record<string, Sponsor[]>

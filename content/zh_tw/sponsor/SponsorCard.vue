@@ -46,6 +46,18 @@ const parseMarkdown = (text: string) => marked(text || '')
         <p v-html="parseMarkdown(sponsor['intro:zh-TW'])" />
       </div>
     </transition>
+    <span
+      v-if="sponsor.type === '3'"
+      class="badge"
+    >累計 {{ sponsor.times }} 年合作</span>
+    <span
+      v-else-if="sponsor.type === '2'"
+      class="badge"
+    >累計 {{ sponsor.times }} 年贊助</span>
+    <span
+      v-else-if="sponsor.type === '1'"
+      class="badge"
+    >連續 {{ sponsor.times }} 年贊助</span>
   </div>
 </template>
 
@@ -129,5 +141,19 @@ const parseMarkdown = (text: string) => marked(text || '')
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.badge {
+  width: 185px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 8px;
+  background: var(--vp-c-brand-3);
+  color: white;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  transform: translateY(70%) translateX(-15%) rotate(-30deg);
 }
 </style>
