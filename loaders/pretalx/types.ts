@@ -52,8 +52,8 @@ export interface Submission {
   speakers: string[]
   track: number
   room: number
-  start: Date
-  end: Date
+  start: string // ISO8601
+  end: string // ISO8601
 }
 
 export interface LocalizedSubmission {
@@ -63,8 +63,8 @@ export interface LocalizedSubmission {
   speakers: string[]
   track: number
   room: number
-  start: Date
-  end: Date
+  start: string // ISO8601
+  end: string // ISO8601
 }
 
 export interface Track {

@@ -208,8 +208,8 @@ export class PretalxApiClient {
         speakers: submission.speakers,
         track: submission.track,
         room: submission.slots[0]?.room,
-        start,
-        end,
+        start: start.toISOString(),
+        end: end.toISOString(),
       } satisfies Submission
     })
   }
