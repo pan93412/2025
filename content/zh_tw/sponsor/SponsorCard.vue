@@ -144,7 +144,7 @@ const parseMarkdown = (text: string) => marked(text || '')
 }
 
 .badge {
-  width: 120px;
+  width: 185px;
   position: absolute;
   top: 10px;
   left: 10px;
@@ -154,6 +154,6 @@ const parseMarkdown = (text: string) => marked(text || '')
   border-radius: 4px;
   font-size: 0.8rem;
   font-weight: bold;
-  transform: translateY(50%) translateX(-20%) rotate(-45deg);
+  transform: translateY(70%) translateX(-15%) rotate(-30deg);
 }
 </style>
