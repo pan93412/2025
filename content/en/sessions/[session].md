@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import {useData} from 'vitepress'
-import Page from './SessionsPageEn.vue'
-import { computed, watch } from 'vue';
+import { useData } from 'vitepress'
+import { data as submissions } from '#loaders/allSubmissions.en.data.ts'
+import { computed } from 'vue';
 
 const { params } = useData();
-const session = computed(() => {
+const sessionCode = computed(() => {
     return params.value?.session;
 })
 </script>
 
-<Page :sessionCode="session"/>
+<SessionsPage locale="en" :session-code="sessionCode" :submissions="submissions" />

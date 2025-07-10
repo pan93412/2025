@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { SubmissionResponse } from '#loaders/types.ts'
+import type { Locale } from './session-messages'
 import CTag from '#components/CTag.vue'
 import { formatTimeRange } from '#utils/format-time.ts'
 import { markdownToHtml } from '#utils/markdown.ts'
@@ -13,10 +14,12 @@ import {
   DialogTitle,
 } from 'reka-ui'
 import { computed } from 'vue'
+import { messages } from './session-messages'
 
 const props = defineProps<{
   open: boolean
   session: SubmissionResponse | null
+  locale: Locale
 }>()
 
 defineEmits<{
@@ -27,16 +30,12 @@ const sessionTime = computed(() => {
   const startDateString = props?.session?.start
   const endDateString = props?.session?.end
 
-  if (!startDateString || !endDateString) return '(Unknown)'
+  if (!startDateString || !endDateString) return messages[props.locale].unknown
 
   return formatTimeRange(startDateString, endDateString, true)
 })
 
 const collaborationUrl = null
-
-const language = 'Chinese'
-
-const difficulty = 'Beginner'
 </script>
 
 <template>
@@ -75,21 +74,21 @@ const difficulty = 'Beginner'
                 <div class="session-detail-row">
                   <div class="session-detail-label">
                     <IconPhClock />
-                    Time
+                    {{ messages[props.locale].time }}
                   </div>
                   {{ sessionTime }}
                 </div>
                 <div class="session-detail-row">
                   <div class="session-detail-label">
                     <IconPhUser />
-                    Speaker
+                    {{ messages[props.locale].speaker }}
                   </div>
                   {{ session.speakers.map(speaker => speaker.name).join(', ') }}
                 </div>
                 <div class="session-detail-row">
                   <div class="session-detail-label">
                     <IconPhMapPin />
-                    Room
+                    {{ messages[props.locale].room }}
                   </div>
                   {{ session.room.name }}
                 </div>
@@ -99,7 +98,7 @@ const difficulty = 'Beginner'
                 >
                   <div class="session-detail-label">
                     <IconPhFileText />
-                    Collaborative Notes
+                    {{ messages[props.locale].collaborativeNotes }}
                   </div>
                   {{ collaborationUrl }}
                 </div>
@@ -107,10 +106,10 @@ const difficulty = 'Beginner'
 
               <section class="session-tags">
                 <CTag variant="secondary">
-                  {{ language }}
+                  {{ messages[props.locale].language }}
                 </CTag>
                 <CTag variant="secondary">
-                  {{ difficulty }}
+                  {{ messages[props.locale].difficulty }}
                 </CTag>
               </section>
 
@@ -123,7 +122,7 @@ const difficulty = 'Beginner'
               <hr class="separator">
 
               <section class="session-description">
-                <h2>Abstract</h2>
+                <h2>{{ messages[props.locale].abstract }}</h2>
                 <div
                   v-if="session.abstract"
                   class="content-container"
@@ -132,7 +131,7 @@ const difficulty = 'Beginner'
               </section>
 
               <section class="session-description">
-                <h2>About the Speaker</h2>
+                <h2>{{ messages[props.locale].aboutSpeaker }}</h2>
                 <img
                   :alt="session.speakers[0].name"
                   class="speaker-avatar"
@@ -154,7 +153,7 @@ const difficulty = 'Beginner'
         </div>
         <aside class="ad-sidebar">
           <div class="ad-placeholder">
-            Advertisement
+            {{ messages[props.locale].advertisement }}
           </div>
         </aside>
       </DialogContent>

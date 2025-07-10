@@ -1,18 +1,22 @@
 <script setup lang="ts">
+import type { SubmissionResponse } from '#loaders/types.ts'
+import type { Locale } from './session-messages'
 import CButton from '#/components/CButton.vue'
 import CCard from '#/components/CCard.vue'
 import CIconButton from '#/components/CIconButton.vue'
 import SessionDateItem from '#/components/Session/Date/Item.vue'
 import SessionDateTab from '#/components/Session/Date/Tab.vue'
-import SessionModal from '#components/Session/SessionModalZh.vue'
-import { data as submissions } from '#loaders/allSubmissions.zh-tw.data.ts'
+import SessionModal from '#components/Session/SessionModal.vue'
 import { END_HOUR, SessionScheduleLayout, START_HOUR, TIME_SLOT_HEIGHT } from '#utils/session-layout.ts'
 import { useStorage } from '@vueuse/core'
 import { useRouter } from 'vitepress'
 import { computed } from 'vue'
+import { messages } from './session-messages'
 
 const props = defineProps<{
   sessionCode: string | undefined
+  submissions: SubmissionResponse[]
+  locale: Locale
 }>()
 
 // Bookmarked sessions state
@@ -36,13 +40,13 @@ const timeSlots = computed(() => {
   return slots
 })
 
-const layout = new SessionScheduleLayout(submissions)
+const layout = new SessionScheduleLayout(props.submissions)
 
 // Extract unique rooms from submissions
 const rooms = computed(() => {
   const roomMap = new Map()
 
-  submissions.forEach((submission) => {
+  props.submissions.forEach((submission) => {
     if (submission.room) {
       roomMap.set(submission.room.id, submission.room)
     }
@@ -53,7 +57,7 @@ const rooms = computed(() => {
 
 // Get sessions for display
 const displaySessions = computed(() => {
-  const filteredSessions = submissions.filter((session) => {
+  const filteredSessions = props.submissions.filter((session) => {
     if (!session.start) return false
     const startDate = new Date(session.start)
     // Conference dates: 2025-08-09 and 2025-08-10
@@ -92,16 +96,18 @@ function getSessionsForRoom(roomId: number | string) {
 const router = useRouter()
 
 function handleOpenSession(sessionCode: string) {
-  router.go(`2025/zh_tw/sessions/${sessionCode}`)
+  const pathname = new URL(sessionCode, location.href).pathname
+  router.go(pathname)
 }
 
 function handleCloseSession() {
-  router.go('2025/zh_tw/sessions/')
+  const pathname = new URL('..', location.href).pathname
+  router.go(pathname)
 }
 
 const openedSession = computed(() => {
   if (props.sessionCode) {
-    return submissions.find((session) => session.code === props.sessionCode) ?? null
+    return props.submissions.find((session) => session.code === props.sessionCode) ?? null
   }
 
   return null
@@ -149,7 +155,7 @@ const openedSession = computed(() => {
               👥
             </div>
           </template>
-          社群
+          {{ messages[props.locale].community || 'Community' }}
         </CButton>
 
         <CButton variant="basic">
@@ -158,7 +164,7 @@ const openedSession = computed(() => {
               🏷️
             </div>
           </template>
-          標籤
+          {{ messages[props.locale].tags || 'Tags' }}
         </CButton>
 
         <CIconButton variant="basic">
@@ -174,13 +180,13 @@ const openedSession = computed(() => {
             :class="{ active: selectedView === 'conference' }"
             @click="selectedView = 'conference'"
           >
-            議程
+            {{ messages[props.locale].conference || 'Conference' }}
           </button>
           <button
             :class="{ active: selectedView === 'bookmarked' }"
             @click="selectedView = 'bookmarked'"
           >
-            我的收藏
+            {{ messages[props.locale].bookmarked || 'Bookmarked' }}
           </button>
         </div>
 
@@ -259,7 +265,7 @@ const openedSession = computed(() => {
                   :speaker="session.speakers?.map(s => s.name).join(', ') || 'TBD'"
                   :start-at="session.start"
                   :status="openedSession?.code === session.code ? 'actived' : 'default'"
-                  :tag-text="session.track?.name || '主議程軌'"
+                  :tag-text="session.track?.name || messages[props.locale].mainTrack"
                   :title="session.title"
                   @bookmark="toggleBookmark(session.code)"
                 />
@@ -271,6 +277,7 @@ const openedSession = computed(() => {
     </div>
 
     <SessionModal
+      :locale="props.locale"
       :open="!!openedSession"
       :session="openedSession"
       @close="handleCloseSession"
@@ -490,20 +497,5 @@ a.session-card {
 .session-card:hover {
   transform: translateY(-2px);
   z-index: 4;
-}
-
-.icon {
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.date-selection {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-  padding: 20px 0;
-  width: 100%;
 }
 </style>

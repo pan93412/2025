@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Page from './SessionsPageZh.vue'
+import { data as submissions } from '#loaders/allSubmissions.zh-tw.data.ts'
 </script>
 
-<Page :sessionCode="undefined"/>
+<SessionsPage locale="zh-tw" :session-code="undefined" :submissions="submissions" />
