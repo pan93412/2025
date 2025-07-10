@@ -184,15 +184,18 @@ export class PretalxApiClient {
       const end = submission.slots[0]?.end ? new Date(submission.slots[0].end) : undefined
 
       if (!submission.track) {
-        throw new BadServerSideDataException(`Submission ${submission.code} has no track.`)
+        console.warn(`Submission ${submission.code} has no track.`)
+        return undefined
       }
 
       if (!submission.slots[0]?.room) {
-        throw new BadServerSideDataException(`Submission ${submission.code} has no room.`)
+        console.warn(`Submission ${submission.code} has no room.`)
+        return undefined
       }
 
       if (!start || !end) {
-        throw new BadServerSideDataException(`Submission ${submission.code} has no start or end.`)
+        console.warn(`Submission ${submission.code} has no start or end.`)
+        return undefined
       }
 
       return {
@@ -211,7 +214,7 @@ export class PretalxApiClient {
         start: start.toISOString(),
         end: end.toISOString(),
       } satisfies Submission
-    })
+    }).filter((submission) => submission !== undefined)
   }
 
   async getAllSubmissions(): Promise<Submission[]> {
