@@ -101,7 +101,7 @@ function handleOpenSession(sessionCode: string) {
 }
 
 function handleCloseSession() {
-  const pathname = new URL('..', location.href).pathname
+  const pathname = new URL('.', location.href).pathname
   router.go(pathname)
 }
 
