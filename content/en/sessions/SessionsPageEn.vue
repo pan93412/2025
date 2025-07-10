@@ -92,11 +92,11 @@ function getSessionsForRoom(roomId: number | string) {
 const router = useRouter()
 
 function handleOpenSession(sessionCode: string) {
-  router.go(`2025/zh_tw/sessions/${sessionCode}`)
+  router.go(`2025/en/sessions/${sessionCode}`)
 }
 
 function handleCloseSession() {
-  router.go('2025/zh_tw/sessions/')
+  router.go('2025/en/sessions/')
 }
 
 const openedSession = computed(() => {
@@ -149,7 +149,7 @@ const openedSession = computed(() => {
               👥
             </div>
           </template>
-          社群
+          Community
         </CButton>
 
         <CButton variant="basic">
@@ -158,7 +158,7 @@ const openedSession = computed(() => {
               🏷️
             </div>
           </template>
-          標籤
+          Tags
         </CButton>
 
         <CIconButton variant="basic">
@@ -174,13 +174,13 @@ const openedSession = computed(() => {
             :class="{ active: selectedView === 'conference' }"
             @click="selectedView = 'conference'"
           >
-            議程
+            Conference
           </button>
           <button
             :class="{ active: selectedView === 'bookmarked' }"
             @click="selectedView = 'bookmarked'"
           >
-            我的收藏
+            Bookmarked
           </button>
         </div>
 
@@ -259,7 +259,7 @@ const openedSession = computed(() => {
                   :speaker="session.speakers?.map(s => s.name).join(', ') || 'TBD'"
                   :start-at="session.start"
                   :status="openedSession?.code === session.code ? 'actived' : 'default'"
-                  :tag-text="session.track?.name || '主議程軌'"
+                  :tag-text="session.track?.name || 'Main Track'"
                   :title="session.title"
                   @bookmark="toggleBookmark(session.code)"
                 />
