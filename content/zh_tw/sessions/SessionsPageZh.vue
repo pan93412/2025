@@ -7,21 +7,22 @@ import SessionDateTab from '#/components/Session/Date/Tab.vue'
 import SessionModal from '#/components/Session/SessionModal.vue'
 import { data as submissions } from '#loaders/allSubmissions.zh-tw.data.ts'
 import { END_HOUR, SessionScheduleLayout, START_HOUR, TIME_SLOT_HEIGHT } from '#utils/session-layout.ts'
+import { useStorage } from '@vueuse/core'
 import { useRouter } from 'vitepress'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps<{
   sessionCode: string | undefined
 }>()
 
 // Bookmarked sessions state
-const bookmarkedSessions = ref(new Set<string>())
+const bookmarkedSessions = useStorage('bookmarked-sessions', new Set<string>())
 
 // View state
-const selectedView = ref<'議程' | '我的收藏'>('議程')
+const selectedView = useStorage<'議程' | '我的收藏'>('selected-view', '議程')
 
 // Date selection state
-const selectedDate = ref<'Aug.9' | 'Aug.10'>('Aug.9')
+const selectedDate = useStorage<'Aug.9' | 'Aug.10'>('selected-date', 'Aug.9')
 
 // Generate time slots from 8AM to 6PM
 const timeSlots = computed(() => {
