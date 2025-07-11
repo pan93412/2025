@@ -36,15 +36,21 @@ defineProps<{ sponsor: Sponsor }>()
     <span
       v-if="sponsor.type === '3'"
       class="badge"
-    >Collaborated for a total of {{ sponsor.times }} years</span>
+    >
+      累計 {{ sponsor.times }} 年合作
+    </span>
     <span
       v-else-if="sponsor.type === '2'"
       class="badge"
-    >Sponsored for a total of {{ sponsor.times }} years</span>
+    >
+      累計 {{ sponsor.times }} 年贊助
+    </span>
     <span
       v-else-if="sponsor.type === '1'"
       class="badge"
-    >Sponsored for {{ sponsor.times }} consecutive years</span>
+    >
+      連續 {{ sponsor.times }} 年贊助
+    </span>
   </div>
 </template>
 
@@ -122,7 +128,7 @@ a {
   font-size: 0.8rem;
   font-weight: bold;
   transform: translateY(70%) translateX(-15%) rotate(-30deg);
-  font-size: 0.6em;
+  font-size: 0.8em;
 }
 
 @media screen and (max-width: 600px) {
