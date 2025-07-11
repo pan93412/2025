@@ -30,7 +30,7 @@ importers:
         specifier: 4.0.0
         version: 4.0.0
       marked:
-        specifier: ^15.0.7
+        specifier: 15.0.7
         version: 15.0.7
       osmtogeojson:
         specifier: 3.0.0-beta.5
@@ -54,20 +54,20 @@ importers:
         specifier: 3.5.17
         version: 3.5.17(typescript@5.8.3)
       zod:
-        specifier: ^3.25.67
+        specifier: 3.25.67
         version: 3.25.67
     devDependencies:
       '@antfu/eslint-config':
         specifier: 4.16.1
         version: 4.16.1(@vue/compiler-sfc@3.5.17)(eslint-plugin-format@1.0.1(eslint@9.30.0(jiti@2.4.2)))(eslint@9.30.0(jiti@2.4.2))(typescript@5.8.3)(vitest@3.1.1(@types/debug@4.1.12)(@types/node@22.15.34))
       '@hey-api/openapi-ts':
-        specifier: ^0.77.0
+        specifier: 0.77.0
         version: 0.77.0(typescript@5.8.3)
       '@types/leaflet':
         specifier: 1.9.19
         version: 1.9.19
       '@types/markdown-it':
-        specifier: ^14.1.2
+        specifier: 14.1.2
         version: 14.1.2
       '@types/node':
         specifier: 22.15.34
