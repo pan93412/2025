@@ -9,11 +9,13 @@ defineProps<{ sponsor: Sponsor }>()
     class="sponsor-card"
   >
     <div class="sponsor-image-wrap">
-      <img
-        :alt="sponsor['name:zh-TW']"
-        class="sponsor-image"
-        :src="sponsor.image ?? '#'"
-      >
+      <a :href="sponsor.link">
+        <img
+          :alt="sponsor['name:zh-TW']"
+          class="sponsor-image"
+          :src="sponsor.image ?? '#'"
+        >
+      </a>
     </div>
     <div class="sponsor-content-wrap">
       <h3 class="sponsor-name">
