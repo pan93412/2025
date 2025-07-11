@@ -1,51 +1,38 @@
 <script setup lang="ts">
 import type { Sponsor } from '#loaders/sponsor.data'
-import { marked } from 'marked'
-import { ref } from 'vue'
 
 defineProps<{ sponsor: Sponsor }>()
-
-const expanded = ref(false)
-
-function toggleExpand() {
-  expanded.value = !expanded.value
-}
-
-const parseMarkdown = (text: string) => marked(text || '')
 </script>
 
 <template>
   <div
     class="sponsor-card"
-    @click="toggleExpand"
   >
-    <a
-      class="sponsor-link"
-      :href="sponsor.link"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      🔗 Visit Website
-    </a>
-    <div class="sponsor-image-wrapper">
+    <div class="sponsor-image-wrap">
       <img
         :alt="sponsor['name:en']"
         class="sponsor-image"
-        :src="sponsor.image"
+        :src="sponsor.image ?? '#'"
       >
     </div>
-
-    <transition name="fade">
-      <div
-        v-if="expanded"
-        class="sponsor-info"
-      >
-        <h3 class="sponsor-name">
+    <div class="sponsor-content-wrap">
+      <h3 class="sponsor-name">
+        <a :href="sponsor.link">
           {{ sponsor['name:en'] }}
-        </h3>
-        <p v-html="parseMarkdown(sponsor['intro:en'])" />
+        </a>
+      </h3>
+      <input
+        v-show="false"
+        :id="`sponsor-${sponsor.id}`"
+        type="checkbox"
+      >
+      <div class="sponsor-info">
+        <p v-html="sponsor['intro:en']" />
       </div>
-    </transition>
+      <label
+        :for="`sponsor-${sponsor.id}`"
+      />
+    </div>
     <span
       v-if="sponsor.type === '3'"
       class="badge"
@@ -62,6 +49,12 @@ const parseMarkdown = (text: string) => marked(text || '')
 </template>
 
 <style scoped>
+a {
+  font-weight: bold;
+  color: var(--vp-c-brand-3);
+  text-decoration: none;
+}
+
 .sponsor-card {
   position: relative;
   text-align: center;
@@ -72,75 +65,49 @@ const parseMarkdown = (text: string) => marked(text || '')
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: transform 0.2s;
+  display: flex;
+  gap: 0 15px;
 }
 
 .sponsor-card:hover {
   transform: translateY(-4px);
 }
 
-/* Right-top link button */
-.sponsor-link {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 0.85rem;
-  text-decoration: none;
-  background: var(--vp-color-sponsor-bg, #fff);
-  color: var(--vp-color-sponsor-link);
-  padding: 4px 8px;
-  border-radius: 4px;
-  border: 1px solid var(--vp-color-sponsor-link);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  transition: all 0.2s ease;
-  z-index: 1;
+.sponsor-image-wrap {
+  position: relative;
 }
 
-.sponsor-link:hover {
-  background: var(--vp-color-sponsor-link);
-  color: white;
-}
-
-.sponsor-image-wrapper {
-  width: 100%;
-  max-width: 400px;
+.sponsor-image-wrap img {
+  min-width: 240px;
   aspect-ratio: 3 / 2;
-  margin: 0 auto;
-  overflow: hidden;
-  border-radius: 8px;
-}
-
-.sponsor-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.sponsor-name {
-  margin-top: 10px;
-  font-size: 1.1rem;
-  color: var(--vp-color-sponsor-text);
-  font-weight: bold;
+  position: sticky;
+  top: 75px;
+  margin-top: 50px;
 }
 
 .sponsor-info {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   text-align: left;
-  margin-top: 10px;
-  font-size: 0.9rem;
-  color: var(--vp-color-sponsor-text);
 }
 
-/* Transition */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
+.sponsor-content-wrap label::after {
+  content: 'Read More';
+  color: var(--vp-c-brand-3);
+  font-weight: bold;
+  margin-left: 4px;
+  display: block;
+  cursor: pointer;
 }
 
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+.sponsor-content-wrap input:checked ~ label::after {
+  content: 'Show Less';
+}
+
+.sponsor-content-wrap input:checked ~ .sponsor-info {
+  -webkit-line-clamp: none;
 }
 
 .badge {
@@ -156,5 +123,11 @@ const parseMarkdown = (text: string) => marked(text || '')
   font-weight: bold;
   transform: translateY(70%) translateX(-15%) rotate(-30deg);
   font-size: 0.6em;
+}
+
+@media screen and (max-width: 600px) {
+  .sponsor-card {
+    flex-direction: column;
+  }
 }
 </style>
