@@ -1,52 +1,31 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-
 interface Props {
   variant?: 'primary' | 'secondary' | 'basic'
-  disabled?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   variant: 'primary',
-  disabled: false,
-})
-
-const buttonClasses = computed(() => {
-  const baseClasses = 'button-base'
-  const variantClass = `button-${props.variant}`
-  const disabledClass = props.disabled ? 'button-disabled' : ''
-
-  return [baseClasses, variantClass, disabledClass].filter(Boolean).join(' ')
 })
 </script>
 
 <template>
   <button
-    :class="buttonClasses"
-    :disabled="disabled"
+    class="button"
+    :class="`button-${variant}`"
   >
-    <div class="button-content">
-      <slot name="icon" />
-      <slot />
-    </div>
+    <slot name="icon" />
+    <slot />
   </button>
 </template>
 
 <style scoped>
-.button-base {
-  position: relative;
-  display: inline-flex;
+.button {
+  display: flex;
   align-items: center;
   justify-content: center;
+  gap: 4px;
   border-radius: 6px;
-  font-family:
-    'PingFang TC',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    sans-serif;
-  font-size: 14px;
+  font-size: var(--text-sm);
   font-weight: 400;
   line-height: 1;
   padding: 8px 10px;
@@ -55,80 +34,63 @@ const buttonClasses = computed(() => {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   outline: none;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none !important;
+
+    &:hover {
+      transform: none !important;
+    }
+  }
 }
 
-.button-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.button-icon {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-
-/* Primary variant */
 .button-primary {
-  background-color: #7f73fe;
-  color: #ffffff;
+  background-color: var(--color-primary-400);
+  color: var(--color-white);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-500);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--color-primary-600);
+  }
 }
 
-.button-primary:hover:not(.button-disabled) {
-  background-color: #665ccb;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 92, 203, 0.3);
-}
-
-.button-primary:active:not(.button-disabled) {
-  background-color: #5a4fb8;
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(102, 92, 203, 0.2);
-}
-
-/* Secondary variant */
 .button-secondary {
-  background-color: #ffffff;
-  color: #7f73fe;
-  border: 1px solid #7f73fe;
+  background-color: var(--color-white);
+  color: var(--color-primary-400);
+  border: 1px solid var(--color-primary-400);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-100);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--color-gray-300);
+  }
 }
 
-.button-secondary:hover:not(.button-disabled) {
-  background-color: #ccc7ff;
-}
-
-.button-secondary:active:not(.button-disabled) {
-  background-color: #d1d5db;
-}
-
-/* Basic variant */
 .button-basic {
   background-color: transparent;
-  color: #7f73fe;
-  border: 1px solid #7f73fe;
-}
+  color: var(--color-gray-500);
 
-.button-basic:hover:not(.button-disabled) {
-  background-color: #7f73fe;
-  color: #ffffff;
-}
+  &:hover:not(:disabled) {
+    background-color: var(--color-gray-200);
+  }
 
-.button-basic:active:not(.button-disabled) {
-  background-color: #6b5dfc;
-}
-
-/* Disabled state */
-.button-disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-  transform: none !important;
-  box-shadow: none !important;
-}
-
-.button-disabled:hover {
-  transform: none !important;
-  box-shadow: none !important;
+  &:active:not(:disabled) {
+    background-color: var(--color-gray-300);
+  }
 }
 </style>
