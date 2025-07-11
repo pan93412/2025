@@ -63,50 +63,56 @@ import CCard from '#/components/CCard.vue';
 <div style="display: grid; gap: 1em; grid-template-columns: repeat(3, 1fr)">
 <CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
-    time="10:00 ~ 10:30"
+    startAt="10:00"
+    endAt="10:30"
     speaker="zoe steinamp"
-    tag="主議程軌"
+    tagText="主議程軌"
 />
 
 <CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
-    time="10:00 ~ 10:30"
+    startAt="10:00"
+    endAt="10:30"
     speaker="zoe steinamp"
-    tag="主議程軌"
+    tagText="主議程軌"
     status="actived"
 />
 
 <CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
-    time="10:00 ~ 10:30"
+    startAt="10:00"
+    endAt="10:30"
     speaker="zoe steinamp"
-    tag="主議程軌"
+    tagText="主議程軌"
     status="disabled"
 />
 
 <CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
-    time="10:00 ~ 10:30"
+    startAt="10:00"
+    endAt="10:30"
     speaker="zoe steinamp"
-    tag="主議程軌"
+    tagText="主議程軌"
     status="default"
     bookmarked
 />
 
 <CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
-    time="10:00 ~ 10:30"
+    startAt="10:00"
+    endAt="10:30"
     speaker="zoe steinamp"
-    tag="主議程軌"
+    tagText="主議程軌"
     status="actived"
     bookmarked
 />
 
 <CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
-    time="10:00 ~ 10:30"
+    startAt="10:00"
+    endAt="10:30"
     speaker="zoe steinamp"
-    tag="主議程軌"
+    tagText="主議程軌"
     status="disabled"
     bookmarked
 />
@@ -119,25 +125,28 @@ import CCard from '#/components/CCard.vue';
 
 <CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
-    time="10:00 ~ 10:30"
+    startAt="10:00"
+    endAt="10:30"
     speaker="zoe steinamp"
-    tag="主議程軌"
+    tagText="主議程軌"
     :heightFactor="1"
 />
 
 <CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
-    time="10:00 ~ 11:00"
+    startAt="10:00"
+    endAt="11:00"
     speaker="zoe steinamp"
-    tag="主議程軌"
+    tagText="主議程軌"
     :heightFactor="2"
 />
 
 <CCard
     title="A 101 in time series analytics with Apache Arrow, Pandas and Parquet"
-    time="10:00 ~ 11:30"
+    startAt="10:00"
+    endAt="11:30"
     speaker="zoe steinamp"
-    tag="主議程軌"
+    tagText="主議程軌"
     :heightFactor="3"
 />
 
