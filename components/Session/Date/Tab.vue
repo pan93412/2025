@@ -1,18 +1,15 @@
 <template>
-  <div :class="$style.tab">
+  <nav :class="$style.tab">
     <slot />
-  </div>
+  </nav>
 </template>
 
 <style module>
 .tab {
   display: flex;
-  gap: 7px;
-  font-family: Inter;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: Inter, sans-serif;
   color: #fff;
-}
-
-.tab > * {
-  flex: 1;
 }
 </style>

@@ -117,22 +117,20 @@ const openedSession = computed(() => {
 <template>
   <div class="schedule-page">
     <!-- Date Selection -->
-    <div class="date-selection">
-      <SessionDateTab>
-        <SessionDateItem
-          :selected="selectedDate === 'Aug.9'"
-          @click="selectedDate = 'Aug.9'"
-        >
-          Aug.9
-        </SessionDateItem>
-        <SessionDateItem
-          :selected="selectedDate === 'Aug.10'"
-          @click="selectedDate = 'Aug.10'"
-        >
-          Aug.10
-        </SessionDateItem>
-      </SessionDateTab>
-    </div>
+    <SessionDateTab>
+      <SessionDateItem
+        :selected="selectedDate === 'Aug.9'"
+        @click="selectedDate = 'Aug.9'"
+      >
+        Aug.9
+      </SessionDateItem>
+      <SessionDateItem
+        :selected="selectedDate === 'Aug.10'"
+        @click="selectedDate = 'Aug.10'"
+      >
+        Aug.10
+      </SessionDateItem>
+    </SessionDateTab>
 
     <!-- Header Controls -->
     <div class="header-controls">
