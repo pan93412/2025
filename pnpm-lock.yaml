@@ -23,9 +23,6 @@ importers:
       leaflet:
         specifier: 1.9.4
         version: 1.9.4
-      lucide-vue-next:
-        specifier: ^0.525.0
-        version: 0.525.0(vue@3.5.17(typescript@5.8.3))
       markdown-it:
         specifier: 14.1.0
         version: 14.1.0
@@ -2126,11 +2123,6 @@ packages:
 
   loupe@3.1.4:
     resolution: {integrity: sha512-wJzkKwJrheKtknCOKNEtDK4iqg/MxmZheEMtSTYvnzRdEYaZzmgH976nenp8WdJRdx5Vc1X/9MO0Oszl6ezeXg==}
-
-  lucide-vue-next@0.525.0:
-    resolution: {integrity: sha512-Xf8+x8B2DrnGDV/rxylS+KBp2FIe6ljwDn2JsGTZZvXIfhmm/q+nv8RuGO1OyoMjOVkkz7CqtUqJfwtFPRbB2w==}
-    peerDependencies:
-      vue: '>=3.0.1'
 
   magic-string@0.30.17:
     resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
@@ -5209,10 +5201,6 @@ snapshots:
 
   loupe@3.1.4:
     optional: true
-
-  lucide-vue-next@0.525.0(vue@3.5.17(typescript@5.8.3)):
-    dependencies:
-      vue: 3.5.17(typescript@5.8.3)
 
   magic-string@0.30.17:
     dependencies:
