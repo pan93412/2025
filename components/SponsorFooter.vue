@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { data } from '#loaders/sponsor.data'
+import { useData } from 'vitepress'
 
 const { groupedSponsors, sponsorLevels, sponsorLevels_mapping } = data
+const { lang } = useData()
+
+const formatLevel = (level: string): string => level.charAt(0).toUpperCase() + level.slice(1)
 </script>
 
 <template>
@@ -12,8 +16,17 @@ const { groupedSponsors, sponsorLevels, sponsorLevels_mapping } = data
       class="sponsor-group"
     >
       <div v-if="groupedSponsors[level]?.length">
-        <h3 class="level-title">
+        <h3
+          v-if="lang === 'zh_tw'"
+          class="level-title"
+        >
           {{ sponsorLevels_mapping[level] }}
+        </h3>
+        <h3
+          v-else
+          class="level-title"
+        >
+          {{ formatLevel(level) }} Sponsor
         </h3>
         <div class="sponsor-list">
           <a
