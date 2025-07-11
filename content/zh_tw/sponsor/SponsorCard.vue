@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import type { Sponsor } from '#loaders/sponsor.data'
-import { marked } from 'marked'
 
 defineProps<{ sponsor: Sponsor }>()
-
-const parseMarkdown = (text: string) => marked(text || '')
 </script>
 
 <template>
@@ -30,7 +27,7 @@ const parseMarkdown = (text: string) => marked(text || '')
         type="checkbox"
       >
       <div class="sponsor-info">
-        <p v-html="parseMarkdown(sponsor['intro:zh-TW'])" />
+        <p v-html="sponsor['intro:zh-TW']" />
       </div>
       <label
         :for="`sponsor-${sponsor.id}`"
