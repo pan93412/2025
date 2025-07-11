@@ -90,6 +90,7 @@ a {
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-align: left;
 }
 
 .sponsor-content-wrap label::after {
