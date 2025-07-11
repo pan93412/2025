@@ -3,6 +3,7 @@ import MenuBarDemo from './MenuBarDemo.vue';
 import SessionDateDemo from './SessionDateDemo.vue';
 import ButtonPrimaryDemo from './ButtonPrimaryDemo.vue';
 import ButtonSecondaryDemo from './ButtonSecondaryDemo.vue';
+import ButtonBasicDemo from './ButtonBasicDemo.vue';
 import IconButtonPrimaryDemo from './IconButtonPrimaryDemo.vue';
 import IconButtonBasicDemo from './IconButtonBasicDemo.vue';
 import CheckboxDemo from './CheckboxDemo.vue';
@@ -30,6 +31,10 @@ import CCard from '#/components/CCard.vue';
 ### Secondary
 
 <ButtonSecondaryDemo />
+
+### Basic
+
+<ButtonBasicDemo />
 
 ### Icon Button / Primary
 

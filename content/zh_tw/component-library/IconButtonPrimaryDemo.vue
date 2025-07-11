@@ -8,10 +8,6 @@ import CIconButton from '#components/CIconButton.vue'
       <IconPhCalendarPlus />
     </CIconButton>
 
-    <CIconButton variant="primary">
-      <IconPhHeart />
-    </CIconButton>
-
     <CIconButton
       disabled
       variant="primary"
