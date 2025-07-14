@@ -16,10 +16,6 @@ defineEmits<{
   (e: 'close'): void
 }>()
 
-defineExpose({
-  close,
-})
-
 const sessionTime = computed(() => {
   const startDateString = props.session?.start
   const endDateString = props.session?.end
