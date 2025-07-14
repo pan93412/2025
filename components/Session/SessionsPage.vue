@@ -51,7 +51,8 @@ const rooms = computed(() => {
     }
   })
 
-  return Array.from(roomMap.values())
+  // Sort rooms alphabetically by name
+  return Array.from(roomMap.values()).sort((a, b) => a.name.localeCompare(b.name))
 })
 
 // Get sessions for display
