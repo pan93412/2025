@@ -384,7 +384,7 @@ onUnmounted(() => {
 }
 
 .time-zone-btn {
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--color-gray-300);
 }
 
 .view-controls {
@@ -395,8 +395,8 @@ onUnmounted(() => {
 
 .view-toggle {
   display: flex;
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
   border-radius: 8px;
   padding: 4px;
 }
@@ -410,17 +410,16 @@ onUnmounted(() => {
   font-size: 14px;
   font-family: 'PingFang TC', sans-serif;
   transition: all 0.2s;
-  color: #364153;
+  color: var(--color-gray-700);
 }
 
 .view-toggle button.active {
-  background: #e5e3ff;
-  color: #4c4598;
+  background: var(--color-primary-50);
+  color: var(--color-primary-600);
 }
 
 .schedule-container {
-  background: white;
-  border: 1px solid #99a1af;
+  border: 1px solid var(--color-gray-400);
   border-radius: 12px;
   overflow-x: auto;
   overflow-y: auto;
@@ -431,8 +430,8 @@ onUnmounted(() => {
 
 .room-headers {
   display: flex;
-  background: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--color-gray-50);
+  border-bottom: 1px solid var(--color-gray-200);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -441,7 +440,7 @@ onUnmounted(() => {
 
 .time-header {
   width: 68px;
-  border-right: 1px solid #e5e7eb;
+  border-right: 1px solid var(--color-gray-200);
 }
 
 .room-header {
@@ -452,7 +451,7 @@ onUnmounted(() => {
   font-family: 'PingFang TC', sans-serif;
   font-size: 18px;
   font-weight: 600;
-  color: #7f73fe;
+  color: var(--color-primary-400);
   letter-spacing: 0.54px;
 }
 
@@ -465,8 +464,8 @@ onUnmounted(() => {
 
 .time-column {
   width: 68px;
-  background: #f9fafb;
-  border-right: 1px solid #e5e7eb;
+  background: var(--color-gray-50);
+  border-right: 1px solid var(--color-gray-200);
   position: relative;
 }
 
@@ -481,7 +480,7 @@ onUnmounted(() => {
   font-family: 'PingFang TC', sans-serif;
   font-size: 12px;
   font-weight: 600;
-  color: #99a1af;
+  color: var(--color-gray-400);
   position: relative;
 }
 
@@ -506,7 +505,7 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   height: 1px;
-  background: rgba(229, 231, 235, 0.5);
+  background: color-mix(in srgb, var(--color-gray-200) 50%, transparent);
 }
 
 .room-columns {
@@ -530,7 +529,7 @@ onUnmounted(() => {
   bottom: 0;
   left: 0;
   width: 1px;
-  background: rgba(229, 231, 235, 0.5);
+  background: color-mix(in srgb, var(--color-gray-200) 50%, transparent);
   z-index: 1;
 }
 
