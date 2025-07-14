@@ -1,3 +1,7 @@
+---
+layout: page
+---
+
 <script setup lang="ts">
 import { useData } from 'vitepress'
 import { data as submissions } from '#loaders/allSubmissions.en.data.ts'
