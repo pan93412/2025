@@ -6,9 +6,9 @@ import CCard from '#/components/CCard.vue'
 import CIconButton from '#/components/CIconButton.vue'
 import CMenuBar from '#/components/CMenuBar.vue'
 import { END_HOUR, SessionScheduleLayout, START_HOUR, TIME_SLOT_HEIGHT } from '#utils/session-layout.ts'
-import { useStorage } from '@vueuse/core'
+import { useSessionStorage, useStorage } from '@vueuse/core'
 import { useRouter } from 'vitepress'
-import { computed, ref } from 'vue'
+import { computed, nextTick, onMounted } from 'vue'
 import { messages } from './session-messages.ts'
 import SessionDateButton from './SessionDateButton.vue'
 import { useScrollFade } from './useScrollFade.ts'
@@ -100,11 +100,29 @@ function getSessionsForRoom(roomId: number | string) {
   )
 }
 
+// Scroll fade management
+const {
+  containerRef: scheduleContainerRef,
+  leftFadeRef,
+  rightFadeRef,
+  scrolledToLeft,
+  scrolledToRight,
+} = useScrollFade()
+
 const router = useRouter()
 
-const sessionModalRef = ref<InstanceType<typeof SessionModal>>()
+// Scroll position storage
+const scrollPosition = useSessionStorage<{ x: number, y: number }>('session-scroll-position', { x: 0, y: 0 })
 
 function handleOpenSession(sessionCode: string) {
+  // Capture current scroll position before navigation
+  if (scheduleContainerRef.value) {
+    scrollPosition.value = {
+      x: scheduleContainerRef.value.scrollLeft,
+      y: scheduleContainerRef.value.scrollTop,
+    }
+  }
+
   const pathname = new URL(sessionCode, location.href).pathname
   router.go(pathname)
 }
@@ -114,6 +132,18 @@ function handleCloseSession() {
   router.go(pathname)
 }
 
+// Restore scroll position on component mount (for page refreshes/direct links)
+onMounted(() => {
+  nextTick(() => {
+    if (scheduleContainerRef.value && scrollPosition.value) {
+      scheduleContainerRef.value.scrollLeft = scrollPosition.value.x
+      scheduleContainerRef.value.scrollTop = scrollPosition.value.y
+      // Clear the stored position after restoration
+      // scrollPosition.value = null
+    }
+  })
+})
+
 const openedSession = computed(() => {
   if (props.sessionCode) {
     return props.submissions.find((session) => session.code === props.sessionCode) ?? null
@@ -121,21 +151,11 @@ const openedSession = computed(() => {
 
   return null
 })
-
-// Scroll fade management
-const {
-  containerRef: scheduleContainerRef,
-  leftFadeRef,
-  rightFadeRef,
-  scrolledToLeft,
-  scrolledToRight,
-} = useScrollFade()
 </script>
 
 <template>
   <!-- make the main content show earlier -->
   <SessionModal
-    ref="sessionModalRef"
     :locale="locale"
     :session="openedSession"
     @close="handleCloseSession"
@@ -259,12 +279,12 @@ const {
               />
 
               <!-- Session Cards for this room -->
-              <a
+              <div
                 v-for="session in getSessionsForRoom(room.id)"
                 :key="session.code"
                 class="session-card"
                 :style="layout.getSessionStyle(session.code)"
-                @click="handleOpenSession(session.code)"
+                @click.prevent="handleOpenSession(session.code)"
               >
                 <CCard
                   :bookmarked="bookmarkedSessions.has(session.code)"
@@ -277,7 +297,7 @@ const {
                   :title="session.title"
                   @bookmark="toggleBookmark(session.code)"
                 />
-              </a>
+              </div>
             </div>
           </div>
         </div>
