@@ -4,7 +4,7 @@ import type { Locale } from './session-messages'
 import CTag from '#components/CTag.vue'
 import { formatTimeRange } from '#utils/format-time.ts'
 import { markdownToHtml } from '#utils/markdown.ts'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { messages } from './session-messages'
 
 const props = defineProps<{
@@ -16,22 +16,11 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-const dialogRef = ref<HTMLDialogElement>()
-
-function showModal() {
-  dialogRef.value?.showModal()
-}
-
-function close() {
-  dialogRef.value?.close()
-}
-
 function handleClose() {
   emit('close')
 }
 
 defineExpose({
-  showModal,
   close,
 })
 
@@ -49,7 +38,6 @@ const collaborationUrl = null
 
 <template>
   <dialog
-    ref="dialogRef"
     class="dialog"
     :open="!!session"
     @close="handleClose"
@@ -60,7 +48,7 @@ const collaborationUrl = null
           <div class="header-spacer" />
           <button
             class="dialog-close"
-            @click="close"
+            @click="handleClose"
           >
             <IconPhX style="color: var(--color-gray-500);" />
           </button>
