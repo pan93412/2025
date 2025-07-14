@@ -115,19 +115,10 @@ const openedSession = computed(() => {
   return null
 })
 
-// --- Scroll bottom fade state ---
-const scrolledToBottom = ref(true)
 const scheduleContainerRef = ref<HTMLElement | null>(null)
 const scrollRightFadeRef = ref<HTMLElement | null>(null)
 const scrollLeftFadeRef = ref<HTMLElement | null>(null)
 const scrolledToLeft = ref(true)
-
-function checkScrollBottom() {
-  const el = scheduleContainerRef.value
-  if (!el) return
-  // 1px buffer for floating point
-  scrolledToBottom.value = el.scrollTop + el.clientHeight >= el.scrollHeight - 1
-}
 
 // --- Scroll right fade state ---
 const scrolledToRight = ref(true)
@@ -156,19 +147,13 @@ function checkScrollRight() {
 onMounted(() => {
   const el = scheduleContainerRef.value
   if (el) {
-    el.addEventListener('scroll', checkScrollBottom)
     el.addEventListener('scroll', checkScrollRight)
     // 初始檢查
-    checkScrollBottom()
     checkScrollRight()
   }
 })
 onUnmounted(() => {
-  const el = scheduleContainerRef.value
-  if (el) {
-    el.removeEventListener('scroll', checkScrollBottom)
-    el.removeEventListener('scroll', checkScrollRight)
-  }
+  scheduleContainerRef.value?.removeEventListener('scroll', checkScrollRight)
 })
 </script>
 
@@ -333,11 +318,6 @@ onUnmounted(() => {
           </div>
         </div>
       </div>
-      <!-- 視覺引導淡出遮罩（底部） -->
-      <div
-        v-show="!scrolledToBottom"
-        class="scroll-bottom-fade"
-      />
       <!-- 視覺引導淡出遮罩（左側） -->
       <div
         v-show="!scrolledToLeft"
@@ -549,17 +529,6 @@ a.session-card {
 .session-card:hover {
   transform: translateY(-2px);
   z-index: 4;
-}
-
-.scroll-bottom-fade {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 48px;
-  pointer-events: none;
-  z-index: 20;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 100%);
 }
 
 .scroll-right-fade {
