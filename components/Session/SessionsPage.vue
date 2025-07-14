@@ -2,7 +2,6 @@
 import type SessionModal from '#components/Session/SessionModal.vue'
 import type { SubmissionResponse } from '#loaders/types.ts'
 import type { Locale } from './session-messages'
-import CButton from '#/components/CButton.vue'
 import CCard from '#/components/CCard.vue'
 import CIconButton from '#/components/CIconButton.vue'
 import SessionDateItem from '#/components/Session/Date/Item.vue'
@@ -145,6 +144,7 @@ const openedSession = computed(() => {
     <!-- Header Controls -->
     <div class="header-controls">
       <div class="filter-section">
+        <!--
         <CButton
           class="time-zone-btn"
           variant="secondary"
@@ -172,6 +172,7 @@ const openedSession = computed(() => {
         <CIconButton variant="basic">
           🔍
         </CIconButton>
+        -->
       </div>
 
       <div class="view-controls">
