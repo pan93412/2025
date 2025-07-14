@@ -77,21 +77,21 @@ const collaborationUrl = null
                 <div class="session-detail-row">
                   <div class="session-detail-label">
                     <IconPhClock />
-                    {{ messages[props.locale].time }}
+                    {{ messages[locale].time }}
                   </div>
                   {{ sessionTime }}
                 </div>
                 <div class="session-detail-row">
                   <div class="session-detail-label">
                     <IconPhUser />
-                    {{ messages[props.locale].speaker }}
+                    {{ messages[locale].speaker }}
                   </div>
                   {{ session.speakers.map(speaker => speaker.name).join(', ') }}
                 </div>
                 <div class="session-detail-row">
                   <div class="session-detail-label">
                     <IconPhMapPin />
-                    {{ messages[props.locale].room }}
+                    {{ messages[locale].room }}
                   </div>
                   {{ session.room.name }}
                 </div>
@@ -101,7 +101,7 @@ const collaborationUrl = null
                 >
                   <div class="session-detail-label">
                     <IconPhFileText />
-                    {{ messages[props.locale].collaborativeNotes }}
+                    {{ messages[locale].collaborativeNotes }}
                   </div>
                   {{ collaborationUrl }}
                 </div>
@@ -109,10 +109,10 @@ const collaborationUrl = null
 
               <section class="session-tags">
                 <CTag variant="secondary">
-                  {{ messages[props.locale].language }}
+                  {{ messages[locale].language }}
                 </CTag>
                 <CTag variant="secondary">
-                  {{ messages[props.locale].difficulty }}
+                  {{ messages[locale].difficulty }}
                 </CTag>
               </section>
 
@@ -125,7 +125,7 @@ const collaborationUrl = null
               <hr class="separator">
 
               <section class="session-description">
-                <h2>{{ messages[props.locale].abstract }}</h2>
+                <h2>{{ messages[locale].abstract }}</h2>
                 <div
                   v-if="session.abstract"
                   class="content-container"
@@ -134,7 +134,7 @@ const collaborationUrl = null
               </section>
 
               <section class="session-description">
-                <h2>{{ messages[props.locale].aboutSpeaker }}</h2>
+                <h2>{{ messages[locale].aboutSpeaker }}</h2>
                 <img
                   :alt="session.speakers[0].name"
                   class="speaker-avatar"
@@ -156,7 +156,7 @@ const collaborationUrl = null
         </main>
         <aside class="ad-sidebar">
           <div class="ad-placeholder">
-            {{ messages[props.locale].advertisement }}
+            {{ messages[locale].advertisement }}
           </div>
         </aside>
       </article>

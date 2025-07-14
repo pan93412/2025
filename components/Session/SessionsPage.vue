@@ -216,14 +216,14 @@ onUnmounted(() => {
           <template #icon>
             👥
           </template>
-          {{ messages[props.locale].community || 'Community' }}
+          {{ messages[locale].community || 'Community' }}
         </CButton>
 
         <CButton variant="basic">
           <template #icon>
             🏷️
           </template>
-          {{ messages[props.locale].tags || 'Tags' }}
+          {{ messages[locale].tags || 'Tags' }}
         </CButton>
 
         <CIconButton variant="basic">
@@ -238,13 +238,13 @@ onUnmounted(() => {
             :class="{ active: selectedView === 'conference' }"
             @click="selectedView = 'conference'"
           >
-            {{ messages[props.locale].conference || 'Conference' }}
+            {{ messages[locale].conference || 'Conference' }}
           </button>
           <button
             :class="{ active: selectedView === 'bookmarked' }"
             @click="selectedView = 'bookmarked'"
           >
-            {{ messages[props.locale].bookmarked || 'Bookmarked' }}
+            {{ messages[locale].bookmarked || 'Bookmarked' }}
           </button>
         </div>
 
@@ -324,7 +324,7 @@ onUnmounted(() => {
                   :speaker="session.speakers?.map(s => s.name).join(', ') || 'TBD'"
                   :start-at="session.start"
                   :status="openedSession?.code === session.code ? 'actived' : 'default'"
-                  :tag-text="session.track?.name || messages[props.locale].mainTrack"
+                  :tag-text="session.track?.name || messages[locale].mainTrack"
                   :title="session.title"
                   @bookmark="toggleBookmark(session.code)"
                 />
