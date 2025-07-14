@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type SessionModal from '#components/Session/SessionModal.vue'
 import type { SubmissionResponse } from '#loaders/types.ts'
 import type { Locale } from './session-messages'
 import CButton from '#/components/CButton.vue'
@@ -6,11 +7,10 @@ import CCard from '#/components/CCard.vue'
 import CIconButton from '#/components/CIconButton.vue'
 import SessionDateItem from '#/components/Session/Date/Item.vue'
 import SessionDateTab from '#/components/Session/Date/Tab.vue'
-import SessionModal from '#components/Session/SessionModal.vue'
 import { END_HOUR, SessionScheduleLayout, START_HOUR, TIME_SLOT_HEIGHT } from '#utils/session-layout.ts'
 import { useStorage } from '@vueuse/core'
 import { useRouter } from 'vitepress'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { messages } from './session-messages'
 
 const props = defineProps<{
@@ -95,6 +95,8 @@ function getSessionsForRoom(roomId: number | string) {
 
 const router = useRouter()
 
+const sessionModalRef = ref<InstanceType<typeof SessionModal>>()
+
 function handleOpenSession(sessionCode: string) {
   const pathname = new URL(sessionCode, location.href).pathname
   router.go(pathname)
@@ -115,6 +117,14 @@ const openedSession = computed(() => {
 </script>
 
 <template>
+  <!-- make the main content show earlier -->
+  <SessionModal
+    ref="sessionModalRef"
+    :locale="locale"
+    :session="openedSession"
+    @close="handleCloseSession"
+  />
+
   <div class="schedule-page">
     <!-- Date Selection -->
     <SessionDateTab>
@@ -140,35 +150,27 @@ const openedSession = computed(() => {
           variant="secondary"
         >
           <template #icon>
-            <div class="icon">
-              🌐
-            </div>
+            🌐
           </template>
           Time zone
         </CButton>
 
         <CButton variant="basic">
           <template #icon>
-            <div class="icon">
-              👥
-            </div>
+            👥
           </template>
           {{ messages[props.locale].community || 'Community' }}
         </CButton>
 
         <CButton variant="basic">
           <template #icon>
-            <div class="icon">
-              🏷️
-            </div>
+            🏷️
           </template>
           {{ messages[props.locale].tags || 'Tags' }}
         </CButton>
 
         <CIconButton variant="basic">
-          <div class="icon">
-            🔍
-          </div>
+          🔍
         </CIconButton>
       </div>
 
@@ -189,9 +191,7 @@ const openedSession = computed(() => {
         </div>
 
         <CIconButton variant="basic">
-          <div class="icon">
-            📤
-          </div>
+          📤
         </CIconButton>
       </div>
     </div>
@@ -273,13 +273,6 @@ const openedSession = computed(() => {
         </div>
       </div>
     </div>
-
-    <SessionModal
-      :locale="props.locale"
-      :open="!!openedSession"
-      :session="openedSession"
-      @close="handleCloseSession"
-    />
   </div>
 </template>
 

@@ -4,27 +4,36 @@ import type { Locale } from './session-messages'
 import CTag from '#components/CTag.vue'
 import { formatTimeRange } from '#utils/format-time.ts'
 import { markdownToHtml } from '#utils/markdown.ts'
-import {
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogOverlay,
-  DialogPortal,
-  DialogRoot,
-  DialogTitle,
-} from 'reka-ui'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { messages } from './session-messages'
 
 const props = defineProps<{
-  open: boolean
   session: SubmissionResponse | null
   locale: Locale
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'close'): void
 }>()
+
+const dialogRef = ref<HTMLDialogElement>()
+
+function showModal() {
+  dialogRef.value?.showModal()
+}
+
+function close() {
+  dialogRef.value?.close()
+}
+
+function handleClose() {
+  emit('close')
+}
+
+defineExpose({
+  showModal,
+  close,
+})
 
 const sessionTime = computed(() => {
   const startDateString = props?.session?.start
@@ -39,126 +48,123 @@ const collaborationUrl = null
 </script>
 
 <template>
-  <DialogRoot
-    :open="open"
-    @update:open="$emit('close')"
+  <dialog
+    ref="dialogRef"
+    class="dialog"
+    :open="!!session"
+    @close="handleClose"
   >
-    <DialogPortal>
-      <DialogOverlay class="dialog-overlay" />
-      <DialogContent
-        as="article"
-        class="dialog-content"
-      >
-        <div class="content-col">
-          <div class="dialog-header">
-            <div class="header-spacer" />
-            <DialogClose class="dialog-close">
-              <IconPhX style="color: var(--color-gray-500);" />
-            </DialogClose>
-          </div>
-          <div class="main-content">
-            <DialogTitle
-              v-if="session"
-              as="h1"
-              class="dialog-title"
-            >
-              {{ session.title }}
-            </DialogTitle>
-
-            <DialogDescription
-              v-if="session"
-              as="section"
-              class="dialog-description"
-            >
-              <section class="session-details">
-                <div class="session-detail-row">
-                  <div class="session-detail-label">
-                    <IconPhClock />
-                    {{ messages[props.locale].time }}
-                  </div>
-                  {{ sessionTime }}
-                </div>
-                <div class="session-detail-row">
-                  <div class="session-detail-label">
-                    <IconPhUser />
-                    {{ messages[props.locale].speaker }}
-                  </div>
-                  {{ session.speakers.map(speaker => speaker.name).join(', ') }}
-                </div>
-                <div class="session-detail-row">
-                  <div class="session-detail-label">
-                    <IconPhMapPin />
-                    {{ messages[props.locale].room }}
-                  </div>
-                  {{ session.room.name }}
-                </div>
-                <div
-                  v-if="collaborationUrl"
-                  class="session-detail-row"
-                >
-                  <div class="session-detail-label">
-                    <IconPhFileText />
-                    {{ messages[props.locale].collaborativeNotes }}
-                  </div>
-                  {{ collaborationUrl }}
-                </div>
-              </section>
-
-              <section class="session-tags">
-                <CTag variant="secondary">
-                  {{ messages[props.locale].language }}
-                </CTag>
-                <CTag variant="secondary">
-                  {{ messages[props.locale].difficulty }}
-                </CTag>
-              </section>
-
-              <section class="session-tags">
-                <CTag variant="primary">
-                  {{ session.track.name }}
-                </CTag>
-              </section>
-
-              <hr class="separator">
-
-              <section class="session-description">
-                <h2>{{ messages[props.locale].abstract }}</h2>
-                <div
-                  v-if="session.abstract"
-                  class="content-container"
-                  v-html="markdownToHtml(session.abstract, 'zh-tw')"
-                />
-              </section>
-
-              <section class="session-description">
-                <h2>{{ messages[props.locale].aboutSpeaker }}</h2>
-                <img
-                  :alt="session.speakers[0].name"
-                  class="speaker-avatar"
-                  height="80"
-                  :src="session.speakers[0].avatar"
-                  width="80"
-                >
-                <p class="speaker-name">
-                  {{ session.speakers[0].name }}
-                </p>
-                <div
-                  v-if="session.speakers[0].bio"
-                  class="speaker-bio content-container"
-                  v-html="markdownToHtml(session.speakers[0].bio, 'zh-tw')"
-                />
-              </section>
-            </DialogDescription>
-          </div>
+    <article class="dialog-content">
+      <main class="content-col">
+        <div class="dialog-header">
+          <div class="header-spacer" />
+          <button
+            class="dialog-close"
+            @click="close"
+          >
+            <IconPhX style="color: var(--color-gray-500);" />
+          </button>
         </div>
-        <aside class="ad-sidebar">
-          <div class="ad-placeholder">
-            {{ messages[props.locale].advertisement }}
-          </div>
-        </aside>
-      </DialogContent>
-    </DialogPortal>
-  </DialogRoot>
+        <div class="main-content">
+          <h1
+            v-if="session"
+            class="dialog-title"
+          >
+            {{ session.title }}
+          </h1>
+
+          <section
+            v-if="session"
+            class="dialog-description"
+          >
+            <section class="session-details">
+              <div class="session-detail-row">
+                <div class="session-detail-label">
+                  <IconPhClock />
+                  {{ messages[props.locale].time }}
+                </div>
+                {{ sessionTime }}
+              </div>
+              <div class="session-detail-row">
+                <div class="session-detail-label">
+                  <IconPhUser />
+                  {{ messages[props.locale].speaker }}
+                </div>
+                {{ session.speakers.map(speaker => speaker.name).join(', ') }}
+              </div>
+              <div class="session-detail-row">
+                <div class="session-detail-label">
+                  <IconPhMapPin />
+                  {{ messages[props.locale].room }}
+                </div>
+                {{ session.room.name }}
+              </div>
+              <div
+                v-if="collaborationUrl"
+                class="session-detail-row"
+              >
+                <div class="session-detail-label">
+                  <IconPhFileText />
+                  {{ messages[props.locale].collaborativeNotes }}
+                </div>
+                {{ collaborationUrl }}
+              </div>
+            </section>
+
+            <section class="session-tags">
+              <CTag variant="secondary">
+                {{ messages[props.locale].language }}
+              </CTag>
+              <CTag variant="secondary">
+                {{ messages[props.locale].difficulty }}
+              </CTag>
+            </section>
+
+            <section class="session-tags">
+              <CTag variant="primary">
+                {{ session.track.name }}
+              </CTag>
+            </section>
+
+            <hr class="separator">
+
+            <section class="session-description">
+              <h2>{{ messages[props.locale].abstract }}</h2>
+              <div
+                v-if="session.abstract"
+                class="content-container"
+                v-html="markdownToHtml(session.abstract, 'zh-tw')"
+              />
+            </section>
+
+            <section class="session-description">
+              <h2>{{ messages[props.locale].aboutSpeaker }}</h2>
+              <img
+                :alt="session.speakers[0].name"
+                class="speaker-avatar"
+                height="80"
+                :src="session.speakers[0].avatar"
+                width="80"
+              >
+              <p class="speaker-name">
+                {{ session.speakers[0].name }}
+              </p>
+              <div
+                v-if="session.speakers[0].bio"
+                class="speaker-bio content-container"
+                v-html="markdownToHtml(session.speakers[0].bio, 'zh-tw')"
+              />
+            </section>
+          </section>
+        </div>
+      </main>
+      <aside class="ad-sidebar">
+        <div class="ad-placeholder">
+          {{ messages[props.locale].advertisement }}
+        </div>
+      </aside>
+    </article>
+  </dialog>
 </template>
 
 <style>
@@ -176,20 +182,21 @@ const collaborationUrl = null
 
 <style scoped>
 /* #region component */
-.dialog-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  background: rgba(0, 0, 0, 0.8);
-}
-[data-state='open'].dialog-overlay {
-  animation: fade-in-0 0.2s forwards;
-}
-[data-state='closed'].dialog-overlay {
-  animation: fade-out-0 0.2s forwards;
+.dialog {
+  /* make the dialog show on top of other elements */
+  z-index: 1000;
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  &[open],
+  &[open]::backdrop {
+    animation: fade-in 0.2s forwards;
+  }
 }
 
-@keyframes fade-in-0 {
+@keyframes fade-in {
   from {
     opacity: 0;
   }
@@ -198,21 +205,10 @@ const collaborationUrl = null
   }
 }
 
-@keyframes fade-out-0 {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-/***** FLEX LAYOUT REFACTOR *****/
 .dialog-content {
   display: flex;
-  flex-direction: row;
-  position: fixed;
-  z-index: 50;
+  height: 100%;
+  width: 100%;
   background: var(--background, #fff);
   box-shadow:
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
@@ -223,15 +219,19 @@ const collaborationUrl = null
   right: 0;
   height: 100%;
   width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  border: none;
   border-left: 1px solid #e5e7eb;
   animation-duration: 0.5s;
   animation-fill-mode: both;
   overflow-y: auto;
   padding: 0;
+  margin: 0;
 }
 
 @media (min-width: 500px) {
-  .dialog-content {
+  .dialog {
     width: clamp(500px, 75vw, 800px);
   }
 }
@@ -271,7 +271,13 @@ const collaborationUrl = null
   transition: opacity 0.2s;
   outline: none;
   background: none;
+  border: none;
   box-shadow: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
 }
 .dialog-close:hover {
   opacity: 1;
