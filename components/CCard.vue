@@ -12,7 +12,7 @@ interface Props {
   speaker: string
   bookmarked?: boolean
   tagText?: string
-  status?: 'default' | 'actived' | 'disabled'
+  status?: 'default' | 'active' | 'disabled'
   heightFactor?: number
 }
 
@@ -103,7 +103,7 @@ const cardStyle = computed(() => ({
   border: 1px solid #ccc7ff;
 }
 
-.cardActived {
+.cardActive {
   border: 2px solid #7f73fe;
   box-shadow:
     0px 10px 15px -3px rgba(0, 0, 0, 0.1),
@@ -182,7 +182,7 @@ const cardStyle = computed(() => ({
   border-color: #fccee8;
 }
 
-.cardBookmarked.cardActived {
+.cardBookmarked.cardActive {
   background-color: #fdf2f8;
   border-color: #fb64b6;
 }

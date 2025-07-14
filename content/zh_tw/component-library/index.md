@@ -75,7 +75,7 @@ import CCard from '#/components/CCard.vue';
     endAt="10:30"
     speaker="zoe steinamp"
     tagText="主議程軌"
-    status="actived"
+    status="active"
 />
 
 <CCard
@@ -103,7 +103,7 @@ import CCard from '#/components/CCard.vue';
     endAt="10:30"
     speaker="zoe steinamp"
     tagText="主議程軌"
-    status="actived"
+    status="active"
     bookmarked
 />
 

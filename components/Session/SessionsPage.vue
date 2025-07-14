@@ -323,7 +323,7 @@ onUnmounted(() => {
                   :height-factor="layout.getHeightFactor(session.code)"
                   :speaker="session.speakers?.map(s => s.name).join(', ') || 'TBD'"
                   :start-at="session.start"
-                  :status="openedSession?.code === session.code ? 'actived' : 'default'"
+                  :status="openedSession?.code === session.code ? 'active' : 'default'"
                   :tag-text="session.track?.name || messages[locale].mainTrack"
                   :title="session.title"
                   @bookmark="toggleBookmark(session.code)"
