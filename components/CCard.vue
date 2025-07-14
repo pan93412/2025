@@ -27,7 +27,7 @@ defineEmits<{
   (e: 'bookmark'): void
 }>()
 
-const tagVariant = computed(() => props.bookmarked ? 'primary' : 'secondary')
+const tagVariant = computed(() => props.bookmarked ? 'actived' : 'secondary')
 const cardStyle = computed(() => ({
   height: `${150 * props.heightFactor}px`,
 }))

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface Props {
-  variant?: 'primary' | 'secondary'
+  variant?: 'primary' | 'secondary' | 'actived'
 }
 
 withDefaults(defineProps<Props>(), {
@@ -39,5 +39,10 @@ withDefaults(defineProps<Props>(), {
 .secondary {
   background-color: var(--color-primary-100);
   color: var(--color-primary-600);
+}
+
+.actived {
+  background-color: #e60076;
+  color: var(--color-white);
 }
 </style>
