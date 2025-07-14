@@ -9,7 +9,7 @@ import SessionDateTab from '#/components/Session/Date/Tab.vue'
 import { END_HOUR, SessionScheduleLayout, START_HOUR, TIME_SLOT_HEIGHT } from '#utils/session-layout.ts'
 import { useStorage } from '@vueuse/core'
 import { useRouter } from 'vitepress'
-import { computed, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { messages } from './session-messages'
 
 const props = defineProps<{
@@ -113,6 +113,62 @@ const openedSession = computed(() => {
 
   return null
 })
+
+// --- Scroll bottom fade state ---
+const scrolledToBottom = ref(true)
+const scheduleContainerRef = ref<HTMLElement | null>(null)
+const scrollRightFadeRef = ref<HTMLElement | null>(null)
+const scrollLeftFadeRef = ref<HTMLElement | null>(null)
+const scrolledToLeft = ref(true)
+
+function checkScrollBottom() {
+  const el = scheduleContainerRef.value
+  if (!el) return
+  // 1px buffer for floating point
+  scrolledToBottom.value = el.scrollTop + el.clientHeight >= el.scrollHeight - 1
+}
+
+// --- Scroll right fade state ---
+const scrolledToRight = ref(true)
+
+function checkScrollRight() {
+  const el = scheduleContainerRef.value
+  if (!el) return
+  // 1px buffer for floating point
+  scrolledToRight.value = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1
+  scrolledToLeft.value = el.scrollLeft <= 1
+  // 讓右側遮罩跟著 scrollLeft 移動，並調整高度與 top
+  if (scrollRightFadeRef.value) {
+    scrollRightFadeRef.value.style.transform = `translateX(${el.scrollLeft}px)`
+    scrollRightFadeRef.value.style.height = `${el.clientHeight}px`
+    scrollRightFadeRef.value.style.top = `${el.scrollTop}px`
+  }
+  // 讓左側遮罩跟著 scrollLeft 移動，並調整高度與 top
+  if (scrollLeftFadeRef.value) {
+    scrollLeftFadeRef.value.style.transform = `translateX(${el.scrollLeft}px)`
+    scrollLeftFadeRef.value.style.height = `${el.clientHeight}px`
+    scrollLeftFadeRef.value.style.top = `${el.scrollTop}px`
+  }
+}
+
+// 進入頁面時也要初始化高度與 top
+onMounted(() => {
+  const el = scheduleContainerRef.value
+  if (el) {
+    el.addEventListener('scroll', checkScrollBottom)
+    el.addEventListener('scroll', checkScrollRight)
+    // 初始檢查
+    checkScrollBottom()
+    checkScrollRight()
+  }
+})
+onUnmounted(() => {
+  const el = scheduleContainerRef.value
+  if (el) {
+    el.removeEventListener('scroll', checkScrollBottom)
+    el.removeEventListener('scroll', checkScrollRight)
+  }
+})
 </script>
 
 <template>
@@ -198,7 +254,10 @@ const openedSession = computed(() => {
     </div>
 
     <!-- Schedule Container -->
-    <div class="schedule-container">
+    <div
+      ref="scheduleContainerRef"
+      class="schedule-container"
+    >
       <!-- Room Headers -->
       <div class="room-headers">
         <div class="time-header" />
@@ -273,6 +332,23 @@ const openedSession = computed(() => {
           </div>
         </div>
       </div>
+      <!-- 視覺引導淡出遮罩（底部） -->
+      <div
+        v-show="!scrolledToBottom"
+        class="scroll-bottom-fade"
+      />
+      <!-- 視覺引導淡出遮罩（左側） -->
+      <div
+        v-show="!scrolledToLeft"
+        ref="scrollLeftFadeRef"
+        class="scroll-left-fade"
+      />
+      <!-- 視覺引導淡出遮罩（右側） -->
+      <div
+        v-show="!scrolledToRight"
+        ref="scrollRightFadeRef"
+        class="scroll-right-fade"
+      />
     </div>
   </div>
 </template>
@@ -372,6 +448,7 @@ body {
   overflow-y: auto;
   width: 100%;
   height: 80vh;
+  position: relative;
 }
 
 .room-headers {
@@ -495,5 +572,38 @@ a.session-card {
 .session-card:hover {
   transform: translateY(-2px);
   z-index: 4;
+}
+
+.scroll-bottom-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 48px;
+  pointer-events: none;
+  z-index: 20;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 100%);
+}
+
+.scroll-right-fade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 48px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 20;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 100%);
+}
+
+.scroll-left-fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 48px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 20;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 100%);
 }
 </style>
