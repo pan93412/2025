@@ -37,122 +37,131 @@ const collaborationUrl = null
 </script>
 
 <template>
-  <dialog
-    class="dialog"
-    :open="!!session"
-    @close="handleClose"
+  <div
+    v-if="session"
+    class="modal-overlay-wrapper"
   >
-    <article class="dialog-content">
-      <main class="content-col">
-        <div class="dialog-header">
-          <div class="header-spacer" />
-          <button
-            class="dialog-close"
-            @click="handleClose"
-          >
-            <IconPhX style="color: var(--color-gray-500);" />
-          </button>
-        </div>
-        <div class="main-content">
-          <h1
-            v-if="session"
-            class="dialog-title"
-          >
-            {{ session.title }}
-          </h1>
+    <div
+      class="modal-overlay"
+      @click="handleClose"
+    />
+    <aside
+      aria-modal="true"
+      class="modal-panel"
+      role="dialog"
+    >
+      <article class="dialog-content">
+        <main class="content-col">
+          <div class="dialog-header">
+            <div class="header-spacer" />
+            <button
+              class="dialog-close"
+              @click="handleClose"
+            >
+              <IconPhX style="color: var(--color-gray-500);" />
+            </button>
+          </div>
+          <div class="main-content">
+            <h1
+              v-if="session"
+              class="dialog-title"
+            >
+              {{ session.title }}
+            </h1>
 
-          <section
-            v-if="session"
-            class="dialog-description"
-          >
-            <section class="session-details">
-              <div class="session-detail-row">
-                <div class="session-detail-label">
-                  <IconPhClock />
-                  {{ messages[props.locale].time }}
+            <section
+              v-if="session"
+              class="dialog-description"
+            >
+              <section class="session-details">
+                <div class="session-detail-row">
+                  <div class="session-detail-label">
+                    <IconPhClock />
+                    {{ messages[props.locale].time }}
+                  </div>
+                  {{ sessionTime }}
                 </div>
-                {{ sessionTime }}
-              </div>
-              <div class="session-detail-row">
-                <div class="session-detail-label">
-                  <IconPhUser />
-                  {{ messages[props.locale].speaker }}
+                <div class="session-detail-row">
+                  <div class="session-detail-label">
+                    <IconPhUser />
+                    {{ messages[props.locale].speaker }}
+                  </div>
+                  {{ session.speakers.map(speaker => speaker.name).join(', ') }}
                 </div>
-                {{ session.speakers.map(speaker => speaker.name).join(', ') }}
-              </div>
-              <div class="session-detail-row">
-                <div class="session-detail-label">
-                  <IconPhMapPin />
-                  {{ messages[props.locale].room }}
+                <div class="session-detail-row">
+                  <div class="session-detail-label">
+                    <IconPhMapPin />
+                    {{ messages[props.locale].room }}
+                  </div>
+                  {{ session.room.name }}
                 </div>
-                {{ session.room.name }}
-              </div>
-              <div
-                v-if="collaborationUrl"
-                class="session-detail-row"
-              >
-                <div class="session-detail-label">
-                  <IconPhFileText />
-                  {{ messages[props.locale].collaborativeNotes }}
+                <div
+                  v-if="collaborationUrl"
+                  class="session-detail-row"
+                >
+                  <div class="session-detail-label">
+                    <IconPhFileText />
+                    {{ messages[props.locale].collaborativeNotes }}
+                  </div>
+                  {{ collaborationUrl }}
                 </div>
-                {{ collaborationUrl }}
-              </div>
-            </section>
+              </section>
 
-            <section class="session-tags">
-              <CTag variant="secondary">
-                {{ messages[props.locale].language }}
-              </CTag>
-              <CTag variant="secondary">
-                {{ messages[props.locale].difficulty }}
-              </CTag>
-            </section>
+              <section class="session-tags">
+                <CTag variant="secondary">
+                  {{ messages[props.locale].language }}
+                </CTag>
+                <CTag variant="secondary">
+                  {{ messages[props.locale].difficulty }}
+                </CTag>
+              </section>
 
-            <section class="session-tags">
-              <CTag variant="primary">
-                {{ session.track.name }}
-              </CTag>
-            </section>
+              <section class="session-tags">
+                <CTag variant="primary">
+                  {{ session.track.name }}
+                </CTag>
+              </section>
 
-            <hr class="separator">
+              <hr class="separator">
 
-            <section class="session-description">
-              <h2>{{ messages[props.locale].abstract }}</h2>
-              <div
-                v-if="session.abstract"
-                class="content-container"
-                v-html="markdownToHtml(session.abstract, 'zh-tw')"
-              />
-            </section>
+              <section class="session-description">
+                <h2>{{ messages[props.locale].abstract }}</h2>
+                <div
+                  v-if="session.abstract"
+                  class="content-container"
+                  v-html="markdownToHtml(session.abstract, 'zh-tw')"
+                />
+              </section>
 
-            <section class="session-description">
-              <h2>{{ messages[props.locale].aboutSpeaker }}</h2>
-              <img
-                :alt="session.speakers[0].name"
-                class="speaker-avatar"
-                height="80"
-                :src="session.speakers[0].avatar"
-                width="80"
-              >
-              <p class="speaker-name">
-                {{ session.speakers[0].name }}
-              </p>
-              <div
-                v-if="session.speakers[0].bio"
-                class="speaker-bio content-container"
-                v-html="markdownToHtml(session.speakers[0].bio, 'zh-tw')"
-              />
+              <section class="session-description">
+                <h2>{{ messages[props.locale].aboutSpeaker }}</h2>
+                <img
+                  :alt="session.speakers[0].name"
+                  class="speaker-avatar"
+                  height="80"
+                  :src="session.speakers[0].avatar"
+                  width="80"
+                >
+                <p class="speaker-name">
+                  {{ session.speakers[0].name }}
+                </p>
+                <div
+                  v-if="session.speakers[0].bio"
+                  class="speaker-bio content-container"
+                  v-html="markdownToHtml(session.speakers[0].bio, 'zh-tw')"
+                />
+              </section>
             </section>
-          </section>
-        </div>
-      </main>
-      <aside class="ad-sidebar">
-        <div class="ad-placeholder">
-          {{ messages[props.locale].advertisement }}
-        </div>
-      </aside>
-    </article>
-  </dialog>
+          </div>
+        </main>
+        <aside class="ad-sidebar">
+          <div class="ad-placeholder">
+            {{ messages[props.locale].advertisement }}
+          </div>
+        </aside>
+      </article>
+    </aside>
+  </div>
 </template>
 
 <style>
@@ -371,6 +380,45 @@ const collaborationUrl = null
     height: 50vh;
     background: var(--color-gray-200);
     padding: 1rem;
+  }
+}
+
+.modal-overlay-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+}
+
+.modal-panel {
+  position: relative;
+  z-index: 1001;
+  height: 100vh;
+  width: 100vw;
+  max-width: 100vw;
+  background: var(--background, #fff);
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  right: 0;
+  top: 0;
+}
+
+@media (min-width: 500px) {
+  .modal-panel {
+    width: clamp(500px, 75vw, 800px);
+    max-width: 100vw;
   }
 }
 </style>
