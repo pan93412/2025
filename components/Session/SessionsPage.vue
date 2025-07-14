@@ -4,6 +4,7 @@ import type { SubmissionResponse } from '#loaders/types.ts'
 import type { Locale } from './session-messages'
 import CCard from '#/components/CCard.vue'
 import CIconButton from '#/components/CIconButton.vue'
+import CMenuBar from '#/components/CMenuBar.vue'
 import SessionDateButton from '#components/Session/SessionDateButton.vue'
 import { END_HOUR, SessionScheduleLayout, START_HOUR, TIME_SLOT_HEIGHT } from '#utils/session-layout.ts'
 import { useStorage } from '@vueuse/core'
@@ -22,6 +23,12 @@ const bookmarkedSessions = useStorage('bookmarked-sessions', new Set<string>())
 
 // View state
 const selectedView = useStorage<'conference' | 'bookmarked'>('selected-view', 'conference')
+
+// Menu items for view toggle
+const viewMenuItems = computed(() => [
+  { key: 'conference', label: messages[props.locale].conference || 'Conference' },
+  { key: 'bookmarked', label: messages[props.locale].bookmarked || 'Bookmarked' },
+])
 
 // Date selection state
 const selectedDate = useStorage<'Aug.9' | 'Aug.10'>('selected-date', 'Aug.9')
@@ -182,9 +189,8 @@ onUnmounted(() => {
       </SessionDateButton>
     </nav>
 
-    <!-- Header Controls -->
-    <div class="header-controls">
-      <div class="filter-section">
+    <div class="toolbar">
+      <div class="toolbar-start">
         <!--
         <CButton
           class="time-zone-btn"
@@ -216,24 +222,14 @@ onUnmounted(() => {
         -->
       </div>
 
-      <div class="view-controls">
-        <div class="view-toggle">
-          <button
-            :class="{ active: selectedView === 'conference' }"
-            @click="selectedView = 'conference'"
-          >
-            {{ messages[locale].conference || 'Conference' }}
-          </button>
-          <button
-            :class="{ active: selectedView === 'bookmarked' }"
-            @click="selectedView = 'bookmarked'"
-          >
-            {{ messages[locale].bookmarked || 'Bookmarked' }}
-          </button>
-        </div>
+      <div class="toolbar-end">
+        <CMenuBar
+          v-model="selectedView"
+          :items="viewMenuItems"
+        />
 
         <CIconButton variant="basic">
-          📤
+          <IconPhShareFat />
         </CIconButton>
       </div>
     </div>
@@ -353,61 +349,34 @@ onUnmounted(() => {
   height: var(--date-tab-height);
 }
 
-.header-controls {
+.toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 16px 0;
-  height: 5rem;
-}
+  height: var(--controls-height);
 
-@media (max-width: 500px) {
-  .header-controls {
+  @media (max-width: 500px) {
     flex-direction: column;
     align-items: center;
     gap: 12px;
   }
-}
 
-.filter-section {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  > .toolbar-start {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  > .toolbar-end {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 }
 
 .time-zone-btn {
   border: 1px solid var(--color-gray-300);
-}
-
-.view-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.view-toggle {
-  display: flex;
-  background: var(--color-white);
-  border: 1px solid var(--color-gray-200);
-  border-radius: 8px;
-  padding: 4px;
-}
-
-.view-toggle button {
-  padding: 8px 16px;
-  border: none;
-  background: transparent;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  font-family: 'PingFang TC', sans-serif;
-  transition: all 0.2s;
-  color: var(--color-gray-700);
-}
-
-.view-toggle button.active {
-  background: var(--color-primary-50);
-  color: var(--color-primary-600);
 }
 
 .schedule-container {
