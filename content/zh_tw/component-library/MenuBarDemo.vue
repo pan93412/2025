@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import MenuBarGroup from '#components/MenuBar/Group.vue'
-import MenuBarTriggerItem from '#components/MenuBar/TriggerItem.vue'
+import CMenuBar from '#components/CMenuBar.vue'
+import { ref } from 'vue'
+
+const selectedItem = ref('sessions')
+const menuItems = [
+  { key: 'sessions', label: '議程' },
+  { key: 'favorites', label: '我的收藏' },
+]
 </script>
 
 <template>
-  <MenuBarGroup>
-    <MenuBarTriggerItem>議程</MenuBarTriggerItem>
-    <MenuBarTriggerItem :selected="true">
-      我的收藏
-    </MenuBarTriggerItem>
-  </MenuBarGroup>
+  <CMenuBar
+    v-model="selectedItem"
+    :items="menuItems"
+  />
 </template>
