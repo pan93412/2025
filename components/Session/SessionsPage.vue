@@ -354,34 +354,11 @@ onUnmounted(() => {
   </div>
 </template>
 
-<style>
-body {
-  background: #f9fafb !important;
-}
-
-.container {
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-.content {
-  max-width: 100% !important;
-}
-
-.content-container {
-  max-width: 100% !important;
-}
-
-.aside {
-  display: none !important;
-}
-</style>
-
 <style scoped>
 .schedule-page {
   width: 100%;
   min-width: 100%;
-  padding: 20px 0;
+  padding: 18px 32px;
 }
 
 .header-controls {
