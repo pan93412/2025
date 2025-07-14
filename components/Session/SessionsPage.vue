@@ -369,14 +369,19 @@ body {
   border: 1px solid #99a1af;
   border-radius: 12px;
   overflow-x: auto;
-  overflow-y: visible;
+  overflow-y: auto;
   width: 100%;
+  height: 80vh;
 }
 
 .room-headers {
   display: flex;
   background: #f9fafb;
   border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: max-content;
 }
 
 .time-header {
@@ -411,6 +416,7 @@ body {
 }
 
 .time-slot {
+  width: 68px;
   height: 400px;
   display: flex;
   align-items: flex-start;
