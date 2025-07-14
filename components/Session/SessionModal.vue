@@ -12,21 +12,17 @@ const props = defineProps<{
   locale: Locale
 }>()
 
-const emit = defineEmits<{
+defineEmits<{
   (e: 'close'): void
 }>()
-
-function handleClose() {
-  emit('close')
-}
 
 defineExpose({
   close,
 })
 
 const sessionTime = computed(() => {
-  const startDateString = props?.session?.start
-  const endDateString = props?.session?.end
+  const startDateString = props.session?.start
+  const endDateString = props.session?.end
 
   if (!startDateString || !endDateString) return messages[props.locale].unknown
 
@@ -43,7 +39,7 @@ const collaborationUrl = null
   >
     <div
       class="modal-overlay"
-      @click="handleClose"
+      @click="$emit('close')"
     />
     <aside
       aria-modal="true"
@@ -56,7 +52,7 @@ const collaborationUrl = null
             <div class="header-spacer" />
             <button
               class="dialog-close"
-              @click="handleClose"
+              @click="$emit('close')"
             >
               <IconPhX style="color: var(--color-gray-500);" />
             </button>
