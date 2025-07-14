@@ -4,8 +4,7 @@ import type { SubmissionResponse } from '#loaders/types.ts'
 import type { Locale } from './session-messages'
 import CCard from '#/components/CCard.vue'
 import CIconButton from '#/components/CIconButton.vue'
-import SessionDateItem from '#/components/Session/Date/Item.vue'
-import SessionDateTab from '#/components/Session/Date/Tab.vue'
+import SessionDateButton from '#components/Session/SessionDateButton.vue'
 import { END_HOUR, SessionScheduleLayout, START_HOUR, TIME_SLOT_HEIGHT } from '#utils/session-layout.ts'
 import { useStorage } from '@vueuse/core'
 import { useRouter } from 'vitepress'
@@ -168,20 +167,20 @@ onUnmounted(() => {
 
   <div class="schedule-page">
     <!-- Date Selection -->
-    <SessionDateTab>
-      <SessionDateItem
+    <nav class="date-tab">
+      <SessionDateButton
         :selected="selectedDate === 'Aug.9'"
         @click="selectedDate = 'Aug.9'"
       >
         Aug.9
-      </SessionDateItem>
-      <SessionDateItem
+      </SessionDateButton>
+      <SessionDateButton
         :selected="selectedDate === 'Aug.10'"
         @click="selectedDate = 'Aug.10'"
       >
         Aug.10
-      </SessionDateItem>
-    </SessionDateTab>
+      </SessionDateButton>
+    </nav>
 
     <!-- Header Controls -->
     <div class="header-controls">
@@ -336,17 +335,30 @@ onUnmounted(() => {
 
 <style scoped>
 .schedule-page {
+  --date-tab-height: 3rem;
+  --controls-height: 5rem;
+
   width: 100%;
   min-width: 100%;
   padding: 18px 32px;
+  height: calc(100vh - var(--vp-nav-height));
+}
+
+.date-tab {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: Inter, sans-serif;
+  color: #fff;
+  height: var(--date-tab-height);
 }
 
 .header-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
   padding: 16px 0;
+  height: 5rem;
 }
 
 @media (max-width: 500px) {
@@ -404,7 +416,7 @@ onUnmounted(() => {
   overflow-x: auto;
   overflow-y: auto;
   width: 100%;
-  height: 80vh;
+  height: calc(100% - var(--date-tab-height) - var(--controls-height));
   position: relative;
 }
 

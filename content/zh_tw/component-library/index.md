@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import MenuBarDemo from './MenuBarDemo.vue';
-import SessionDateDemo from './SessionDateDemo.vue';
 import ButtonPrimaryDemo from './ButtonPrimaryDemo.vue';
 import ButtonSecondaryDemo from './ButtonSecondaryDemo.vue';
 import ButtonBasicDemo from './ButtonBasicDemo.vue';
@@ -17,10 +16,6 @@ import CCard from '#/components/CCard.vue';
 ## Menu Bar
 
 <MenuBarDemo />
-
-## Session Date
-
-<SessionDateDemo />
 
 ## Button
 
