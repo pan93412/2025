@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import type SessionModal from '#components/Session/SessionModal.vue'
 import type { SubmissionResponse } from '#loaders/types.ts'
-import type { Locale } from './session-messages'
+import type { Locale } from './session-messages.ts'
+import type SessionModal from './SessionModal.vue'
 import CCard from '#/components/CCard.vue'
 import CIconButton from '#/components/CIconButton.vue'
 import CMenuBar from '#/components/CMenuBar.vue'
-import SessionDateButton from '#components/Session/SessionDateButton.vue'
 import { END_HOUR, SessionScheduleLayout, START_HOUR, TIME_SLOT_HEIGHT } from '#utils/session-layout.ts'
 import { useStorage } from '@vueuse/core'
 import { useRouter } from 'vitepress'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { messages } from './session-messages'
+import { computed, ref } from 'vue'
+import { messages } from './session-messages.ts'
+import SessionDateButton from './SessionDateButton.vue'
+import { useScrollFade } from './useScrollFade.ts'
 
 const props = defineProps<{
   sessionCode: string | undefined
@@ -121,46 +122,14 @@ const openedSession = computed(() => {
   return null
 })
 
-const scheduleContainerRef = ref<HTMLElement | null>(null)
-const scrollRightFadeRef = ref<HTMLElement | null>(null)
-const scrollLeftFadeRef = ref<HTMLElement | null>(null)
-const scrolledToLeft = ref(true)
-
-// --- Scroll right fade state ---
-const scrolledToRight = ref(true)
-
-function checkScrollRight() {
-  const el = scheduleContainerRef.value
-  if (!el) return
-  // 1px buffer for floating point
-  scrolledToRight.value = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1
-  scrolledToLeft.value = el.scrollLeft <= 1
-  // 讓右側遮罩跟著 scrollLeft 移動，並調整高度與 top
-  if (scrollRightFadeRef.value) {
-    scrollRightFadeRef.value.style.transform = `translateX(${el.scrollLeft}px)`
-    scrollRightFadeRef.value.style.height = `${el.clientHeight}px`
-    scrollRightFadeRef.value.style.top = `${el.scrollTop}px`
-  }
-  // 讓左側遮罩跟著 scrollLeft 移動，並調整高度與 top
-  if (scrollLeftFadeRef.value) {
-    scrollLeftFadeRef.value.style.transform = `translateX(${el.scrollLeft}px)`
-    scrollLeftFadeRef.value.style.height = `${el.clientHeight}px`
-    scrollLeftFadeRef.value.style.top = `${el.scrollTop}px`
-  }
-}
-
-// 進入頁面時也要初始化高度與 top
-onMounted(() => {
-  const el = scheduleContainerRef.value
-  if (el) {
-    el.addEventListener('scroll', checkScrollRight)
-    // 初始檢查
-    checkScrollRight()
-  }
-})
-onUnmounted(() => {
-  scheduleContainerRef.value?.removeEventListener('scroll', checkScrollRight)
-})
+// Scroll fade management
+const {
+  containerRef: scheduleContainerRef,
+  leftFadeRef,
+  rightFadeRef,
+  scrolledToLeft,
+  scrolledToRight,
+} = useScrollFade()
 </script>
 
 <template>
@@ -316,13 +285,13 @@ onUnmounted(() => {
       <!-- 視覺引導淡出遮罩（左側） -->
       <div
         v-show="!scrolledToLeft"
-        ref="scrollLeftFadeRef"
+        ref="leftFadeRef"
         class="scroll-left-fade"
       />
       <!-- 視覺引導淡出遮罩（右側） -->
       <div
         v-show="!scrolledToRight"
-        ref="scrollRightFadeRef"
+        ref="rightFadeRef"
         class="scroll-right-fade"
       />
     </div>
