@@ -76,7 +76,7 @@ const collaborationUrl = null
                 <div class="session-detail-row">
                   <div class="session-detail-label">
                     <IconPhUser />
-                    {{ messages[locale].speaker }}
+                    {{ messages[locale]?.speaker }}
                   </div>
                   {{ session.speakers.map(speaker => speaker.name).join(', ') }}
                 </div>
@@ -128,19 +128,19 @@ const collaborationUrl = null
               <section class="session-description">
                 <h2>{{ messages[locale].aboutSpeaker }}</h2>
                 <img
-                  :alt="session.speakers[0].name"
+                  :alt="session.speakers[0]?.name"
                   class="speaker-avatar"
                   height="80"
-                  :src="session.speakers[0].avatar"
+                  :src="session.speakers[0]?.avatar"
                   width="80"
                 >
                 <p class="speaker-name">
-                  {{ session.speakers[0].name }}
+                  {{ session.speakers[0]?.name }}
                 </p>
                 <div
-                  v-if="session.speakers[0].bio"
+                  v-if="session.speakers[0]?.bio"
                   class="speaker-bio content-container"
-                  v-html="markdownToHtml(session.speakers[0].bio, 'zh-tw')"
+                  v-html="markdownToHtml(session.speakers[0]?.bio, 'zh-tw')"
                 />
               </section>
             </section>
