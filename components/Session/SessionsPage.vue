@@ -59,7 +59,12 @@ const rooms = computed(() => {
   })
 
   // Sort rooms alphabetically by name
-  return Array.from(roomMap.values()).sort((a, b) => a.name.localeCompare(b.name))
+  // RB105 should be the first room, then the rest sorted alphabetically
+  return Array.from(roomMap.values()).sort((a, b) => {
+    if (a.name === 'RB105') return -1
+    if (b.name === 'RB105') return 1
+    return a.name.localeCompare(b.name)
+  })
 })
 
 // Get sessions for display
