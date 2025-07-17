@@ -101,10 +101,10 @@ const collaborationUrl = null
 
               <section class="session-tags">
                 <CTag variant="secondary">
-                  {{ messages[locale].language }}
+                  {{ session.language }}
                 </CTag>
                 <CTag variant="secondary">
-                  {{ messages[locale].difficulty }}
+                  {{ session.difficulty }}
                 </CTag>
               </section>
 

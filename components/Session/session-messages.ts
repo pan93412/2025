@@ -1,6 +1,6 @@
 export type Locale = 'en' | 'zh-tw'
 export type MessageKey =
-  'time' | 'speaker' | 'room' | 'collaborativeNotes' | 'language' | 'difficulty' | 'track' | 'abstract' | 'aboutSpeaker' | 'advertisement' | 'unknown' | 'community' | 'tags' | 'conference' | 'bookmarked' | 'mainTrack'
+  'time' | 'speaker' | 'room' | 'collaborativeNotes' | 'track' | 'abstract' | 'aboutSpeaker' | 'advertisement' | 'unknown' | 'community' | 'tags' | 'conference' | 'bookmarked' | 'mainTrack'
 
 export const messages: Record<Locale, Record<MessageKey, string>> = {
   'en': {
@@ -8,8 +8,6 @@ export const messages: Record<Locale, Record<MessageKey, string>> = {
     speaker: 'Speaker',
     room: 'Room',
     collaborativeNotes: 'Collaborative Notes',
-    language: 'Chinese',
-    difficulty: 'Beginner',
     track: 'Track',
     abstract: 'Abstract',
     aboutSpeaker: 'About the Speaker',
@@ -26,8 +24,6 @@ export const messages: Record<Locale, Record<MessageKey, string>> = {
     speaker: '講者',
     room: '位置',
     collaborativeNotes: '共筆',
-    language: '中文',
-    difficulty: '入門',
     track: '軌次',
     abstract: '簡介',
     aboutSpeaker: '關於講者',

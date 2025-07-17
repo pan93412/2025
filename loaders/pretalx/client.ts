@@ -2,7 +2,7 @@ import type { AnswerReadable, RoomReadable, RoomsListData, SpeakerReadable, Spea
 import type { MultiLingualString, OptionalMultiLingualString, Room, Speaker, Submission, Track } from './types'
 import { BadServerSideDataException } from './exception'
 import { createClient } from './oapi/client'
-import { coscupSessionQuestionIdMap } from './pretalx-types'
+import { coscupSubmissionsQuestionIdMap } from './pretalx-types'
 import { formatMultiLingualString, getAnswer } from './utils'
 
 interface PaginatedResponse<T> {
@@ -177,8 +177,11 @@ export class PretalxApiClient {
     const submissions = await this.#getPaginatedResources<ApiSubmissionResponse>(url)
 
     return submissions.map((submission) => {
-      const enTitle = getAnswer(submission.answers, coscupSessionQuestionIdMap.EnTitle)
-      const enDesc = getAnswer(submission.answers, coscupSessionQuestionIdMap.EnDesc)
+      const enTitle = getAnswer(submission.answers, coscupSubmissionsQuestionIdMap.EnTitle)
+      const enDesc = getAnswer(submission.answers, coscupSubmissionsQuestionIdMap.EnDesc)
+      const language = getAnswer(submission.answers, coscupSubmissionsQuestionIdMap.Language)
+      const languageOther = getAnswer(submission.answers, coscupSubmissionsQuestionIdMap.LanguageOther)
+      const difficulty = getAnswer(submission.answers, coscupSubmissionsQuestionIdMap.Difficulty)
 
       const start = submission.slots[0]?.start ? new Date(submission.slots[0].start) : undefined
       const end = submission.slots[0]?.end ? new Date(submission.slots[0].end) : undefined
@@ -213,6 +216,8 @@ export class PretalxApiClient {
         room: submission.slots[0]?.room,
         start: start.toISOString(),
         end: end.toISOString(),
+        language: language === '其他' ? languageOther ?? '其他' : language ?? '其他',
+        difficulty: difficulty ?? '未知',
       } satisfies Submission
     }).filter((submission) => submission !== undefined)
   }

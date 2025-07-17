@@ -13,13 +13,10 @@ export type PretalxSpeaker = SpeakerReadable
 export type PretalxRoom = RoomReadable
 export type PretalxTrack = TrackReadable
 
-export const coscupSessionQuestionIdMap = {
-  Language: 216,
-  ZhDesc: 0,
+export const coscupSubmissionsQuestionIdMap = {
+  Language: 269, // 中文, 英文, 其他
+  LanguageOther: 300, // if 其他, then use this field
   EnTitle: 257, // 翻譯成英文的標題
   EnDesc: 259, // 翻譯成英文的摘要
-  Tags: 220,
-  Qa: 0,
-  Slide: 0,
-  Record: 2098,
+  Difficulty: 270,
 } as const
