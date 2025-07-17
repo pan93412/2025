@@ -11,7 +11,7 @@ export const TIME_SLOT_HEIGHT = 400 // pixels per hour
 /**
  * The start hour of the schedule.
  */
-export const START_HOUR = 8 // 8AM
+export const START_HOUR = 9 // 9AM
 /**
  * The end hour of the schedule.
  */
