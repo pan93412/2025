@@ -41,8 +41,8 @@ export class SessionScheduleLayout {
       const end = new Date(submission.end)
 
       // Calculate startTime as hour + minute/60
-      const startTime = start.getHours() + start.getMinutes() / 60
-      const endTime = end.getHours() + end.getMinutes() / 60
+      const startTime = start.getUTCHours() + 8 + start.getUTCMinutes() / 60
+      const endTime = end.getUTCHours() + 8 + end.getUTCMinutes() / 60
       const duration = endTime - startTime
 
       schedule.set(submission.code, {
