@@ -5,6 +5,7 @@ import CTag from '#components/CTag.vue'
 import { formatTimeRange } from '#utils/format-time.ts'
 import { markdownToHtml } from '#utils/markdown.ts'
 import { computed } from 'vue'
+import { getAdvertisement } from './advertisement'
 import { messages } from './session-messages'
 
 const props = defineProps<{
@@ -15,6 +16,11 @@ const props = defineProps<{
 defineEmits<{
   (e: 'close'): void
 }>()
+
+const advertisement = computed(() => {
+  // Only retrieve advertisement when the modal is open (session is available)
+  return props.session ? getAdvertisement() : null
+})
 
 const sessionTime = computed(() => {
   const startDateString = props.session?.start
@@ -125,6 +131,16 @@ const collaborationUrl = null
                 />
               </section>
 
+              <a
+                v-if="advertisement"
+                :href="advertisement.link"
+              >
+                <img
+                  :alt="`橫式廣告 – ${advertisement.id}`"
+                  :src="advertisement.horizontal"
+                >
+              </a>
+
               <section class="session-description">
                 <h2>{{ messages[locale].aboutSpeaker }}</h2>
                 <img
@@ -147,8 +163,16 @@ const collaborationUrl = null
           </div>
         </main>
         <aside class="ad-sidebar">
-          <div class="ad-placeholder">
-            {{ messages[locale].advertisement }}
+          <div class="ad-vertical-area">
+            <a
+              v-if="advertisement"
+              :href="advertisement.link"
+            >
+              <img
+                :alt="`直式廣告 – ${advertisement.id}`"
+                :src="advertisement.vertical"
+              >
+            </a>
           </div>
         </aside>
       </article>
@@ -361,17 +385,14 @@ const collaborationUrl = null
   }
 }
 
-.ad-placeholder {
+.ad-vertical-area {
   display: none;
 }
 
 @media (min-width: 500px) {
-  .ad-placeholder {
+  .ad-vertical-area {
     display: block;
     width: 100%;
-    height: 50vh;
-    background: var(--color-gray-200);
-    padding: 1rem;
   }
 }
 
