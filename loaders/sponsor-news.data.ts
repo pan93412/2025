@@ -62,16 +62,10 @@ async function fetchSponsorsNews(): Promise<SponsorNews[]> {
         }), {} as SponsorNews))
       .filter((sponsor) => sponsor.sponsorId && sponsor.canPublish === 'Y')
 
-    // Replace image URLs with actual image content
-    const [imageHorizontal, imageVertical] = await Promise.all([
-      getDriveImageBase64(sponsors[0]['image:horizontal']),
-      getDriveImageBase64(sponsors[0]['image:vertical']),
-    ])
-
-    return Promise.all(sponsors.map(async (sponsor) => ({
+    return await Promise.all(sponsors.map(async (sponsor) => ({
       ...sponsor,
-      'image:horizontal': imageHorizontal,
-      'image:vertical': imageVertical,
+      'image:horizontal': await getDriveImageBase64(sponsor['image:horizontal']) || '',
+      'image:vertical': await getDriveImageBase64(sponsor['image:vertical']) || '',
     })))
   } catch (error) {
     console.error('Error fetching sponsors:', error)
