@@ -8,7 +8,6 @@
   ],
   "timezone": "Asia/Taipei",
   "ignoreDeps": [
-    "vue-tsc",
     "@hey-api/openapi-ts"
   ]
 }
