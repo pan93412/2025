@@ -50,8 +50,9 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "esbuild",
-      "unrs-resolver"
+      "vue-demi",
+      "unrs-resolver",
+      "esbuild"
     ]
   },
   "lint-staged": {
