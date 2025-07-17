@@ -54,6 +54,8 @@ export interface Submission {
   room: number
   start: string // ISO8601
   end: string // ISO8601
+  language: string
+  difficulty: string
 }
 
 export interface LocalizedSubmission {
@@ -65,6 +67,8 @@ export interface LocalizedSubmission {
   room: number
   start: string // ISO8601
   end: string // ISO8601
+  language: string
+  difficulty: string
 }
 
 export interface Track {

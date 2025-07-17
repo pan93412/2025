@@ -35,6 +35,8 @@ export default defineLoader({
         track: localizedTrack,
         start: submission.start,
         end: submission.end,
+        language: submission.language,
+        difficulty: submission.difficulty,
       } satisfies SubmissionResponse)
     })
   },
